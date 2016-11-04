@@ -1,0 +1,1942 @@
+ARM GAS  /tmp/ccf9foMT.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"bluetooth_le.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.data
+  19              		.align	2
+  22              	iap_entry:
+  23 0000 F11FFF1F 		.word	536813553
+  24              		.section	.rodata
+  25              		.align	2
+  28              	advertising_channels:
+  29 0000 00       		.byte	0
+  30 0001 0C       		.byte	12
+  31 0002 27       		.byte	39
+  32 0003 00       		.align	2
+  35              	data_channels:
+  36 0004 01       		.byte	1
+  37 0005 02       		.byte	2
+  38 0006 03       		.byte	3
+  39 0007 04       		.byte	4
+  40 0008 05       		.byte	5
+  41 0009 06       		.byte	6
+  42 000a 07       		.byte	7
+  43 000b 08       		.byte	8
+  44 000c 09       		.byte	9
+  45 000d 0A       		.byte	10
+  46 000e 0B       		.byte	11
+  47 000f 0D       		.byte	13
+  48 0010 0E       		.byte	14
+  49 0011 0F       		.byte	15
+  50 0012 10       		.byte	16
+  51 0013 11       		.byte	17
+  52 0014 12       		.byte	18
+  53 0015 13       		.byte	19
+  54 0016 14       		.byte	20
+  55 0017 15       		.byte	21
+  56 0018 16       		.byte	22
+  57 0019 17       		.byte	23
+  58 001a 18       		.byte	24
+  59 001b 19       		.byte	25
+  60 001c 1A       		.byte	26
+  61 001d 1B       		.byte	27
+  62 001e 1C       		.byte	28
+  63 001f 1D       		.byte	29
+ARM GAS  /tmp/ccf9foMT.s 			page 2
+
+
+  64 0020 1E       		.byte	30
+  65 0021 1F       		.byte	31
+  66 0022 20       		.byte	32
+  67 0023 21       		.byte	33
+  68 0024 22       		.byte	34
+  69 0025 23       		.byte	35
+  70 0026 24       		.byte	36
+  71 0027 25       		.byte	37
+  72 0028 26       		.byte	38
+  73 0029 000000   		.align	2
+  76              	payload:
+  77 002c CA       		.byte	-54
+  78 002d AA       		.byte	-86
+  79 002e AA       		.byte	-86
+  80 002f AA       		.byte	-86
+  81 0030 AA       		.byte	-86
+  82 0031 AA       		.byte	-86
+  83 0032 AA       		.byte	-86
+  84 0033 AA       		.byte	-86
+  85 0034 AA       		.byte	-86
+  86 0035 AA       		.byte	-86
+  87 0036 AA       		.byte	-86
+  88 0037 AA       		.byte	-86
+  89 0038 AA       		.byte	-86
+  90 0039 AA       		.byte	-86
+  91 003a AA       		.byte	-86
+  92 003b AA       		.byte	-86
+  93 003c AA       		.byte	-86
+  94 003d AA       		.byte	-86
+  95 003e AA       		.byte	-86
+  96 003f AA       		.byte	-86
+  97              		.align	2
+ 100              	whitening:
+ 101 0040 01       		.byte	1
+ 102 0041 01       		.byte	1
+ 103 0042 01       		.byte	1
+ 104 0043 01       		.byte	1
+ 105 0044 00       		.byte	0
+ 106 0045 01       		.byte	1
+ 107 0046 00       		.byte	0
+ 108 0047 01       		.byte	1
+ 109 0048 00       		.byte	0
+ 110 0049 01       		.byte	1
+ 111 004a 00       		.byte	0
+ 112 004b 00       		.byte	0
+ 113 004c 00       		.byte	0
+ 114 004d 00       		.byte	0
+ 115 004e 01       		.byte	1
+ 116 004f 00       		.byte	0
+ 117 0050 01       		.byte	1
+ 118 0051 01       		.byte	1
+ 119 0052 00       		.byte	0
+ 120 0053 01       		.byte	1
+ 121 0054 01       		.byte	1
+ 122 0055 01       		.byte	1
+ 123 0056 01       		.byte	1
+ 124 0057 00       		.byte	0
+ARM GAS  /tmp/ccf9foMT.s 			page 3
+
+
+ 125 0058 00       		.byte	0
+ 126 0059 01       		.byte	1
+ 127 005a 01       		.byte	1
+ 128 005b 01       		.byte	1
+ 129 005c 00       		.byte	0
+ 130 005d 00       		.byte	0
+ 131 005e 01       		.byte	1
+ 132 005f 00       		.byte	0
+ 133 0060 01       		.byte	1
+ 134 0061 00       		.byte	0
+ 135 0062 01       		.byte	1
+ 136 0063 01       		.byte	1
+ 137 0064 00       		.byte	0
+ 138 0065 00       		.byte	0
+ 139 0066 01       		.byte	1
+ 140 0067 01       		.byte	1
+ 141 0068 00       		.byte	0
+ 142 0069 00       		.byte	0
+ 143 006a 00       		.byte	0
+ 144 006b 00       		.byte	0
+ 145 006c 00       		.byte	0
+ 146 006d 01       		.byte	1
+ 147 006e 01       		.byte	1
+ 148 006f 00       		.byte	0
+ 149 0070 01       		.byte	1
+ 150 0071 01       		.byte	1
+ 151 0072 00       		.byte	0
+ 152 0073 01       		.byte	1
+ 153 0074 00       		.byte	0
+ 154 0075 01       		.byte	1
+ 155 0076 01       		.byte	1
+ 156 0077 01       		.byte	1
+ 157 0078 00       		.byte	0
+ 158 0079 01       		.byte	1
+ 159 007a 00       		.byte	0
+ 160 007b 00       		.byte	0
+ 161 007c 00       		.byte	0
+ 162 007d 01       		.byte	1
+ 163 007e 01       		.byte	1
+ 164 007f 00       		.byte	0
+ 165 0080 00       		.byte	0
+ 166 0081 01       		.byte	1
+ 167 0082 00       		.byte	0
+ 168 0083 00       		.byte	0
+ 169 0084 00       		.byte	0
+ 170 0085 01       		.byte	1
+ 171 0086 00       		.byte	0
+ 172 0087 00       		.byte	0
+ 173 0088 00       		.byte	0
+ 174 0089 00       		.byte	0
+ 175 008a 00       		.byte	0
+ 176 008b 00       		.byte	0
+ 177 008c 01       		.byte	1
+ 178 008d 00       		.byte	0
+ 179 008e 00       		.byte	0
+ 180 008f 01       		.byte	1
+ 181 0090 00       		.byte	0
+ARM GAS  /tmp/ccf9foMT.s 			page 4
+
+
+ 182 0091 00       		.byte	0
+ 183 0092 01       		.byte	1
+ 184 0093 01       		.byte	1
+ 185 0094 00       		.byte	0
+ 186 0095 01       		.byte	1
+ 187 0096 00       		.byte	0
+ 188 0097 00       		.byte	0
+ 189 0098 01       		.byte	1
+ 190 0099 01       		.byte	1
+ 191 009a 01       		.byte	1
+ 192 009b 01       		.byte	1
+ 193 009c 00       		.byte	0
+ 194 009d 01       		.byte	1
+ 195 009e 01       		.byte	1
+ 196 009f 01       		.byte	1
+ 197 00a0 00       		.byte	0
+ 198 00a1 00       		.byte	0
+ 199 00a2 00       		.byte	0
+ 200 00a3 00       		.byte	0
+ 201 00a4 01       		.byte	1
+ 202 00a5 01       		.byte	1
+ 203 00a6 01       		.byte	1
+ 204 00a7 01       		.byte	1
+ 205 00a8 01       		.byte	1
+ 206 00a9 01       		.byte	1
+ 207 00aa 01       		.byte	1
+ 208 00ab 00       		.byte	0
+ 209 00ac 00       		.byte	0
+ 210 00ad 00       		.byte	0
+ 211 00ae 01       		.byte	1
+ 212 00af 01       		.byte	1
+ 213 00b0 01       		.byte	1
+ 214 00b1 00       		.byte	0
+ 215 00b2 01       		.byte	1
+ 216 00b3 01       		.byte	1
+ 217 00b4 00       		.byte	0
+ 218 00b5 00       		.byte	0
+ 219 00b6 00       		.byte	0
+ 220 00b7 01       		.byte	1
+ 221 00b8 00       		.byte	0
+ 222 00b9 01       		.byte	1
+ 223 00ba 00       		.byte	0
+ 224 00bb 00       		.byte	0
+ 225 00bc 01       		.byte	1
+ 226 00bd 00       		.byte	0
+ 227 00be 01       		.byte	1
+ 228 00bf 00       		.align	2
+ 231              	whitening_index:
+ 232 00c0 46       		.byte	70
+ 233 00c1 3E       		.byte	62
+ 234 00c2 78       		.byte	120
+ 235 00c3 6F       		.byte	111
+ 236 00c4 4D       		.byte	77
+ 237 00c5 2E       		.byte	46
+ 238 00c6 0F       		.byte	15
+ 239 00c7 65       		.byte	101
+ 240 00c8 42       		.byte	66
+ARM GAS  /tmp/ccf9foMT.s 			page 5
+
+
+ 241 00c9 27       		.byte	39
+ 242 00ca 1F       		.byte	31
+ 243 00cb 1A       		.byte	26
+ 244 00cc 50       		.byte	80
+ 245 00cd 53       		.byte	83
+ 246 00ce 7D       		.byte	125
+ 247 00cf 59       		.byte	89
+ 248 00d0 0A       		.byte	10
+ 249 00d1 23       		.byte	35
+ 250 00d2 08       		.byte	8
+ 251 00d3 36       		.byte	54
+ 252 00d4 7A       		.byte	122
+ 253 00d5 11       		.byte	17
+ 254 00d6 21       		.byte	33
+ 255 00d7 00       		.byte	0
+ 256 00d8 3A       		.byte	58
+ 257 00d9 73       		.byte	115
+ 258 00da 06       		.byte	6
+ 259 00db 5E       		.byte	94
+ 260 00dc 56       		.byte	86
+ 261 00dd 31       		.byte	49
+ 262 00de 34       		.byte	52
+ 263 00df 14       		.byte	20
+ 264 00e0 28       		.byte	40
+ 265 00e1 1B       		.byte	27
+ 266 00e2 54       		.byte	84
+ 267 00e3 5A       		.byte	90
+ 268 00e4 3F       		.byte	63
+ 269 00e5 70       		.byte	112
+ 270 00e6 2F       		.byte	47
+ 271 00e7 66       		.byte	102
+ 272              		.align	2
+ 275              	hop_interval_lut:
+ 276 00e8 00       		.byte	0
+ 277 00e9 01       		.byte	1
+ 278 00ea 13       		.byte	19
+ 279 00eb 19       		.byte	25
+ 280 00ec 1C       		.byte	28
+ 281 00ed 0F       		.byte	15
+ 282 00ee 1F       		.byte	31
+ 283 00ef 10       		.byte	16
+ 284 00f0 0E       		.byte	14
+ 285 00f1 21       		.byte	33
+ 286 00f2 1A       		.byte	26
+ 287 00f3 1B       		.byte	27
+ 288 00f4 22       		.byte	34
+ 289 00f5 14       		.byte	20
+ 290 00f6 08       		.byte	8
+ 291 00f7 05       		.byte	5
+ 292 00f8 07       		.byte	7
+ 293 00f9 18       		.byte	24
+ 294 00fa 23       		.byte	35
+ 295 00fb 02       		.byte	2
+ 296 00fc 0D       		.byte	13
+ 297 00fd 1E       		.byte	30
+ 298 00fe 20       		.byte	32
+ 299 00ff 1D       		.byte	29
+ARM GAS  /tmp/ccf9foMT.s 			page 6
+
+
+ 300 0100 11       		.byte	17
+ 301 0101 03       		.byte	3
+ 302 0102 0A       		.byte	10
+ 303 0103 0B       		.byte	11
+ 304 0104 04       		.byte	4
+ 305 0105 17       		.byte	23
+ 306 0106 15       		.byte	21
+ 307 0107 06       		.byte	6
+ 308 0108 16       		.byte	22
+ 309 0109 09       		.byte	9
+ 310 010a 0C       		.byte	12
+ 311 010b 12       		.byte	18
+ 312 010c 24       		.byte	36
+ 313 010d 000000   		.align	2
+ 316              	whitening_word:
+ 317 0110 40B2BCC3 		.word	-1011043776
+ 318 0114 1F374A5F 		.word	1598699295
+ 319 0118 85F69C9A 		.word	-1700989307
+ 320 011c C1D6C544 		.word	1153816257
+ 321 0120 2059DEE1 		.word	-505521888
+ 322 0124 8F1BA5AF 		.word	-1348134001
+ 323 0128 427B4ECD 		.word	-850494654
+ 324 012c 60EB6222 		.word	576908128
+ 325 0130 902CEFF0 		.word	-252760944
+ 326 0134 C78DD257 		.word	1473416647
+ 327 0138 A13DA766 		.word	1722236321
+ 328 013c B0753111 		.word	288454064
+ 329 0140 8940B2BC 		.word	-1129168759
+ 330 0144 C31F374A 		.word	1245126595
+ 331 0148 5F85F69C 		.word	-1661565601
+ 332 014c 9AC1D6C5 		.word	-975781478
+ 333 0150 442059DE 		.word	-564584380
+ 334 0154 E18F1BA5 		.word	-1524920351
+ 335 0158 AF427B4E 		.word	1316700847
+ 336 015c CD60EB62 		.word	1659592909
+ 337 0160 22902CEF 		.word	-282292190
+ 338 0164 F0C78DD2 		.word	-762460176
+ 339 0168 57A13DA7 		.word	-1489133225
+ 340 016c 66B07531 		.word	829796454
+ 341 0170 D257A13D 		.word	1033983954
+ 342 0174 A766B075 		.word	1974494887
+ 343 0178 31114896 		.word	-1773661903
+ 344 017c 77F8E346 		.word	1189345399
+ 345 0180 E9ABD09E 		.word	-1630491671
+ 346 0184 5333D8BA 		.word	-1160236205
+ 347 0188 980824CB 		.word	-886830952
+ 348 018c 3BFC71A3 		.word	-1552810949
+ 349 0190 F45568CF 		.word	-815245836
+ 350 0194 A9196C5D 		.word	1567365545
+ 351 0198 4C0492E5 		.word	-443415476
+ 352 019c 1DFEB851 		.word	1371078173
+ 353 01a0 1BA5AF42 		.word	1118807323
+ 354 01a4 7B4ECD60 		.word	1624067707
+ 355 01a8 EB622290 		.word	-1876794645
+ 356 01ac 2CEFF0C7 		.word	-940511444
+ 357 01b0 8DD257A1 		.word	-1588079987
+ 358 01b4 3DA766B0 		.word	-1335449795
+ARM GAS  /tmp/ccf9foMT.s 			page 7
+
+
+ 359 01b8 75311148 		.word	1209086325
+ 360 01bc 9677F8E3 		.word	-470255722
+ 361 01c0 46E9ABD0 		.word	-794039994
+ 362 01c4 9E5333D8 		.word	-667724898
+ 363 01c8 BA980824 		.word	604543162
+ 364 01cc CB3BFC71 		.word	1912355787
+ 365 01d0 6479873F 		.word	1065843044
+ 366 01d4 6E94BE0A 		.word	180261998
+ 367 01d8 ED393583 		.word	-2093663763
+ 368 01dc AD8B8940 		.word	1082756013
+ 369 01e0 B2BCC31F 		.word	532921522
+ 370 01e4 374A5F85 		.word	-2057352649
+ 371 01e8 F69C9AC1 		.word	-1046831882
+ 372 01ec D6C54420 		.word	541378006
+ 373 01f0 59DEE18F 		.word	-1881022887
+ 374 01f4 1BA5AF42 		.word	1118807323
+ 375 01f8 7B4ECD60 		.word	1624067707
+ 376 01fc EB622290 		.word	-1876794645
+ 377 0200 AD8B8940 		.word	1082756013
+ 378 0204 B2BCC31F 		.word	532921522
+ 379 0208 374A5F85 		.word	-2057352649
+ 380 020c F69C9AC1 		.word	-1046831882
+ 381 0210 D6C54420 		.word	541378006
+ 382 0214 59DEE18F 		.word	-1881022887
+ 383 0218 1BA5AF42 		.word	1118807323
+ 384 021c 7B4ECD60 		.word	1624067707
+ 385 0220 EB622290 		.word	-1876794645
+ 386 0224 2CEFF0C7 		.word	-940511444
+ 387 0228 8DD257A1 		.word	-1588079987
+ 388 022c 3DA766B0 		.word	-1335449795
+ 389 0230 F69C9AC1 		.word	-1046831882
+ 390 0234 D6C54420 		.word	541378006
+ 391 0238 59DEE18F 		.word	-1881022887
+ 392 023c 1BA5AF42 		.word	1118807323
+ 393 0240 7B4ECD60 		.word	1624067707
+ 394 0244 EB622290 		.word	-1876794645
+ 395 0248 2CEFF0C7 		.word	-940511444
+ 396 024c 8DD257A1 		.word	-1588079987
+ 397 0250 3DA766B0 		.word	-1335449795
+ 398 0254 75311148 		.word	1209086325
+ 399 0258 9677F8E3 		.word	-470255722
+ 400 025c 46E9ABD0 		.word	-794039994
+ 401 0260 3F6E94BE 		.word	-1097568705
+ 402 0264 0AED3935 		.word	892988682
+ 403 0268 83AD8B89 		.word	-1987334781
+ 404 026c 40B2BCC3 		.word	-1011043776
+ 405 0270 1F374A5F 		.word	1598699295
+ 406 0274 85F69C9A 		.word	-1700989307
+ 407 0278 C1D6C544 		.word	1153816257
+ 408 027c 2059DEE1 		.word	-505521888
+ 409 0280 8F1BA5AF 		.word	-1348134001
+ 410 0284 427B4ECD 		.word	-850494654
+ 411 0288 60EB6222 		.word	576908128
+ 412 028c 902CEFF0 		.word	-252760944
+ 413 0290 0824CB3B 		.word	1003168776
+ 414 0294 FC71A3F4 		.word	-190615044
+ 415 0298 5568CFA9 		.word	-1446025131
+ARM GAS  /tmp/ccf9foMT.s 			page 8
+
+
+ 416 029c 196C5D4C 		.word	1281190937
+ 417 02a0 0492E51D 		.word	501584388
+ 418 02a4 FEB851FA 		.word	-95307522
+ 419 02a8 2AB4E7D4 		.word	-723012566
+ 420 02ac 0CB62E26 		.word	640595468
+ 421 02b0 02C9F20E 		.word	250792194
+ 422 02b4 7FDC287D 		.word	2099829887
+ 423 02b8 15DA736A 		.word	1785977365
+ 424 02bc 065B1713 		.word	320297734
+ 425 02c0 C1D6C544 		.word	1153816257
+ 426 02c4 2059DEE1 		.word	-505521888
+ 427 02c8 8F1BA5AF 		.word	-1348134001
+ 428 02cc 427B4ECD 		.word	-850494654
+ 429 02d0 60EB6222 		.word	576908128
+ 430 02d4 902CEFF0 		.word	-252760944
+ 431 02d8 C78DD257 		.word	1473416647
+ 432 02dc A13DA766 		.word	1722236321
+ 433 02e0 B0753111 		.word	288454064
+ 434 02e4 489677F8 		.word	-126380472
+ 435 02e8 E346E9AB 		.word	-1410775325
+ 436 02ec D09E5333 		.word	861118160
+ 437 02f0 9AC1D6C5 		.word	-975781478
+ 438 02f4 442059DE 		.word	-564584380
+ 439 02f8 E18F1BA5 		.word	-1524920351
+ 440 02fc AF427B4E 		.word	1316700847
+ 441 0300 CD60EB62 		.word	1659592909
+ 442 0304 22902CEF 		.word	-282292190
+ 443 0308 F0C78DD2 		.word	-762460176
+ 444 030c 57A13DA7 		.word	-1489133225
+ 445 0310 66B07531 		.word	829796454
+ 446 0314 11489677 		.word	2006337553
+ 447 0318 F8E346E9 		.word	-381230088
+ 448 031c ABD09E53 		.word	1402917035
+ 449 0320 5333D8BA 		.word	-1160236205
+ 450 0324 980824CB 		.word	-886830952
+ 451 0328 3BFC71A3 		.word	-1552810949
+ 452 032c F45568CF 		.word	-815245836
+ 453 0330 A9196C5D 		.word	1567365545
+ 454 0334 4C0492E5 		.word	-443415476
+ 455 0338 1DFEB851 		.word	1371078173
+ 456 033c FA2AB4E7 		.word	-407622918
+ 457 0340 D40CB62E 		.word	783682772
+ 458 0344 2602C9F2 		.word	-221707738
+ 459 0348 0E7FDC28 		.word	685539086
+ 460 034c 7D15DA73 		.word	1943672189
+ 461 0350 2CEFF0C7 		.word	-940511444
+ 462 0354 8DD257A1 		.word	-1588079987
+ 463 0358 3DA766B0 		.word	-1335449795
+ 464 035c 75311148 		.word	1209086325
+ 465 0360 9677F8E3 		.word	-470255722
+ 466 0364 46E9ABD0 		.word	-794039994
+ 467 0368 9E5333D8 		.word	-667724898
+ 468 036c BA980824 		.word	604543162
+ 469 0370 CB3BFC71 		.word	1912355787
+ 470 0374 A3F45568 		.word	1750463651
+ 471 0378 CFA9196C 		.word	1813621199
+ 472 037c 5D4C0492 		.word	-1845212067
+ARM GAS  /tmp/ccf9foMT.s 			page 9
+
+
+ 473 0380 E51DFEB8 		.word	-1191305755
+ 474 0384 51FA2AB4 		.word	-1272251823
+ 475 0388 E7D40CB6 		.word	-1240673049
+ 476 038c 2E2602C9 		.word	-922606034
+ 477 0390 F20E7FDC 		.word	-595652878
+ 478 0394 287D15DA 		.word	-636125912
+ 479 0398 736A065B 		.word	1527147123
+ 480 039c 17138164 		.word	1686180631
+ 481 03a0 79873F6E 		.word	1849657209
+ 482 03a4 94BE0AED 		.word	-318062956
+ 483 03a8 393583AD 		.word	-1383910087
+ 484 03ac 8B8940B2 		.word	-1304393333
+ 485 03b0 BE0AED39 		.word	971836094
+ 486 03b4 3583AD8B 		.word	-1951562955
+ 487 03b8 8940B2BC 		.word	-1129168759
+ 488 03bc C31F374A 		.word	1245126595
+ 489 03c0 5F85F69C 		.word	-1661565601
+ 490 03c4 9AC1D6C5 		.word	-975781478
+ 491 03c8 442059DE 		.word	-564584380
+ 492 03cc E18F1BA5 		.word	-1524920351
+ 493 03d0 AF427B4E 		.word	1316700847
+ 494 03d4 CD60EB62 		.word	1659592909
+ 495 03d8 22902CEF 		.word	-282292190
+ 496 03dc F0C78DD2 		.word	-762460176
+ 497 03e0 77F8E346 		.word	1189345399
+ 498 03e4 E9ABD09E 		.word	-1630491671
+ 499 03e8 5333D8BA 		.word	-1160236205
+ 500 03ec 980824CB 		.word	-886830952
+ 501 03f0 3BFC71A3 		.word	-1552810949
+ 502 03f4 F45568CF 		.word	-815245836
+ 503 03f8 A9196C5D 		.word	1567365545
+ 504 03fc 4C0492E5 		.word	-443415476
+ 505 0400 1DFEB851 		.word	1371078173
+ 506 0404 FA2AB4E7 		.word	-407622918
+ 507 0408 D40CB62E 		.word	783682772
+ 508 040c 2602C9F2 		.word	-221707738
+ 509 0410 D09E5333 		.word	861118160
+ 510 0414 D8BA9808 		.word	144227032
+ 511 0418 24CB3BFC 		.word	-63190236
+ 512 041c 71A3F455 		.word	1442095985
+ 513 0420 68CFA919 		.word	430559080
+ 514 0424 6C5D4C04 		.word	72113516
+ 515 0428 92E51DFE 		.word	-31595118
+ 516 042c B851FA2A 		.word	721047992
+ 517 0430 B4E7D40C 		.word	215279540
+ 518 0434 B62E2602 		.word	36056758
+ 519 0438 C9F20E7F 		.word	2131686089
+ 520 043c DC287D15 		.word	360523996
+ 521 0440 196C5D4C 		.word	1281190937
+ 522 0444 0492E51D 		.word	501584388
+ 523 0448 FEB851FA 		.word	-95307522
+ 524 044c 2AB4E7D4 		.word	-723012566
+ 525 0450 0CB62E26 		.word	640595468
+ 526 0454 02C9F20E 		.word	250792194
+ 527 0458 7FDC287D 		.word	2099829887
+ 528 045c 15DA736A 		.word	1785977365
+ 529 0460 065B1713 		.word	320297734
+ARM GAS  /tmp/ccf9foMT.s 			page 10
+
+
+ 530 0464 81647987 		.word	-2022087551
+ 531 0468 3F6E94BE 		.word	-1097568705
+ 532 046c 0AED3935 		.word	892988682
+ 533 0470 427B4ECD 		.word	-850494654
+ 534 0474 60EB6222 		.word	576908128
+ 535 0478 902CEFF0 		.word	-252760944
+ 536 047c C78DD257 		.word	1473416647
+ 537 0480 A13DA766 		.word	1722236321
+ 538 0484 B0753111 		.word	288454064
+ 539 0488 489677F8 		.word	-126380472
+ 540 048c E346E9AB 		.word	-1410775325
+ 541 0490 D09E5333 		.word	861118160
+ 542 0494 D8BA9808 		.word	144227032
+ 543 0498 24CB3BFC 		.word	-63190236
+ 544 049c 71A3F455 		.word	1442095985
+ 545 04a0 8B8940B2 		.word	-1304393333
+ 546 04a4 BCC31F37 		.word	924828604
+ 547 04a8 4A5F85F6 		.word	-159031478
+ 548 04ac 9C9AC1D6 		.word	-691955044
+ 549 04b0 C5442059 		.word	1495286981
+ 550 04b4 DEE18F1B 		.word	462414302
+ 551 04b8 A5AF427B 		.word	2067967909
+ 552 04bc 4ECD60EB 		.word	-345977522
+ 553 04c0 6222902C 		.word	747643490
+ 554 04c4 EFF0C78D 		.word	-1916276497
+ 555 04c8 D257A13D 		.word	1033983954
+ 556 04cc A766B075 		.word	1974494887
+ 557 04d0 F45568CF 		.word	-815245836
+ 558 04d4 A9196C5D 		.word	1567365545
+ 559 04d8 4C0492E5 		.word	-443415476
+ 560 04dc 1DFEB851 		.word	1371078173
+ 561 04e0 FA2AB4E7 		.word	-407622918
+ 562 04e4 D40CB62E 		.word	783682772
+ 563 04e8 2602C9F2 		.word	-221707738
+ 564 04ec 0E7FDC28 		.word	685539086
+ 565 04f0 7D15DA73 		.word	1943672189
+ 566 04f4 6A065B17 		.word	391841386
+ 567 04f8 13816479 		.word	2036629779
+ 568 04fc 873F6E94 		.word	-1804714105
+ 569 0500 3DA766B0 		.word	-1335449795
+ 570 0504 75311148 		.word	1209086325
+ 571 0508 9677F8E3 		.word	-470255722
+ 572 050c 46E9ABD0 		.word	-794039994
+ 573 0510 9E5333D8 		.word	-667724898
+ 574 0514 BA980824 		.word	604543162
+ 575 0518 CB3BFC71 		.word	1912355787
+ 576 051c A3F45568 		.word	1750463651
+ 577 0520 CFA9196C 		.word	1813621199
+ 578 0524 5D4C0492 		.word	-1845212067
+ 579 0528 E51DFEB8 		.word	-1191305755
+ 580 052c 51FA2AB4 		.word	-1272251823
+ 581 0530 66B07531 		.word	829796454
+ 582 0534 11489677 		.word	2006337553
+ 583 0538 F8E346E9 		.word	-381230088
+ 584 053c ABD09E53 		.word	1402917035
+ 585 0540 33D8BA98 		.word	-1732585421
+ 586 0544 0824CB3B 		.word	1003168776
+ARM GAS  /tmp/ccf9foMT.s 			page 11
+
+
+ 587 0548 FC71A3F4 		.word	-190615044
+ 588 054c 5568CFA9 		.word	-1446025131
+ 589 0550 196C5D4C 		.word	1281190937
+ 590 0554 0492E51D 		.word	501584388
+ 591 0558 FEB851FA 		.word	-95307522
+ 592 055c 2AB4E7D4 		.word	-723012566
+ 593 0560 AF427B4E 		.word	1316700847
+ 594 0564 CD60EB62 		.word	1659592909
+ 595 0568 22902CEF 		.word	-282292190
+ 596 056c F0C78DD2 		.word	-762460176
+ 597 0570 57A13DA7 		.word	-1489133225
+ 598 0574 66B07531 		.word	829796454
+ 599 0578 11489677 		.word	2006337553
+ 600 057c F8E346E9 		.word	-381230088
+ 601 0580 ABD09E53 		.word	1402917035
+ 602 0584 33D8BA98 		.word	-1732585421
+ 603 0588 0824CB3B 		.word	1003168776
+ 604 058c FC71A3F4 		.word	-190615044
+ 605 0590 980824CB 		.word	-886830952
+ 606 0594 3BFC71A3 		.word	-1552810949
+ 607 0598 F45568CF 		.word	-815245836
+ 608 059c A9196C5D 		.word	1567365545
+ 609 05a0 4C0492E5 		.word	-443415476
+ 610 05a4 1DFEB851 		.word	1371078173
+ 611 05a8 FA2AB4E7 		.word	-407622918
+ 612 05ac D40CB62E 		.word	783682772
+ 613 05b0 2602C9F2 		.word	-221707738
+ 614 05b4 0E7FDC28 		.word	685539086
+ 615 05b8 7D15DA73 		.word	1943672189
+ 616 05bc 6A065B17 		.word	391841386
+ 617 05c0 51FA2AB4 		.word	-1272251823
+ 618 05c4 E7D40CB6 		.word	-1240673049
+ 619 05c8 2E2602C9 		.word	-922606034
+ 620 05cc F20E7FDC 		.word	-595652878
+ 621 05d0 287D15DA 		.word	-636125912
+ 622 05d4 736A065B 		.word	1527147123
+ 623 05d8 17138164 		.word	1686180631
+ 624 05dc 79873F6E 		.word	1849657209
+ 625 05e0 94BE0AED 		.word	-318062956
+ 626 05e4 393583AD 		.word	-1383910087
+ 627 05e8 8B8940B2 		.word	-1304393333
+ 628 05ec BCC31F37 		.word	924828604
+ 629 05f0 0AED3935 		.word	892988682
+ 630 05f4 83AD8B89 		.word	-1987334781
+ 631 05f8 40B2BCC3 		.word	-1011043776
+ 632 05fc 1F374A5F 		.word	1598699295
+ 633 0600 85F69C9A 		.word	-1700989307
+ 634 0604 C1D6C544 		.word	1153816257
+ 635 0608 2059DEE1 		.word	-505521888
+ 636 060c 8F1BA5AF 		.word	-1348134001
+ 637 0610 427B4ECD 		.word	-850494654
+ 638 0614 60EB6222 		.word	576908128
+ 639 0618 902CEFF0 		.word	-252760944
+ 640 061c C78DD257 		.word	1473416647
+ 641 0620 C31F374A 		.word	1245126595
+ 642 0624 5F85F69C 		.word	-1661565601
+ 643 0628 9AC1D6C5 		.word	-975781478
+ARM GAS  /tmp/ccf9foMT.s 			page 12
+
+
+ 644 062c 442059DE 		.word	-564584380
+ 645 0630 E18F1BA5 		.word	-1524920351
+ 646 0634 AF427B4E 		.word	1316700847
+ 647 0638 CD60EB62 		.word	1659592909
+ 648 063c 22902CEF 		.word	-282292190
+ 649 0640 F0C78DD2 		.word	-762460176
+ 650 0644 57A13DA7 		.word	-1489133225
+ 651 0648 66B07531 		.word	829796454
+ 652 064c 11489677 		.word	2006337553
+ 653 0650 BCC31F37 		.word	924828604
+ 654 0654 4A5F85F6 		.word	-159031478
+ 655 0658 9C9AC1D6 		.word	-691955044
+ 656 065c C5442059 		.word	1495286981
+ 657 0660 DEE18F1B 		.word	462414302
+ 658 0664 A5AF427B 		.word	2067967909
+ 659 0668 4ECD60EB 		.word	-345977522
+ 660 066c 6222902C 		.word	747643490
+ 661 0670 EFF0C78D 		.word	-1916276497
+ 662 0674 D257A13D 		.word	1033983954
+ 663 0678 A766B075 		.word	1974494887
+ 664 067c 31114896 		.word	-1773661903
+ 665 0680 75311148 		.word	1209086325
+ 666 0684 9677F8E3 		.word	-470255722
+ 667 0688 46E9ABD0 		.word	-794039994
+ 668 068c 9E5333D8 		.word	-667724898
+ 669 0690 BA980824 		.word	604543162
+ 670 0694 CB3BFC71 		.word	1912355787
+ 671 0698 A3F45568 		.word	1750463651
+ 672 069c CFA9196C 		.word	1813621199
+ 673 06a0 5D4C0492 		.word	-1845212067
+ 674 06a4 E51DFEB8 		.word	-1191305755
+ 675 06a8 51FA2AB4 		.word	-1272251823
+ 676 06ac E7D40CB6 		.word	-1240673049
+ 677 06b0 2E2602C9 		.word	-922606034
+ 678 06b4 F20E7FDC 		.word	-595652878
+ 679 06b8 287D15DA 		.word	-636125912
+ 680 06bc 736A065B 		.word	1527147123
+ 681 06c0 17138164 		.word	1686180631
+ 682 06c4 79873F6E 		.word	1849657209
+ 683 06c8 94BE0AED 		.word	-318062956
+ 684 06cc 393583AD 		.word	-1383910087
+ 685 06d0 8B8940B2 		.word	-1304393333
+ 686 06d4 BCC31F37 		.word	924828604
+ 687 06d8 4A5F85F6 		.word	-159031478
+ 688 06dc 9C9AC1D6 		.word	-691955044
+ 689 06e0 E7D40CB6 		.word	-1240673049
+ 690 06e4 2E2602C9 		.word	-922606034
+ 691 06e8 F20E7FDC 		.word	-595652878
+ 692 06ec 287D15DA 		.word	-636125912
+ 693 06f0 736A065B 		.word	1527147123
+ 694 06f4 17138164 		.word	1686180631
+ 695 06f8 79873F6E 		.word	1849657209
+ 696 06fc 94BE0AED 		.word	-318062956
+ 697 0700 393583AD 		.word	-1383910087
+ 698 0704 8B8940B2 		.word	-1304393333
+ 699 0708 BCC31F37 		.word	924828604
+ 700 070c 4A5F85F6 		.word	-159031478
+ARM GAS  /tmp/ccf9foMT.s 			page 13
+
+
+ 701 0710 60EB6222 		.word	576908128
+ 702 0714 902CEFF0 		.word	-252760944
+ 703 0718 C78DD257 		.word	1473416647
+ 704 071c A13DA766 		.word	1722236321
+ 705 0720 B0753111 		.word	288454064
+ 706 0724 489677F8 		.word	-126380472
+ 707 0728 E346E9AB 		.word	-1410775325
+ 708 072c D09E5333 		.word	861118160
+ 709 0730 D8BA9808 		.word	144227032
+ 710 0734 24CB3BFC 		.word	-63190236
+ 711 0738 71A3F455 		.word	1442095985
+ 712 073c 68CFA919 		.word	430559080
+ 713 0740 A9196C5D 		.word	1567365545
+ 714 0744 4C0492E5 		.word	-443415476
+ 715 0748 1DFEB851 		.word	1371078173
+ 716 074c FA2AB4E7 		.word	-407622918
+ 717 0750 D40CB62E 		.word	783682772
+ 718 0754 2602C9F2 		.word	-221707738
+ 719 0758 0E7FDC28 		.word	685539086
+ 720 075c 7D15DA73 		.word	1943672189
+ 721 0760 6A065B17 		.word	391841386
+ 722 0764 13816479 		.word	2036629779
+ 723 0768 873F6E94 		.word	-1804714105
+ 724 076c BE0AED39 		.word	971836094
+ 725 0770 F20E7FDC 		.word	-595652878
+ 726 0774 287D15DA 		.word	-636125912
+ 727 0778 736A065B 		.word	1527147123
+ 728 077c 17138164 		.word	1686180631
+ 729 0780 79873F6E 		.word	1849657209
+ 730 0784 94BE0AED 		.word	-318062956
+ 731 0788 393583AD 		.word	-1383910087
+ 732 078c 8B8940B2 		.word	-1304393333
+ 733 0790 BCC31F37 		.word	924828604
+ 734 0794 4A5F85F6 		.word	-159031478
+ 735 0798 9C9AC1D6 		.word	-691955044
+ 736 079c C5442059 		.word	1495286981
+ 737 07a0 3BFC71A3 		.word	-1552810949
+ 738 07a4 F45568CF 		.word	-815245836
+ 739 07a8 A9196C5D 		.word	1567365545
+ 740 07ac 4C0492E5 		.word	-443415476
+ 741 07b0 1DFEB851 		.word	1371078173
+ 742 07b4 FA2AB4E7 		.word	-407622918
+ 743 07b8 D40CB62E 		.word	783682772
+ 744 07bc 2602C9F2 		.word	-221707738
+ 745 07c0 0E7FDC28 		.word	685539086
+ 746 07c4 7D15DA73 		.word	1943672189
+ 747 07c8 6A065B17 		.word	391841386
+ 748 07cc 13816479 		.word	2036629779
+ 749 07d0 442059DE 		.word	-564584380
+ 750 07d4 E18F1BA5 		.word	-1524920351
+ 751 07d8 AF427B4E 		.word	1316700847
+ 752 07dc CD60EB62 		.word	1659592909
+ 753 07e0 22902CEF 		.word	-282292190
+ 754 07e4 F0C78DD2 		.word	-762460176
+ 755 07e8 57A13DA7 		.word	-1489133225
+ 756 07ec 66B07531 		.word	829796454
+ 757 07f0 11489677 		.word	2006337553
+ARM GAS  /tmp/ccf9foMT.s 			page 14
+
+
+ 758 07f4 F8E346E9 		.word	-381230088
+ 759 07f8 ABD09E53 		.word	1402917035
+ 760 07fc 33D8BA98 		.word	-1732585421
+ 761 0800 8DD257A1 		.word	-1588079987
+ 762 0804 3DA766B0 		.word	-1335449795
+ 763 0808 75311148 		.word	1209086325
+ 764 080c 9677F8E3 		.word	-470255722
+ 765 0810 46E9ABD0 		.word	-794039994
+ 766 0814 9E5333D8 		.word	-667724898
+ 767 0818 BA980824 		.word	604543162
+ 768 081c CB3BFC71 		.word	1912355787
+ 769 0820 A3F45568 		.word	1750463651
+ 770 0824 CFA9196C 		.word	1813621199
+ 771 0828 5D4C0492 		.word	-1845212067
+ 772 082c E51DFEB8 		.word	-1191305755
+ 773 0830 D6C54420 		.word	541378006
+ 774 0834 59DEE18F 		.word	-1881022887
+ 775 0838 1BA5AF42 		.word	1118807323
+ 776 083c 7B4ECD60 		.word	1624067707
+ 777 0840 EB622290 		.word	-1876794645
+ 778 0844 2CEFF0C7 		.word	-940511444
+ 779 0848 8DD257A1 		.word	-1588079987
+ 780 084c 3DA766B0 		.word	-1335449795
+ 781 0850 75311148 		.word	1209086325
+ 782 0854 9677F8E3 		.word	-470255722
+ 783 0858 46E9ABD0 		.word	-794039994
+ 784 085c 9E5333D8 		.word	-667724898
+ 785 0860 1F374A5F 		.word	1598699295
+ 786 0864 85F69C9A 		.word	-1700989307
+ 787 0868 C1D6C544 		.word	1153816257
+ 788 086c 2059DEE1 		.word	-505521888
+ 789 0870 8F1BA5AF 		.word	-1348134001
+ 790 0874 427B4ECD 		.word	-850494654
+ 791 0878 60EB6222 		.word	576908128
+ 792 087c 902CEFF0 		.word	-252760944
+ 793 0880 C78DD257 		.word	1473416647
+ 794 0884 A13DA766 		.word	1722236321
+ 795 0888 B0753111 		.word	288454064
+ 796 088c 489677F8 		.word	-126380472
+ 797              		.section	.text.btle_next_hop,"ax",%progbits
+ 798              		.align	2
+ 799              		.global	btle_next_hop
+ 800              		.thumb
+ 801              		.thumb_func
+ 803              	btle_next_hop:
+ 804              	.LFB0:
+ 805              		.file 1 "bluetooth_le.c"
+   1:bluetooth_le.c **** /*
+   2:bluetooth_le.c ****  * Copyright 2012 Dominic Spill
+   3:bluetooth_le.c ****  *
+   4:bluetooth_le.c ****  * This file is part of Project Ubertooth.
+   5:bluetooth_le.c ****  *
+   6:bluetooth_le.c ****  * This program is free software; you can redistribute it and/or modify
+   7:bluetooth_le.c ****  * it under the terms of the GNU General Public License as published by
+   8:bluetooth_le.c ****  * the Free Software Foundation; either version 2, or (at your option)
+   9:bluetooth_le.c ****  * any later version.
+  10:bluetooth_le.c ****  *
+ARM GAS  /tmp/ccf9foMT.s 			page 15
+
+
+  11:bluetooth_le.c ****  * This program is distributed in the hope that it will be useful,
+  12:bluetooth_le.c ****  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  13:bluetooth_le.c ****  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  14:bluetooth_le.c ****  * GNU General Public License for more details.
+  15:bluetooth_le.c ****  *
+  16:bluetooth_le.c ****  * You should have received a copy of the GNU General Public License
+  17:bluetooth_le.c ****  * along with this program; see the file COPYING.  If not, write to
+  18:bluetooth_le.c ****  * the Free Software Foundation, Inc., 51 Franklin Street,
+  19:bluetooth_le.c ****  * Boston, MA 02110-1301, USA.
+  20:bluetooth_le.c ****  */
+  21:bluetooth_le.c **** 
+  22:bluetooth_le.c **** #include "bluetooth_le.h"
+  23:bluetooth_le.c **** 
+  24:bluetooth_le.c **** extern u8 le_channel_idx;
+  25:bluetooth_le.c **** extern u8 le_hop_amount;
+  26:bluetooth_le.c **** 
+  27:bluetooth_le.c **** u16 btle_next_hop(le_state_t *le)
+  28:bluetooth_le.c **** {
+ 806              		.loc 1 28 0
+ 807              		.cfi_startproc
+ 808              		@ args = 0, pretend = 0, frame = 16
+ 809              		@ frame_needed = 1, uses_anonymous_args = 0
+ 810 0000 80B5     		push	{r7, lr}
+ 811              		.cfi_def_cfa_offset 8
+ 812              		.cfi_offset 7, -8
+ 813              		.cfi_offset 14, -4
+ 814 0002 84B0     		sub	sp, sp, #16
+ 815              		.cfi_def_cfa_offset 24
+ 816 0004 00AF     		add	r7, sp, #0
+ 817              		.cfi_def_cfa_register 7
+ 818 0006 7860     		str	r0, [r7, #4]
+  29:bluetooth_le.c **** 	u16 phys = btle_channel_index_to_phys(le->channel_idx);
+ 819              		.loc 1 29 0
+ 820 0008 7B68     		ldr	r3, [r7, #4]
+ 821 000a 5B7D     		ldrb	r3, [r3, #21]	@ zero_extendqisi2
+ 822 000c 1846     		mov	r0, r3
+ 823 000e FFF7FEFF 		bl	btle_channel_index_to_phys
+ 824 0012 0346     		mov	r3, r0
+ 825 0014 FB81     		strh	r3, [r7, #14]	@ movhi
+  30:bluetooth_le.c **** 	le->channel_idx = (le->channel_idx + le->channel_increment) % 37;
+ 826              		.loc 1 30 0
+ 827 0016 7B68     		ldr	r3, [r7, #4]
+ 828 0018 5B7D     		ldrb	r3, [r3, #21]	@ zero_extendqisi2
+ 829 001a 1A46     		mov	r2, r3
+ 830 001c 7B68     		ldr	r3, [r7, #4]
+ 831 001e 9B7D     		ldrb	r3, [r3, #22]	@ zero_extendqisi2
+ 832 0020 1A44     		add	r2, r2, r3
+ 833 0022 0A4B     		ldr	r3, .L3
+ 834 0024 82FB0301 		smull	r0, r1, r2, r3
+ 835 0028 5318     		adds	r3, r2, r1
+ 836 002a 5911     		asrs	r1, r3, #5
+ 837 002c D317     		asrs	r3, r2, #31
+ 838 002e C91A     		subs	r1, r1, r3
+ 839 0030 0B46     		mov	r3, r1
+ 840 0032 DB00     		lsls	r3, r3, #3
+ 841 0034 0B44     		add	r3, r3, r1
+ 842 0036 9B00     		lsls	r3, r3, #2
+ARM GAS  /tmp/ccf9foMT.s 			page 16
+
+
+ 843 0038 0B44     		add	r3, r3, r1
+ 844 003a D11A     		subs	r1, r2, r3
+ 845 003c CAB2     		uxtb	r2, r1
+ 846 003e 7B68     		ldr	r3, [r7, #4]
+ 847 0040 5A75     		strb	r2, [r3, #21]
+  31:bluetooth_le.c **** 	return phys;
+ 848              		.loc 1 31 0
+ 849 0042 FB89     		ldrh	r3, [r7, #14]
+  32:bluetooth_le.c **** }
+ 850              		.loc 1 32 0
+ 851 0044 1846     		mov	r0, r3
+ 852 0046 1037     		adds	r7, r7, #16
+ 853              		.cfi_def_cfa_offset 8
+ 854 0048 BD46     		mov	sp, r7
+ 855              		.cfi_def_cfa_register 13
+ 856              		@ sp needed
+ 857 004a 80BD     		pop	{r7, pc}
+ 858              	.L4:
+ 859              		.align	2
+ 860              	.L3:
+ 861 004c A7C867DD 		.word	-580400985
+ 862              		.cfi_endproc
+ 863              	.LFE0:
+ 865              		.global	received_data
+ 866              		.bss
+ 867              		.align	2
+ 870              	received_data:
+ 871 0000 00000000 		.space	4
+ 872              		.section	.text.btle_channel_index,"ax",%progbits
+ 873              		.align	2
+ 874              		.global	btle_channel_index
+ 875              		.thumb
+ 876              		.thumb_func
+ 878              	btle_channel_index:
+ 879              	.LFB1:
+  33:bluetooth_le.c **** 
+  34:bluetooth_le.c **** u32 received_data = 0;
+  35:bluetooth_le.c **** 
+  36:bluetooth_le.c **** u8 btle_channel_index(u8 channel) {
+ 880              		.loc 1 36 0
+ 881              		.cfi_startproc
+ 882              		@ args = 0, pretend = 0, frame = 16
+ 883              		@ frame_needed = 1, uses_anonymous_args = 0
+ 884              		@ link register save eliminated.
+ 885 0000 80B4     		push	{r7}
+ 886              		.cfi_def_cfa_offset 4
+ 887              		.cfi_offset 7, -4
+ 888 0002 85B0     		sub	sp, sp, #20
+ 889              		.cfi_def_cfa_offset 24
+ 890 0004 00AF     		add	r7, sp, #0
+ 891              		.cfi_def_cfa_register 7
+ 892 0006 0346     		mov	r3, r0
+ 893 0008 FB71     		strb	r3, [r7, #7]
+  37:bluetooth_le.c **** 	u8 idx;
+  38:bluetooth_le.c **** 	channel /= 2;
+ 894              		.loc 1 38 0
+ 895 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ARM GAS  /tmp/ccf9foMT.s 			page 17
+
+
+ 896 000c 5B08     		lsrs	r3, r3, #1
+ 897 000e FB71     		strb	r3, [r7, #7]
+  39:bluetooth_le.c **** 	if (channel == 0)
+ 898              		.loc 1 39 0
+ 899 0010 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 900 0012 002B     		cmp	r3, #0
+ 901 0014 02D1     		bne	.L6
+  40:bluetooth_le.c **** 		idx = 37;
+ 902              		.loc 1 40 0
+ 903 0016 2523     		movs	r3, #37
+ 904 0018 FB73     		strb	r3, [r7, #15]
+ 905 001a 15E0     		b	.L7
+ 906              	.L6:
+  41:bluetooth_le.c **** 	else if (channel < 12)
+ 907              		.loc 1 41 0
+ 908 001c FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 909 001e 0B2B     		cmp	r3, #11
+ 910 0020 03D8     		bhi	.L8
+  42:bluetooth_le.c **** 		idx = channel - 1;
+ 911              		.loc 1 42 0
+ 912 0022 FB79     		ldrb	r3, [r7, #7]
+ 913 0024 013B     		subs	r3, r3, #1
+ 914 0026 FB73     		strb	r3, [r7, #15]
+ 915 0028 0EE0     		b	.L7
+ 916              	.L8:
+  43:bluetooth_le.c **** 	else if (channel == 12)
+ 917              		.loc 1 43 0
+ 918 002a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 919 002c 0C2B     		cmp	r3, #12
+ 920 002e 02D1     		bne	.L9
+  44:bluetooth_le.c **** 		idx = 38;
+ 921              		.loc 1 44 0
+ 922 0030 2623     		movs	r3, #38
+ 923 0032 FB73     		strb	r3, [r7, #15]
+ 924 0034 08E0     		b	.L7
+ 925              	.L9:
+  45:bluetooth_le.c **** 	else if (channel < 39)
+ 926              		.loc 1 45 0
+ 927 0036 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 928 0038 262B     		cmp	r3, #38
+ 929 003a 03D8     		bhi	.L10
+  46:bluetooth_le.c **** 		idx = channel - 2;
+ 930              		.loc 1 46 0
+ 931 003c FB79     		ldrb	r3, [r7, #7]
+ 932 003e 023B     		subs	r3, r3, #2
+ 933 0040 FB73     		strb	r3, [r7, #15]
+ 934 0042 01E0     		b	.L7
+ 935              	.L10:
+  47:bluetooth_le.c **** 	else
+  48:bluetooth_le.c **** 		idx = 39;
+ 936              		.loc 1 48 0
+ 937 0044 2723     		movs	r3, #39
+ 938 0046 FB73     		strb	r3, [r7, #15]
+ 939              	.L7:
+  49:bluetooth_le.c **** 	return idx;
+ 940              		.loc 1 49 0
+ 941 0048 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ARM GAS  /tmp/ccf9foMT.s 			page 18
+
+
+  50:bluetooth_le.c **** }
+ 942              		.loc 1 50 0
+ 943 004a 1846     		mov	r0, r3
+ 944 004c 1437     		adds	r7, r7, #20
+ 945              		.cfi_def_cfa_offset 4
+ 946 004e BD46     		mov	sp, r7
+ 947              		.cfi_def_cfa_register 13
+ 948              		@ sp needed
+ 949 0050 5DF8047B 		ldr	r7, [sp], #4
+ 950              		.cfi_restore 7
+ 951              		.cfi_def_cfa_offset 0
+ 952 0054 7047     		bx	lr
+ 953              		.cfi_endproc
+ 954              	.LFE1:
+ 956 0056 00BF     		.section	.text.btle_channel_index_to_phys,"ax",%progbits
+ 957              		.align	2
+ 958              		.global	btle_channel_index_to_phys
+ 959              		.thumb
+ 960              		.thumb_func
+ 962              	btle_channel_index_to_phys:
+ 963              	.LFB2:
+  51:bluetooth_le.c **** 
+  52:bluetooth_le.c **** u16 btle_channel_index_to_phys(u8 idx) {
+ 964              		.loc 1 52 0
+ 965              		.cfi_startproc
+ 966              		@ args = 0, pretend = 0, frame = 16
+ 967              		@ frame_needed = 1, uses_anonymous_args = 0
+ 968              		@ link register save eliminated.
+ 969 0000 80B4     		push	{r7}
+ 970              		.cfi_def_cfa_offset 4
+ 971              		.cfi_offset 7, -4
+ 972 0002 85B0     		sub	sp, sp, #20
+ 973              		.cfi_def_cfa_offset 24
+ 974 0004 00AF     		add	r7, sp, #0
+ 975              		.cfi_def_cfa_register 7
+ 976 0006 0346     		mov	r3, r0
+ 977 0008 FB71     		strb	r3, [r7, #7]
+  53:bluetooth_le.c **** 	u16 phys;
+  54:bluetooth_le.c **** 	if (idx < 11)
+ 978              		.loc 1 54 0
+ 979 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 980 000c 0A2B     		cmp	r3, #10
+ 981 000e 06D8     		bhi	.L13
+  55:bluetooth_le.c **** 		phys = 2404 + 2 * idx;
+ 982              		.loc 1 55 0
+ 983 0010 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 984 0012 03F2B243 		addw	r3, r3, #1202
+ 985 0016 9BB2     		uxth	r3, r3
+ 986 0018 5B00     		lsls	r3, r3, #1
+ 987 001a FB81     		strh	r3, [r7, #14]	@ movhi
+ 988 001c 1AE0     		b	.L14
+ 989              	.L13:
+  56:bluetooth_le.c **** 	else if (idx < 37)
+ 990              		.loc 1 56 0
+ 991 001e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 992 0020 242B     		cmp	r3, #36
+ 993 0022 06D8     		bhi	.L15
+ARM GAS  /tmp/ccf9foMT.s 			page 19
+
+
+  57:bluetooth_le.c **** 		phys = 2428 + 2 * (idx - 11);
+ 994              		.loc 1 57 0
+ 995 0024 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 996 0026 03F2B343 		addw	r3, r3, #1203
+ 997 002a 9BB2     		uxth	r3, r3
+ 998 002c 5B00     		lsls	r3, r3, #1
+ 999 002e FB81     		strh	r3, [r7, #14]	@ movhi
+ 1000 0030 10E0     		b	.L14
+ 1001              	.L15:
+  58:bluetooth_le.c **** 	else if (idx == 37)
+ 1002              		.loc 1 58 0
+ 1003 0032 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 1004 0034 252B     		cmp	r3, #37
+ 1005 0036 03D1     		bne	.L16
+  59:bluetooth_le.c **** 		phys = 2402;
+ 1006              		.loc 1 59 0
+ 1007 0038 40F66213 		movw	r3, #2402
+ 1008 003c FB81     		strh	r3, [r7, #14]	@ movhi
+ 1009 003e 09E0     		b	.L14
+ 1010              	.L16:
+  60:bluetooth_le.c **** 	else if (idx == 38)
+ 1011              		.loc 1 60 0
+ 1012 0040 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 1013 0042 262B     		cmp	r3, #38
+ 1014 0044 03D1     		bne	.L17
+  61:bluetooth_le.c **** 		phys = 2426;
+ 1015              		.loc 1 61 0
+ 1016 0046 40F67A13 		movw	r3, #2426
+ 1017 004a FB81     		strh	r3, [r7, #14]	@ movhi
+ 1018 004c 02E0     		b	.L14
+ 1019              	.L17:
+  62:bluetooth_le.c **** 	else
+  63:bluetooth_le.c **** 		phys = 2480;
+ 1020              		.loc 1 63 0
+ 1021 004e 4FF41B63 		mov	r3, #2480
+ 1022 0052 FB81     		strh	r3, [r7, #14]	@ movhi
+ 1023              	.L14:
+  64:bluetooth_le.c **** 	return phys;
+ 1024              		.loc 1 64 0
+ 1025 0054 FB89     		ldrh	r3, [r7, #14]
+  65:bluetooth_le.c **** }
+ 1026              		.loc 1 65 0
+ 1027 0056 1846     		mov	r0, r3
+ 1028 0058 1437     		adds	r7, r7, #20
+ 1029              		.cfi_def_cfa_offset 4
+ 1030 005a BD46     		mov	sp, r7
+ 1031              		.cfi_def_cfa_register 13
+ 1032              		@ sp needed
+ 1033 005c 5DF8047B 		ldr	r7, [sp], #4
+ 1034              		.cfi_restore 7
+ 1035              		.cfi_def_cfa_offset 0
+ 1036 0060 7047     		bx	lr
+ 1037              		.cfi_endproc
+ 1038              	.LFE2:
+ 1040 0062 00BF     		.section	.text.btle_calc_crc,"ax",%progbits
+ 1041              		.align	2
+ 1042              		.global	btle_calc_crc
+ARM GAS  /tmp/ccf9foMT.s 			page 20
+
+
+ 1043              		.thumb
+ 1044              		.thumb_func
+ 1046              	btle_calc_crc:
+ 1047              	.LFB3:
+  66:bluetooth_le.c **** 
+  67:bluetooth_le.c **** // calculate CRC
+  68:bluetooth_le.c **** //	note 1: crc_init's bits should be in reverse order
+  69:bluetooth_le.c **** //	note 2: output bytes are in reverse order compared to wire
+  70:bluetooth_le.c **** //
+  71:bluetooth_le.c **** //		example output:
+  72:bluetooth_le.c **** //			0x6ff46e
+  73:bluetooth_le.c **** //
+  74:bluetooth_le.c **** //		bytes in packet will be:
+  75:bluetooth_le.c **** //		  { 0x6e, 0xf4, 0x6f }
+  76:bluetooth_le.c **** //
+  77:bluetooth_le.c **** u32 btle_calc_crc(u32 crc_init, u8 *data, int len) {
+ 1048              		.loc 1 77 0
+ 1049              		.cfi_startproc
+ 1050              		@ args = 0, pretend = 0, frame = 40
+ 1051              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1052              		@ link register save eliminated.
+ 1053 0000 80B4     		push	{r7}
+ 1054              		.cfi_def_cfa_offset 4
+ 1055              		.cfi_offset 7, -4
+ 1056 0002 8BB0     		sub	sp, sp, #44
+ 1057              		.cfi_def_cfa_offset 48
+ 1058 0004 00AF     		add	r7, sp, #0
+ 1059              		.cfi_def_cfa_register 7
+ 1060 0006 F860     		str	r0, [r7, #12]
+ 1061 0008 B960     		str	r1, [r7, #8]
+ 1062 000a 7A60     		str	r2, [r7, #4]
+  78:bluetooth_le.c **** 	u32 state = crc_init & 0xffffff;
+ 1063              		.loc 1 78 0
+ 1064 000c FB68     		ldr	r3, [r7, #12]
+ 1065 000e 23F07F43 		bic	r3, r3, #-16777216
+ 1066 0012 7B62     		str	r3, [r7, #36]
+  79:bluetooth_le.c **** 	u32 lfsr_mask = 0x5a6000; // 010110100110000000000000
+ 1067              		.loc 1 79 0
+ 1068 0014 1B4B     		ldr	r3, .L26
+ 1069 0016 7B61     		str	r3, [r7, #20]
+  80:bluetooth_le.c **** 	int i, j;
+  81:bluetooth_le.c **** 
+  82:bluetooth_le.c **** 	for (i = 0; i < len; ++i) {
+ 1070              		.loc 1 82 0
+ 1071 0018 0023     		movs	r3, #0
+ 1072 001a 3B62     		str	r3, [r7, #32]
+ 1073 001c 27E0     		b	.L20
+ 1074              	.L24:
+ 1075              	.LBB2:
+  83:bluetooth_le.c **** 		u8 cur = data[i];
+ 1076              		.loc 1 83 0
+ 1077 001e 3B6A     		ldr	r3, [r7, #32]
+ 1078 0020 BA68     		ldr	r2, [r7, #8]
+ 1079 0022 1344     		add	r3, r3, r2
+ 1080 0024 1B78     		ldrb	r3, [r3]
+ 1081 0026 FB76     		strb	r3, [r7, #27]
+  84:bluetooth_le.c **** 		for (j = 0; j < 8; ++j) {
+ARM GAS  /tmp/ccf9foMT.s 			page 21
+
+
+ 1082              		.loc 1 84 0
+ 1083 0028 0023     		movs	r3, #0
+ 1084 002a FB61     		str	r3, [r7, #28]
+ 1085 002c 19E0     		b	.L21
+ 1086              	.L23:
+ 1087              	.LBB3:
+  85:bluetooth_le.c **** 			int next_bit = (state ^ cur) & 1;
+ 1088              		.loc 1 85 0
+ 1089 002e FA7E     		ldrb	r2, [r7, #27]	@ zero_extendqisi2
+ 1090 0030 7B6A     		ldr	r3, [r7, #36]
+ 1091 0032 5340     		eors	r3, r3, r2
+ 1092 0034 03F00103 		and	r3, r3, #1
+ 1093 0038 3B61     		str	r3, [r7, #16]
+  86:bluetooth_le.c **** 			cur >>= 1;
+ 1094              		.loc 1 86 0
+ 1095 003a FB7E     		ldrb	r3, [r7, #27]	@ zero_extendqisi2
+ 1096 003c 5B08     		lsrs	r3, r3, #1
+ 1097 003e FB76     		strb	r3, [r7, #27]
+  87:bluetooth_le.c **** 			state >>= 1;
+ 1098              		.loc 1 87 0
+ 1099 0040 7B6A     		ldr	r3, [r7, #36]
+ 1100 0042 5B08     		lsrs	r3, r3, #1
+ 1101 0044 7B62     		str	r3, [r7, #36]
+  88:bluetooth_le.c **** 			if (next_bit) {
+ 1102              		.loc 1 88 0
+ 1103 0046 3B69     		ldr	r3, [r7, #16]
+ 1104 0048 002B     		cmp	r3, #0
+ 1105 004a 07D0     		beq	.L22
+  89:bluetooth_le.c **** 				state |= 1 << 23;
+ 1106              		.loc 1 89 0
+ 1107 004c 7B6A     		ldr	r3, [r7, #36]
+ 1108 004e 43F40003 		orr	r3, r3, #8388608
+ 1109 0052 7B62     		str	r3, [r7, #36]
+  90:bluetooth_le.c **** 				state ^= lfsr_mask;
+ 1110              		.loc 1 90 0
+ 1111 0054 7A6A     		ldr	r2, [r7, #36]
+ 1112 0056 7B69     		ldr	r3, [r7, #20]
+ 1113 0058 5340     		eors	r3, r3, r2
+ 1114 005a 7B62     		str	r3, [r7, #36]
+ 1115              	.L22:
+ 1116              	.LBE3:
+  84:bluetooth_le.c **** 			int next_bit = (state ^ cur) & 1;
+ 1117              		.loc 1 84 0 discriminator 2
+ 1118 005c FB69     		ldr	r3, [r7, #28]
+ 1119 005e 0133     		adds	r3, r3, #1
+ 1120 0060 FB61     		str	r3, [r7, #28]
+ 1121              	.L21:
+  84:bluetooth_le.c **** 			int next_bit = (state ^ cur) & 1;
+ 1122              		.loc 1 84 0 is_stmt 0 discriminator 1
+ 1123 0062 FB69     		ldr	r3, [r7, #28]
+ 1124 0064 072B     		cmp	r3, #7
+ 1125 0066 E2DD     		ble	.L23
+ 1126              	.LBE2:
+  82:bluetooth_le.c **** 		u8 cur = data[i];
+ 1127              		.loc 1 82 0 is_stmt 1 discriminator 2
+ 1128 0068 3B6A     		ldr	r3, [r7, #32]
+ 1129 006a 0133     		adds	r3, r3, #1
+ARM GAS  /tmp/ccf9foMT.s 			page 22
+
+
+ 1130 006c 3B62     		str	r3, [r7, #32]
+ 1131              	.L20:
+  82:bluetooth_le.c **** 		u8 cur = data[i];
+ 1132              		.loc 1 82 0 is_stmt 0 discriminator 1
+ 1133 006e 3A6A     		ldr	r2, [r7, #32]
+ 1134 0070 7B68     		ldr	r3, [r7, #4]
+ 1135 0072 9A42     		cmp	r2, r3
+ 1136 0074 D3DB     		blt	.L24
+  91:bluetooth_le.c **** 			}
+  92:bluetooth_le.c **** 		}
+  93:bluetooth_le.c **** 	}
+  94:bluetooth_le.c **** 
+  95:bluetooth_le.c **** 	return state;
+ 1137              		.loc 1 95 0 is_stmt 1
+ 1138 0076 7B6A     		ldr	r3, [r7, #36]
+  96:bluetooth_le.c **** }
+ 1139              		.loc 1 96 0
+ 1140 0078 1846     		mov	r0, r3
+ 1141 007a 2C37     		adds	r7, r7, #44
+ 1142              		.cfi_def_cfa_offset 4
+ 1143 007c BD46     		mov	sp, r7
+ 1144              		.cfi_def_cfa_register 13
+ 1145              		@ sp needed
+ 1146 007e 5DF8047B 		ldr	r7, [sp], #4
+ 1147              		.cfi_restore 7
+ 1148              		.cfi_def_cfa_offset 0
+ 1149 0082 7047     		bx	lr
+ 1150              	.L27:
+ 1151              		.align	2
+ 1152              	.L26:
+ 1153 0084 00605A00 		.word	5922816
+ 1154              		.cfi_endproc
+ 1155              	.LFE3:
+ 1157              		.section	.text.btle_reverse_crc,"ax",%progbits
+ 1158              		.align	2
+ 1159              		.global	btle_reverse_crc
+ 1160              		.thumb
+ 1161              		.thumb_func
+ 1163              	btle_reverse_crc:
+ 1164              	.LFB4:
+  97:bluetooth_le.c **** 
+  98:bluetooth_le.c **** // runs the CRC in reverse to generate a CRCInit
+  99:bluetooth_le.c **** //
+ 100:bluetooth_le.c **** //	crc should be big endian
+ 101:bluetooth_le.c **** //	the return will be big endian
+ 102:bluetooth_le.c **** //
+ 103:bluetooth_le.c **** u32 btle_reverse_crc(u32 crc, u8 *data, int len) {
+ 1165              		.loc 1 103 0
+ 1166              		.cfi_startproc
+ 1167              		@ args = 0, pretend = 0, frame = 48
+ 1168              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1169              		@ link register save eliminated.
+ 1170 0000 80B4     		push	{r7}
+ 1171              		.cfi_def_cfa_offset 4
+ 1172              		.cfi_offset 7, -4
+ 1173 0002 8DB0     		sub	sp, sp, #52
+ 1174              		.cfi_def_cfa_offset 56
+ARM GAS  /tmp/ccf9foMT.s 			page 23
+
+
+ 1175 0004 00AF     		add	r7, sp, #0
+ 1176              		.cfi_def_cfa_register 7
+ 1177 0006 F860     		str	r0, [r7, #12]
+ 1178 0008 B960     		str	r1, [r7, #8]
+ 1179 000a 7A60     		str	r2, [r7, #4]
+ 104:bluetooth_le.c **** 	u32 state = crc;
+ 1180              		.loc 1 104 0
+ 1181 000c FB68     		ldr	r3, [r7, #12]
+ 1182 000e FB62     		str	r3, [r7, #44]
+ 105:bluetooth_le.c **** 	u32 lfsr_mask = 0xb4c000; // 101101001100000000000000
+ 1183              		.loc 1 105 0
+ 1184 0010 2B4B     		ldr	r3, .L37
+ 1185 0012 FB61     		str	r3, [r7, #28]
+ 106:bluetooth_le.c **** 	u32 ret;
+ 107:bluetooth_le.c **** 	int i, j;
+ 108:bluetooth_le.c **** 
+ 109:bluetooth_le.c **** 	for (i = len - 1; i >= 0; --i) {
+ 1186              		.loc 1 109 0
+ 1187 0014 7B68     		ldr	r3, [r7, #4]
+ 1188 0016 013B     		subs	r3, r3, #1
+ 1189 0018 7B62     		str	r3, [r7, #36]
+ 1190 001a 2DE0     		b	.L29
+ 1191              	.L33:
+ 1192              	.LBB4:
+ 110:bluetooth_le.c **** 		u8 cur = data[i];
+ 1193              		.loc 1 110 0
+ 1194 001c 7B6A     		ldr	r3, [r7, #36]
+ 1195 001e BA68     		ldr	r2, [r7, #8]
+ 1196 0020 1344     		add	r3, r3, r2
+ 1197 0022 1B78     		ldrb	r3, [r3]
+ 1198 0024 FB76     		strb	r3, [r7, #27]
+ 111:bluetooth_le.c **** 		for (j = 0; j < 8; ++j) {
+ 1199              		.loc 1 111 0
+ 1200 0026 0023     		movs	r3, #0
+ 1201 0028 3B62     		str	r3, [r7, #32]
+ 1202 002a 1FE0     		b	.L30
+ 1203              	.L32:
+ 1204              	.LBB5:
+ 112:bluetooth_le.c **** 			int top_bit = state >> 23;
+ 1205              		.loc 1 112 0
+ 1206 002c FB6A     		ldr	r3, [r7, #44]
+ 1207 002e DB0D     		lsrs	r3, r3, #23
+ 1208 0030 7B61     		str	r3, [r7, #20]
+ 113:bluetooth_le.c **** 			state = (state << 1) & 0xffffff;
+ 1209              		.loc 1 113 0
+ 1210 0032 FB6A     		ldr	r3, [r7, #44]
+ 1211 0034 5B00     		lsls	r3, r3, #1
+ 1212 0036 23F07F43 		bic	r3, r3, #-16777216
+ 1213 003a FB62     		str	r3, [r7, #44]
+ 114:bluetooth_le.c **** 			state |= top_bit ^ ((cur >> (7 - j)) & 1);
+ 1214              		.loc 1 114 0
+ 1215 003c FA7E     		ldrb	r2, [r7, #27]	@ zero_extendqisi2
+ 1216 003e 3B6A     		ldr	r3, [r7, #32]
+ 1217 0040 C3F10703 		rsb	r3, r3, #7
+ 1218 0044 42FA03F3 		asr	r3, r2, r3
+ 1219 0048 03F00102 		and	r2, r3, #1
+ 1220 004c 7B69     		ldr	r3, [r7, #20]
+ARM GAS  /tmp/ccf9foMT.s 			page 24
+
+
+ 1221 004e 5340     		eors	r3, r3, r2
+ 1222 0050 1A46     		mov	r2, r3
+ 1223 0052 FB6A     		ldr	r3, [r7, #44]
+ 1224 0054 1343     		orrs	r3, r3, r2
+ 1225 0056 FB62     		str	r3, [r7, #44]
+ 115:bluetooth_le.c **** 			if (top_bit)
+ 1226              		.loc 1 115 0
+ 1227 0058 7B69     		ldr	r3, [r7, #20]
+ 1228 005a 002B     		cmp	r3, #0
+ 1229 005c 03D0     		beq	.L31
+ 116:bluetooth_le.c **** 				state ^= lfsr_mask;
+ 1230              		.loc 1 116 0
+ 1231 005e FA6A     		ldr	r2, [r7, #44]
+ 1232 0060 FB69     		ldr	r3, [r7, #28]
+ 1233 0062 5340     		eors	r3, r3, r2
+ 1234 0064 FB62     		str	r3, [r7, #44]
+ 1235              	.L31:
+ 1236              	.LBE5:
+ 111:bluetooth_le.c **** 			int top_bit = state >> 23;
+ 1237              		.loc 1 111 0 discriminator 2
+ 1238 0066 3B6A     		ldr	r3, [r7, #32]
+ 1239 0068 0133     		adds	r3, r3, #1
+ 1240 006a 3B62     		str	r3, [r7, #32]
+ 1241              	.L30:
+ 111:bluetooth_le.c **** 			int top_bit = state >> 23;
+ 1242              		.loc 1 111 0 is_stmt 0 discriminator 1
+ 1243 006c 3B6A     		ldr	r3, [r7, #32]
+ 1244 006e 072B     		cmp	r3, #7
+ 1245 0070 DCDD     		ble	.L32
+ 1246              	.LBE4:
+ 109:bluetooth_le.c **** 		u8 cur = data[i];
+ 1247              		.loc 1 109 0 is_stmt 1 discriminator 2
+ 1248 0072 7B6A     		ldr	r3, [r7, #36]
+ 1249 0074 013B     		subs	r3, r3, #1
+ 1250 0076 7B62     		str	r3, [r7, #36]
+ 1251              	.L29:
+ 109:bluetooth_le.c **** 		u8 cur = data[i];
+ 1252              		.loc 1 109 0 is_stmt 0 discriminator 1
+ 1253 0078 7B6A     		ldr	r3, [r7, #36]
+ 1254 007a 002B     		cmp	r3, #0
+ 1255 007c CEDA     		bge	.L33
+ 117:bluetooth_le.c **** 		}
+ 118:bluetooth_le.c **** 	}
+ 119:bluetooth_le.c **** 
+ 120:bluetooth_le.c **** 	ret = 0;
+ 1256              		.loc 1 120 0 is_stmt 1
+ 1257 007e 0023     		movs	r3, #0
+ 1258 0080 BB62     		str	r3, [r7, #40]
+ 121:bluetooth_le.c **** 	for (i = 0; i < 24; ++i)
+ 1259              		.loc 1 121 0
+ 1260 0082 0023     		movs	r3, #0
+ 1261 0084 7B62     		str	r3, [r7, #36]
+ 1262 0086 10E0     		b	.L34
+ 1263              	.L35:
+ 122:bluetooth_le.c **** 		ret |= ((state >> i) & 1) << (23 - i);
+ 1264              		.loc 1 122 0 discriminator 3
+ 1265 0088 FA6A     		ldr	r2, [r7, #44]
+ARM GAS  /tmp/ccf9foMT.s 			page 25
+
+
+ 1266 008a 7B6A     		ldr	r3, [r7, #36]
+ 1267 008c 22FA03F3 		lsr	r3, r2, r3
+ 1268 0090 03F00102 		and	r2, r3, #1
+ 1269 0094 7B6A     		ldr	r3, [r7, #36]
+ 1270 0096 C3F11703 		rsb	r3, r3, #23
+ 1271 009a 02FA03F3 		lsl	r3, r2, r3
+ 1272 009e BA6A     		ldr	r2, [r7, #40]
+ 1273 00a0 1343     		orrs	r3, r3, r2
+ 1274 00a2 BB62     		str	r3, [r7, #40]
+ 121:bluetooth_le.c **** 	for (i = 0; i < 24; ++i)
+ 1275              		.loc 1 121 0 discriminator 3
+ 1276 00a4 7B6A     		ldr	r3, [r7, #36]
+ 1277 00a6 0133     		adds	r3, r3, #1
+ 1278 00a8 7B62     		str	r3, [r7, #36]
+ 1279              	.L34:
+ 121:bluetooth_le.c **** 	for (i = 0; i < 24; ++i)
+ 1280              		.loc 1 121 0 is_stmt 0 discriminator 1
+ 1281 00aa 7B6A     		ldr	r3, [r7, #36]
+ 1282 00ac 172B     		cmp	r3, #23
+ 1283 00ae EBDD     		ble	.L35
+ 123:bluetooth_le.c **** 
+ 124:bluetooth_le.c **** 	return ret;
+ 1284              		.loc 1 124 0 is_stmt 1
+ 1285 00b0 BB6A     		ldr	r3, [r7, #40]
+ 125:bluetooth_le.c **** }
+ 1286              		.loc 1 125 0
+ 1287 00b2 1846     		mov	r0, r3
+ 1288 00b4 3437     		adds	r7, r7, #52
+ 1289              		.cfi_def_cfa_offset 4
+ 1290 00b6 BD46     		mov	sp, r7
+ 1291              		.cfi_def_cfa_register 13
+ 1292              		@ sp needed
+ 1293 00b8 5DF8047B 		ldr	r7, [sp], #4
+ 1294              		.cfi_restore 7
+ 1295              		.cfi_def_cfa_offset 0
+ 1296 00bc 7047     		bx	lr
+ 1297              	.L38:
+ 1298 00be 00BF     		.align	2
+ 1299              	.L37:
+ 1300 00c0 00C0B400 		.word	11845632
+ 1301              		.cfi_endproc
+ 1302              	.LFE4:
+ 1304              		.global	btle_crc_lut
+ 1305              		.data
+ 1306              		.align	2
+ 1309              	btle_crc_lut:
+ 1310 0004 00000000 		.word	0
+ 1311 0008 C0B40100 		.word	111808
+ 1312 000c 80690300 		.word	223616
+ 1313 0010 40DD0200 		.word	187712
+ 1314 0014 00D30600 		.word	447232
+ 1315 0018 C0670700 		.word	485312
+ 1316 001c 80BA0500 		.word	375424
+ 1317 0020 400E0400 		.word	265792
+ 1318 0024 00A60D00 		.word	894464
+ 1319 0028 C0120C00 		.word	791232
+ 1320 002c 80CF0E00 		.word	970624
+ARM GAS  /tmp/ccf9foMT.s 			page 26
+
+
+ 1321 0030 407B0F00 		.word	1014592
+ 1322 0034 00750B00 		.word	750848
+ 1323 0038 C0C10A00 		.word	704960
+ 1324 003c 801C0800 		.word	531584
+ 1325 0040 40A80900 		.word	632896
+ 1326 0044 004C1B00 		.word	1788928
+ 1327 0048 C0F81A00 		.word	1767616
+ 1328 004c 80251800 		.word	1582464
+ 1329 0050 40911900 		.word	1675584
+ 1330 0054 009F1D00 		.word	1941248
+ 1331 0058 C02B1C00 		.word	1846208
+ 1332 005c 80F61E00 		.word	2029184
+ 1333 0060 40421F00 		.word	2048576
+ 1334 0064 00EA1600 		.word	1501696
+ 1335 0068 C05E1700 		.word	1531584
+ 1336 006c 80831500 		.word	1409920
+ 1337 0070 40371400 		.word	1324864
+ 1338 0074 00391000 		.word	1063168
+ 1339 0078 C08D1100 		.word	1150400
+ 1340 007c 80501300 		.word	1265792
+ 1341 0080 40E41200 		.word	1238080
+ 1342 0084 00983600 		.word	3577856
+ 1343 0088 C02C3700 		.word	3615936
+ 1344 008c 80F13500 		.word	3535232
+ 1345 0090 40453400 		.word	3425600
+ 1346 0094 004B3000 		.word	3164928
+ 1347 0098 C0FF3100 		.word	3276736
+ 1348 009c 80223300 		.word	3351168
+ 1349 00a0 40963200 		.word	3315264
+ 1350 00a4 003E3B00 		.word	3882496
+ 1351 00a8 C08A3A00 		.word	3836608
+ 1352 00ac 80573800 		.word	3692416
+ 1353 00b0 40E33900 		.word	3793728
+ 1354 00b4 00ED3D00 		.word	4058368
+ 1355 00b8 C0593C00 		.word	3955136
+ 1356 00bc 80843E00 		.word	4097152
+ 1357 00c0 40303F00 		.word	4141120
+ 1358 00c4 00D42D00 		.word	3003392
+ 1359 00c8 C0602C00 		.word	2908352
+ 1360 00cc 80BD2E00 		.word	3063168
+ 1361 00d0 40092F00 		.word	3082560
+ 1362 00d4 00072B00 		.word	2819840
+ 1363 00d8 C0B32A00 		.word	2798528
+ 1364 00dc 806E2800 		.word	2649728
+ 1365 00e0 40DA2900 		.word	2742848
+ 1366 00e4 00722000 		.word	2126336
+ 1367 00e8 C0C62100 		.word	2213568
+ 1368 00ec 801B2300 		.word	2300800
+ 1369 00f0 40AF2200 		.word	2273088
+ 1370 00f4 00A12600 		.word	2531584
+ 1371 00f8 C0152700 		.word	2561472
+ 1372 00fc 80C82500 		.word	2476160
+ 1373 0100 407C2400 		.word	2391104
+ 1374 0104 00306D00 		.word	7155712
+ 1375 0108 C0846C00 		.word	7111872
+ 1376 010c 80596E00 		.word	7231872
+ 1377 0110 40ED6F00 		.word	7335232
+ARM GAS  /tmp/ccf9foMT.s 			page 27
+
+
+ 1378 0114 00E36B00 		.word	7070464
+ 1379 0118 C0576A00 		.word	6969280
+ 1380 011c 808A6800 		.word	6851200
+ 1381 0120 403E6900 		.word	6897216
+ 1382 0124 00966000 		.word	6329856
+ 1383 0128 C0226100 		.word	6365888
+ 1384 012c 80FF6300 		.word	6553472
+ 1385 0130 404B6200 		.word	6441792
+ 1386 0134 00456600 		.word	6702336
+ 1387 0138 C0F16700 		.word	6812096
+ 1388 013c 802C6500 		.word	6630528
+ 1389 0140 40986400 		.word	6592576
+ 1390 0144 007C7600 		.word	7764992
+ 1391 0148 C0C87700 		.word	7850176
+ 1392 014c 80157500 		.word	7673216
+ 1393 0150 40A17400 		.word	7643456
+ 1394 0154 00AF7000 		.word	7384832
+ 1395 0158 C01B7100 		.word	7412672
+ 1396 015c 80C67300 		.word	7587456
+ 1397 0160 40727200 		.word	7500352
+ 1398 0164 00DA7B00 		.word	8116736
+ 1399 0168 C06E7A00 		.word	8023744
+ 1400 016c 80B37800 		.word	7910272
+ 1401 0170 40077900 		.word	7931712
+ 1402 0174 00097D00 		.word	8194304
+ 1403 0178 C0BD7C00 		.word	8175040
+ 1404 017c 80607E00 		.word	8282240
+ 1405 0180 40D47F00 		.word	8377408
+ 1406 0184 00A85B00 		.word	6006784
+ 1407 0188 C01C5A00 		.word	5905600
+ 1408 018c 80C15800 		.word	5816704
+ 1409 0190 40755900 		.word	5862720
+ 1410 0194 007B5D00 		.word	6126336
+ 1411 0198 C0CF5C00 		.word	6082496
+ 1412 019c 80125E00 		.word	6165120
+ 1413 01a0 40A65F00 		.word	6268480
+ 1414 01a4 000E5600 		.word	5639680
+ 1415 01a8 C0BA5700 		.word	5749440
+ 1416 01ac 80675500 		.word	5597056
+ 1417 01b0 40D35400 		.word	5559104
+ 1418 01b4 00DD5000 		.word	5299456
+ 1419 01b8 C0695100 		.word	5335488
+ 1420 01bc 80B45300 		.word	5485696
+ 1421 01c0 40005200 		.word	5374016
+ 1422 01c4 00E44000 		.word	4252672
+ 1423 01c8 C0504100 		.word	4280512
+ 1424 01cc 808D4300 		.word	4427136
+ 1425 01d0 40394200 		.word	4340032
+ 1426 01d4 00374600 		.word	4601600
+ 1427 01d8 C0834700 		.word	4686784
+ 1428 01dc 805E4500 		.word	4546176
+ 1429 01e0 40EA4400 		.word	4516416
+ 1430 01e4 00424D00 		.word	5063168
+ 1431 01e8 C0F64C00 		.word	5043904
+ 1432 01ec 802B4E00 		.word	5122944
+ 1433 01f0 409F4F00 		.word	5218112
+ 1434 01f4 00914B00 		.word	4952320
+ARM GAS  /tmp/ccf9foMT.s 			page 28
+
+
+ 1435 01f8 C0254A00 		.word	4859328
+ 1436 01fc 80F84800 		.word	4782208
+ 1437 0200 404C4900 		.word	4803648
+ 1438 0204 0060DA00 		.word	14311424
+ 1439 0208 C0D4DB00 		.word	14406848
+ 1440 020c 8009D900 		.word	14223744
+ 1441 0210 40BDD800 		.word	14204224
+ 1442 0214 00B3DC00 		.word	14463744
+ 1443 0218 C007DD00 		.word	14485440
+ 1444 021c 80DADF00 		.word	14670464
+ 1445 0220 406EDE00 		.word	14577216
+ 1446 0224 00C6D700 		.word	14140928
+ 1447 0228 C072D600 		.word	14054080
+ 1448 022c 80AFD400 		.word	13938560
+ 1449 0230 401BD500 		.word	13966144
+ 1450 0234 0015D100 		.word	13702400
+ 1451 0238 C0A1D000 		.word	13672896
+ 1452 023c 807CD200 		.word	13794432
+ 1453 0240 40C8D300 		.word	13879360
+ 1454 0244 002CC100 		.word	12659712
+ 1455 0248 C098C000 		.word	12622016
+ 1456 024c 8045C200 		.word	12731776
+ 1457 0250 40F1C300 		.word	12841280
+ 1458 0254 00FFC700 		.word	13106944
+ 1459 0258 C04BC600 		.word	12995520
+ 1460 025c 8096C400 		.word	12883584
+ 1461 0260 4022C500 		.word	12919360
+ 1462 0264 008ACC00 		.word	13404672
+ 1463 0268 C03ECD00 		.word	13450944
+ 1464 026c 80E3CF00 		.word	13624192
+ 1465 0270 4057CE00 		.word	13522752
+ 1466 0274 0059CA00 		.word	13261056
+ 1467 0278 C0EDCB00 		.word	13364672
+ 1468 027c 8030C900 		.word	13185152
+ 1469 0280 4084C800 		.word	13141056
+ 1470 0284 00F8EC00 		.word	15529984
+ 1471 0288 C04CED00 		.word	15551680
+ 1472 028c 8091EF00 		.word	15700352
+ 1473 0290 4025EE00 		.word	15607104
+ 1474 0294 002BEA00 		.word	15346432
+ 1475 0298 C09FEB00 		.word	15441856
+ 1476 029c 8042E900 		.word	15286912
+ 1477 02a0 40F6E800 		.word	15267392
+ 1478 02a4 005EE100 		.word	14769664
+ 1479 02a8 C0EAE000 		.word	14740160
+ 1480 02ac 8037E200 		.word	14825344
+ 1481 02b0 4083E300 		.word	14910272
+ 1482 02b4 008DE700 		.word	15174912
+ 1483 02b8 C039E600 		.word	15088064
+ 1484 02bc 80E4E400 		.word	15000704
+ 1485 02c0 4050E500 		.word	15028288
+ 1486 02c4 00B4F700 		.word	16233472
+ 1487 02c8 C000F600 		.word	16122048
+ 1488 02cc 80DDF400 		.word	16047488
+ 1489 02d0 4069F500 		.word	16083264
+ 1490 02d4 0067F100 		.word	15820544
+ 1491 02d8 C0D3F000 		.word	15782848
+ARM GAS  /tmp/ccf9foMT.s 			page 29
+
+
+ 1492 02dc 800EF200 		.word	15863424
+ 1493 02e0 40BAF300 		.word	15972928
+ 1494 02e4 0012FA00 		.word	16388608
+ 1495 02e8 C0A6FB00 		.word	16492224
+ 1496 02ec 807BF900 		.word	16350080
+ 1497 02f0 40CFF800 		.word	16305984
+ 1498 02f4 00C1FC00 		.word	16564480
+ 1499 02f8 C075FD00 		.word	16610752
+ 1500 02fc 80A8FF00 		.word	16754816
+ 1501 0300 401CFE00 		.word	16653376
+ 1502 0304 0050B700 		.word	12013568
+ 1503 0308 C0E4B600 		.word	11986112
+ 1504 030c 8039B400 		.word	11811200
+ 1505 0310 408DB500 		.word	11898176
+ 1506 0314 0083B100 		.word	11633408
+ 1507 0318 C037B000 		.word	11548608
+ 1508 031c 80EAB200 		.word	11725440
+ 1509 0320 405EB300 		.word	11755072
+ 1510 0324 00F6BA00 		.word	12252672
+ 1511 0328 C042BB00 		.word	12272320
+ 1512 032c 809FB900 		.word	12164992
+ 1513 0330 402BB800 		.word	12069696
+ 1514 0334 0025BC00 		.word	12330240
+ 1515 0338 C091BD00 		.word	12423616
+ 1516 033c 804CBF00 		.word	12536960
+ 1517 0340 40F8BE00 		.word	12515392
+ 1518 0344 001CAC00 		.word	11279360
+ 1519 0348 C0A8AD00 		.word	11380928
+ 1520 034c 8075AF00 		.word	11498880
+ 1521 0350 40C1AE00 		.word	11452736
+ 1522 0354 00CFAA00 		.word	11194112
+ 1523 0358 C07BAB00 		.word	11238336
+ 1524 035c 80A6A900 		.word	11118208
+ 1525 0360 4012A800 		.word	11014720
+ 1526 0364 00BAA100 		.word	10598912
+ 1527 0368 C00EA000 		.word	10489536
+ 1528 036c 80D3A200 		.word	10670976
+ 1529 0370 4067A300 		.word	10708800
+ 1530 0374 0069A700 		.word	10971392
+ 1531 0378 C0DDA600 		.word	10935744
+ 1532 037c 8000A400 		.word	10748032
+ 1533 0380 40B4A500 		.word	10859584
+ 1534 0384 00C88100 		.word	8505344
+ 1535 0388 C07C8000 		.word	8420544
+ 1536 038c 80A18200 		.word	8561024
+ 1537 0390 40158300 		.word	8590656
+ 1538 0394 001B8700 		.word	8854272
+ 1539 0398 C0AF8600 		.word	8826816
+ 1540 039c 80728400 		.word	8680064
+ 1541 03a0 40C68500 		.word	8767040
+ 1542 03a4 006E8C00 		.word	9203200
+ 1543 03a8 C0DA8D00 		.word	9296576
+ 1544 03ac 80078F00 		.word	9373568
+ 1545 03b0 40B38E00 		.word	9352000
+ 1546 03b4 00BD8A00 		.word	9092352
+ 1547 03b8 C0098B00 		.word	9112000
+ 1548 03bc 80D48900 		.word	9032832
+ARM GAS  /tmp/ccf9foMT.s 			page 30
+
+
+ 1549 03c0 40608800 		.word	8937536
+ 1550 03c4 00849A00 		.word	10126336
+ 1551 03c8 C0309B00 		.word	10170560
+ 1552 03cc 80ED9900 		.word	10087808
+ 1553 03d0 40599800 		.word	9984320
+ 1554 03d4 00579C00 		.word	10245888
+ 1555 03d8 C0E39D00 		.word	10347456
+ 1556 03dc 803E9F00 		.word	10436224
+ 1557 03e0 408A9E00 		.word	10390080
+ 1558 03e4 00229700 		.word	9904640
+ 1559 03e8 C0969600 		.word	9868992
+ 1560 03ec 804B9400 		.word	9718656
+ 1561 03f0 40FF9500 		.word	9830208
+ 1562 03f4 00F19100 		.word	9564416
+ 1563 03f8 C0459000 		.word	9455040
+ 1564 03fc 80989200 		.word	9607296
+ 1565 0400 402C9300 		.word	9645120
+ 1566              		.section	.text.btle_crcgen_lut,"ax",%progbits
+ 1567              		.align	2
+ 1568              		.global	btle_crcgen_lut
+ 1569              		.thumb
+ 1570              		.thumb_func
+ 1572              	btle_crcgen_lut:
+ 1573              	.LFB5:
+ 126:bluetooth_le.c **** 
+ 127:bluetooth_le.c **** u32 btle_crc_lut[256] = {
+ 128:bluetooth_le.c **** 	0x000000, 0x01b4c0, 0x036980, 0x02dd40, 0x06d300, 0x0767c0, 0x05ba80, 0x040e40,
+ 129:bluetooth_le.c **** 	0x0da600, 0x0c12c0, 0x0ecf80, 0x0f7b40, 0x0b7500, 0x0ac1c0, 0x081c80, 0x09a840,
+ 130:bluetooth_le.c **** 	0x1b4c00, 0x1af8c0, 0x182580, 0x199140, 0x1d9f00, 0x1c2bc0, 0x1ef680, 0x1f4240,
+ 131:bluetooth_le.c **** 	0x16ea00, 0x175ec0, 0x158380, 0x143740, 0x103900, 0x118dc0, 0x135080, 0x12e440,
+ 132:bluetooth_le.c **** 	0x369800, 0x372cc0, 0x35f180, 0x344540, 0x304b00, 0x31ffc0, 0x332280, 0x329640,
+ 133:bluetooth_le.c **** 	0x3b3e00, 0x3a8ac0, 0x385780, 0x39e340, 0x3ded00, 0x3c59c0, 0x3e8480, 0x3f3040,
+ 134:bluetooth_le.c **** 	0x2dd400, 0x2c60c0, 0x2ebd80, 0x2f0940, 0x2b0700, 0x2ab3c0, 0x286e80, 0x29da40,
+ 135:bluetooth_le.c **** 	0x207200, 0x21c6c0, 0x231b80, 0x22af40, 0x26a100, 0x2715c0, 0x25c880, 0x247c40,
+ 136:bluetooth_le.c **** 	0x6d3000, 0x6c84c0, 0x6e5980, 0x6fed40, 0x6be300, 0x6a57c0, 0x688a80, 0x693e40,
+ 137:bluetooth_le.c **** 	0x609600, 0x6122c0, 0x63ff80, 0x624b40, 0x664500, 0x67f1c0, 0x652c80, 0x649840,
+ 138:bluetooth_le.c **** 	0x767c00, 0x77c8c0, 0x751580, 0x74a140, 0x70af00, 0x711bc0, 0x73c680, 0x727240,
+ 139:bluetooth_le.c **** 	0x7bda00, 0x7a6ec0, 0x78b380, 0x790740, 0x7d0900, 0x7cbdc0, 0x7e6080, 0x7fd440,
+ 140:bluetooth_le.c **** 	0x5ba800, 0x5a1cc0, 0x58c180, 0x597540, 0x5d7b00, 0x5ccfc0, 0x5e1280, 0x5fa640,
+ 141:bluetooth_le.c **** 	0x560e00, 0x57bac0, 0x556780, 0x54d340, 0x50dd00, 0x5169c0, 0x53b480, 0x520040,
+ 142:bluetooth_le.c **** 	0x40e400, 0x4150c0, 0x438d80, 0x423940, 0x463700, 0x4783c0, 0x455e80, 0x44ea40,
+ 143:bluetooth_le.c **** 	0x4d4200, 0x4cf6c0, 0x4e2b80, 0x4f9f40, 0x4b9100, 0x4a25c0, 0x48f880, 0x494c40,
+ 144:bluetooth_le.c **** 	0xda6000, 0xdbd4c0, 0xd90980, 0xd8bd40, 0xdcb300, 0xdd07c0, 0xdfda80, 0xde6e40,
+ 145:bluetooth_le.c **** 	0xd7c600, 0xd672c0, 0xd4af80, 0xd51b40, 0xd11500, 0xd0a1c0, 0xd27c80, 0xd3c840,
+ 146:bluetooth_le.c **** 	0xc12c00, 0xc098c0, 0xc24580, 0xc3f140, 0xc7ff00, 0xc64bc0, 0xc49680, 0xc52240,
+ 147:bluetooth_le.c **** 	0xcc8a00, 0xcd3ec0, 0xcfe380, 0xce5740, 0xca5900, 0xcbedc0, 0xc93080, 0xc88440,
+ 148:bluetooth_le.c **** 	0xecf800, 0xed4cc0, 0xef9180, 0xee2540, 0xea2b00, 0xeb9fc0, 0xe94280, 0xe8f640,
+ 149:bluetooth_le.c **** 	0xe15e00, 0xe0eac0, 0xe23780, 0xe38340, 0xe78d00, 0xe639c0, 0xe4e480, 0xe55040,
+ 150:bluetooth_le.c **** 	0xf7b400, 0xf600c0, 0xf4dd80, 0xf56940, 0xf16700, 0xf0d3c0, 0xf20e80, 0xf3ba40,
+ 151:bluetooth_le.c **** 	0xfa1200, 0xfba6c0, 0xf97b80, 0xf8cf40, 0xfcc100, 0xfd75c0, 0xffa880, 0xfe1c40,
+ 152:bluetooth_le.c **** 	0xb75000, 0xb6e4c0, 0xb43980, 0xb58d40, 0xb18300, 0xb037c0, 0xb2ea80, 0xb35e40,
+ 153:bluetooth_le.c **** 	0xbaf600, 0xbb42c0, 0xb99f80, 0xb82b40, 0xbc2500, 0xbd91c0, 0xbf4c80, 0xbef840,
+ 154:bluetooth_le.c **** 	0xac1c00, 0xada8c0, 0xaf7580, 0xaec140, 0xaacf00, 0xab7bc0, 0xa9a680, 0xa81240,
+ 155:bluetooth_le.c **** 	0xa1ba00, 0xa00ec0, 0xa2d380, 0xa36740, 0xa76900, 0xa6ddc0, 0xa40080, 0xa5b440,
+ 156:bluetooth_le.c **** 	0x81c800, 0x807cc0, 0x82a180, 0x831540, 0x871b00, 0x86afc0, 0x847280, 0x85c640,
+ 157:bluetooth_le.c **** 	0x8c6e00, 0x8ddac0, 0x8f0780, 0x8eb340, 0x8abd00, 0x8b09c0, 0x89d480, 0x886040,
+ 158:bluetooth_le.c **** 	0x9a8400, 0x9b30c0, 0x99ed80, 0x985940, 0x9c5700, 0x9de3c0, 0x9f3e80, 0x9e8a40,
+ARM GAS  /tmp/ccf9foMT.s 			page 31
+
+
+ 159:bluetooth_le.c **** 	0x972200, 0x9696c0, 0x944b80, 0x95ff40, 0x91f100, 0x9045c0, 0x929880, 0x932c40
+ 160:bluetooth_le.c **** };
+ 161:bluetooth_le.c **** 
+ 162:bluetooth_le.c **** /*
+ 163:bluetooth_le.c ****  * Calculate a BTLE CRC one byte at a time. Thanks to Dominic Spill and
+ 164:bluetooth_le.c ****  * Michael Ossmann for writing and optimizing this.
+ 165:bluetooth_le.c ****  *
+ 166:bluetooth_le.c ****  * Arguments: CRCInit, pointer to start of packet, length of packet in
+ 167:bluetooth_le.c ****  * bytes
+ 168:bluetooth_le.c ****  * */
+ 169:bluetooth_le.c **** u32 btle_crcgen_lut(u32 crc_init, u8 *data, int len) {
+ 1574              		.loc 1 169 0
+ 1575              		.cfi_startproc
+ 1576              		@ args = 0, pretend = 0, frame = 32
+ 1577              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1578              		@ link register save eliminated.
+ 1579 0000 80B4     		push	{r7}
+ 1580              		.cfi_def_cfa_offset 4
+ 1581              		.cfi_offset 7, -4
+ 1582 0002 89B0     		sub	sp, sp, #36
+ 1583              		.cfi_def_cfa_offset 40
+ 1584 0004 00AF     		add	r7, sp, #0
+ 1585              		.cfi_def_cfa_register 7
+ 1586 0006 F860     		str	r0, [r7, #12]
+ 1587 0008 B960     		str	r1, [r7, #8]
+ 1588 000a 7A60     		str	r2, [r7, #4]
+ 170:bluetooth_le.c **** 	u32 state;
+ 171:bluetooth_le.c **** 	int i;
+ 172:bluetooth_le.c **** 	u8 key;
+ 173:bluetooth_le.c **** 
+ 174:bluetooth_le.c **** 	state = crc_init & 0xffffff;
+ 1589              		.loc 1 174 0
+ 1590 000c FB68     		ldr	r3, [r7, #12]
+ 1591 000e 23F07F43 		bic	r3, r3, #-16777216
+ 1592 0012 FB61     		str	r3, [r7, #28]
+ 175:bluetooth_le.c **** 	for (i = 0; i < len; ++i) {
+ 1593              		.loc 1 175 0
+ 1594 0014 0023     		movs	r3, #0
+ 1595 0016 BB61     		str	r3, [r7, #24]
+ 1596 0018 12E0     		b	.L40
+ 1597              	.L41:
+ 176:bluetooth_le.c **** 		key = data[i] ^ (state & 0xff);
+ 1598              		.loc 1 176 0 discriminator 3
+ 1599 001a BB69     		ldr	r3, [r7, #24]
+ 1600 001c BA68     		ldr	r2, [r7, #8]
+ 1601 001e 1344     		add	r3, r3, r2
+ 1602 0020 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1603 0022 FB69     		ldr	r3, [r7, #28]
+ 1604 0024 DBB2     		uxtb	r3, r3
+ 1605 0026 5340     		eors	r3, r3, r2
+ 1606 0028 FB75     		strb	r3, [r7, #23]
+ 177:bluetooth_le.c **** 		state = (state >> 8) ^ btle_crc_lut[key];
+ 1607              		.loc 1 177 0 discriminator 3
+ 1608 002a FB69     		ldr	r3, [r7, #28]
+ 1609 002c 1A0A     		lsrs	r2, r3, #8
+ 1610 002e FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 1611 0030 0949     		ldr	r1, .L43
+ARM GAS  /tmp/ccf9foMT.s 			page 32
+
+
+ 1612 0032 51F82330 		ldr	r3, [r1, r3, lsl #2]
+ 1613 0036 5340     		eors	r3, r3, r2
+ 1614 0038 FB61     		str	r3, [r7, #28]
+ 175:bluetooth_le.c **** 	for (i = 0; i < len; ++i) {
+ 1615              		.loc 1 175 0 discriminator 3
+ 1616 003a BB69     		ldr	r3, [r7, #24]
+ 1617 003c 0133     		adds	r3, r3, #1
+ 1618 003e BB61     		str	r3, [r7, #24]
+ 1619              	.L40:
+ 175:bluetooth_le.c **** 	for (i = 0; i < len; ++i) {
+ 1620              		.loc 1 175 0 is_stmt 0 discriminator 1
+ 1621 0040 BA69     		ldr	r2, [r7, #24]
+ 1622 0042 7B68     		ldr	r3, [r7, #4]
+ 1623 0044 9A42     		cmp	r2, r3
+ 1624 0046 E8DB     		blt	.L41
+ 178:bluetooth_le.c **** 	}
+ 179:bluetooth_le.c **** 	return state;
+ 1625              		.loc 1 179 0 is_stmt 1
+ 1626 0048 FB69     		ldr	r3, [r7, #28]
+ 180:bluetooth_le.c **** }
+ 1627              		.loc 1 180 0
+ 1628 004a 1846     		mov	r0, r3
+ 1629 004c 2437     		adds	r7, r7, #36
+ 1630              		.cfi_def_cfa_offset 4
+ 1631 004e BD46     		mov	sp, r7
+ 1632              		.cfi_def_cfa_register 13
+ 1633              		@ sp needed
+ 1634 0050 5DF8047B 		ldr	r7, [sp], #4
+ 1635              		.cfi_restore 7
+ 1636              		.cfi_def_cfa_offset 0
+ 1637 0054 7047     		bx	lr
+ 1638              	.L44:
+ 1639 0056 00BF     		.align	2
+ 1640              	.L43:
+ 1641 0058 00000000 		.word	btle_crc_lut
+ 1642              		.cfi_endproc
+ 1643              	.LFE5:
+ 1645              		.text
+ 1646              	.Letext0:
+ 1647              		.file 2 "/usr/lib/gcc/arm-none-eabi/4.9.3/include/stdint-gcc.h"
+ 1648              		.file 3 "../common/ubertooth.h"
+ 1649              		.file 4 "bluetooth_le.h"
+ARM GAS  /tmp/ccf9foMT.s 			page 33
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 bluetooth_le.c
+     /tmp/ccf9foMT.s:19     .data:0000000000000000 $d
+     /tmp/ccf9foMT.s:22     .data:0000000000000000 iap_entry
+     /tmp/ccf9foMT.s:25     .rodata:0000000000000000 $d
+     /tmp/ccf9foMT.s:28     .rodata:0000000000000000 advertising_channels
+     /tmp/ccf9foMT.s:35     .rodata:0000000000000004 data_channels
+     /tmp/ccf9foMT.s:76     .rodata:000000000000002c payload
+     /tmp/ccf9foMT.s:100    .rodata:0000000000000040 whitening
+     /tmp/ccf9foMT.s:231    .rodata:00000000000000c0 whitening_index
+     /tmp/ccf9foMT.s:275    .rodata:00000000000000e8 hop_interval_lut
+     /tmp/ccf9foMT.s:316    .rodata:0000000000000110 whitening_word
+     /tmp/ccf9foMT.s:798    .text.btle_next_hop:0000000000000000 $t
+     /tmp/ccf9foMT.s:803    .text.btle_next_hop:0000000000000000 btle_next_hop
+     /tmp/ccf9foMT.s:962    .text.btle_channel_index_to_phys:0000000000000000 btle_channel_index_to_phys
+     /tmp/ccf9foMT.s:861    .text.btle_next_hop:000000000000004c $d
+     /tmp/ccf9foMT.s:870    .bss:0000000000000000 received_data
+     /tmp/ccf9foMT.s:867    .bss:0000000000000000 $d
+     /tmp/ccf9foMT.s:873    .text.btle_channel_index:0000000000000000 $t
+     /tmp/ccf9foMT.s:878    .text.btle_channel_index:0000000000000000 btle_channel_index
+     /tmp/ccf9foMT.s:957    .text.btle_channel_index_to_phys:0000000000000000 $t
+     /tmp/ccf9foMT.s:1041   .text.btle_calc_crc:0000000000000000 $t
+     /tmp/ccf9foMT.s:1046   .text.btle_calc_crc:0000000000000000 btle_calc_crc
+     /tmp/ccf9foMT.s:1153   .text.btle_calc_crc:0000000000000084 $d
+     /tmp/ccf9foMT.s:1158   .text.btle_reverse_crc:0000000000000000 $t
+     /tmp/ccf9foMT.s:1163   .text.btle_reverse_crc:0000000000000000 btle_reverse_crc
+     /tmp/ccf9foMT.s:1300   .text.btle_reverse_crc:00000000000000c0 $d
+     /tmp/ccf9foMT.s:1309   .data:0000000000000004 btle_crc_lut
+     /tmp/ccf9foMT.s:1567   .text.btle_crcgen_lut:0000000000000000 $t
+     /tmp/ccf9foMT.s:1572   .text.btle_crcgen_lut:0000000000000000 btle_crcgen_lut
+     /tmp/ccf9foMT.s:1641   .text.btle_crcgen_lut:0000000000000058 $d
+                     .debug_frame:0000000000000010 $d
+
+NO UNDEFINED SYMBOLS

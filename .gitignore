@@ -1,0 +1,16 @@
+*.d
+*.o
+*.ko
+*.obj
+*.elf
+*.exe
+*.out
+*.dat
+*.log
+*.txt
+*.dll
+*.so
+*.dylib
+*.app
+*.hex
+

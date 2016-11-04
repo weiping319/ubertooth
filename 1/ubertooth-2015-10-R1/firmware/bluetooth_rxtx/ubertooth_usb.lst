@@ -1,0 +1,1105 @@
+ARM GAS  /tmp/ccY9RUNA.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"ubertooth_usb.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.data
+  19              		.align	2
+  22              	iap_entry:
+  23 0000 F11FFF1F 		.word	536813553
+  24              		.global	abDescriptors
+  25              		.section	.rodata
+  26              		.align	2
+  29              	abDescriptors:
+  30 0000 12       		.byte	18
+  31 0001 01       		.byte	1
+  32 0002 00       		.byte	0
+  33 0003 02       		.byte	2
+  34 0004 FF       		.byte	-1
+  35 0005 00       		.byte	0
+  36 0006 00       		.byte	0
+  37 0007 40       		.byte	64
+  38 0008 50       		.byte	80
+  39 0009 1D       		.byte	29
+  40 000a 02       		.byte	2
+  41 000b 60       		.byte	96
+  42 000c 01       		.byte	1
+  43 000d 01       		.byte	1
+  44 000e 01       		.byte	1
+  45 000f 02       		.byte	2
+  46 0010 03       		.byte	3
+  47 0011 01       		.byte	1
+  48 0012 09       		.byte	9
+  49 0013 02       		.byte	2
+  50 0014 20       		.byte	32
+  51 0015 00       		.byte	0
+  52 0016 01       		.byte	1
+  53 0017 01       		.byte	1
+  54 0018 00       		.byte	0
+  55 0019 80       		.byte	-128
+  56 001a 6E       		.byte	110
+  57 001b 09       		.byte	9
+  58 001c 04       		.byte	4
+  59 001d 00       		.byte	0
+  60 001e 00       		.byte	0
+  61 001f 02       		.byte	2
+ARM GAS  /tmp/ccY9RUNA.s 			page 2
+
+
+  62 0020 FF       		.byte	-1
+  63 0021 00       		.byte	0
+  64 0022 00       		.byte	0
+  65 0023 00       		.byte	0
+  66 0024 07       		.byte	7
+  67 0025 05       		.byte	5
+  68 0026 82       		.byte	-126
+  69 0027 02       		.byte	2
+  70 0028 40       		.byte	64
+  71 0029 00       		.byte	0
+  72 002a 00       		.byte	0
+  73 002b 07       		.byte	7
+  74 002c 05       		.byte	5
+  75 002d 05       		.byte	5
+  76 002e 02       		.byte	2
+  77 002f 40       		.byte	64
+  78 0030 00       		.byte	0
+  79 0031 00       		.byte	0
+  80 0032 04       		.byte	4
+  81 0033 03       		.byte	3
+  82 0034 09       		.byte	9
+  83 0035 04       		.byte	4
+  84 0036 5C       		.byte	92
+  85 0037 03       		.byte	3
+  86 0038 68       		.byte	104
+  87 0039 00       		.byte	0
+  88 003a 74       		.byte	116
+  89 003b 00       		.byte	0
+  90 003c 74       		.byte	116
+  91 003d 00       		.byte	0
+  92 003e 70       		.byte	112
+  93 003f 00       		.byte	0
+  94 0040 3A       		.byte	58
+  95 0041 00       		.byte	0
+  96 0042 2F       		.byte	47
+  97 0043 00       		.byte	0
+  98 0044 2F       		.byte	47
+  99 0045 00       		.byte	0
+ 100 0046 67       		.byte	103
+ 101 0047 00       		.byte	0
+ 102 0048 69       		.byte	105
+ 103 0049 00       		.byte	0
+ 104 004a 74       		.byte	116
+ 105 004b 00       		.byte	0
+ 106 004c 68       		.byte	104
+ 107 004d 00       		.byte	0
+ 108 004e 75       		.byte	117
+ 109 004f 00       		.byte	0
+ 110 0050 62       		.byte	98
+ 111 0051 00       		.byte	0
+ 112 0052 2E       		.byte	46
+ 113 0053 00       		.byte	0
+ 114 0054 63       		.byte	99
+ 115 0055 00       		.byte	0
+ 116 0056 6F       		.byte	111
+ 117 0057 00       		.byte	0
+ 118 0058 6D       		.byte	109
+ARM GAS  /tmp/ccY9RUNA.s 			page 3
+
+
+ 119 0059 00       		.byte	0
+ 120 005a 2F       		.byte	47
+ 121 005b 00       		.byte	0
+ 122 005c 67       		.byte	103
+ 123 005d 00       		.byte	0
+ 124 005e 72       		.byte	114
+ 125 005f 00       		.byte	0
+ 126 0060 65       		.byte	101
+ 127 0061 00       		.byte	0
+ 128 0062 61       		.byte	97
+ 129 0063 00       		.byte	0
+ 130 0064 74       		.byte	116
+ 131 0065 00       		.byte	0
+ 132 0066 73       		.byte	115
+ 133 0067 00       		.byte	0
+ 134 0068 63       		.byte	99
+ 135 0069 00       		.byte	0
+ 136 006a 6F       		.byte	111
+ 137 006b 00       		.byte	0
+ 138 006c 74       		.byte	116
+ 139 006d 00       		.byte	0
+ 140 006e 74       		.byte	116
+ 141 006f 00       		.byte	0
+ 142 0070 67       		.byte	103
+ 143 0071 00       		.byte	0
+ 144 0072 61       		.byte	97
+ 145 0073 00       		.byte	0
+ 146 0074 64       		.byte	100
+ 147 0075 00       		.byte	0
+ 148 0076 67       		.byte	103
+ 149 0077 00       		.byte	0
+ 150 0078 65       		.byte	101
+ 151 0079 00       		.byte	0
+ 152 007a 74       		.byte	116
+ 153 007b 00       		.byte	0
+ 154 007c 73       		.byte	115
+ 155 007d 00       		.byte	0
+ 156 007e 2F       		.byte	47
+ 157 007f 00       		.byte	0
+ 158 0080 75       		.byte	117
+ 159 0081 00       		.byte	0
+ 160 0082 62       		.byte	98
+ 161 0083 00       		.byte	0
+ 162 0084 65       		.byte	101
+ 163 0085 00       		.byte	0
+ 164 0086 72       		.byte	114
+ 165 0087 00       		.byte	0
+ 166 0088 74       		.byte	116
+ 167 0089 00       		.byte	0
+ 168 008a 6F       		.byte	111
+ 169 008b 00       		.byte	0
+ 170 008c 6F       		.byte	111
+ 171 008d 00       		.byte	0
+ 172 008e 74       		.byte	116
+ 173 008f 00       		.byte	0
+ 174 0090 68       		.byte	104
+ 175 0091 00       		.byte	0
+ARM GAS  /tmp/ccY9RUNA.s 			page 4
+
+
+ 176 0092 1E       		.byte	30
+ 177 0093 03       		.byte	3
+ 178 0094 62       		.byte	98
+ 179 0095 00       		.byte	0
+ 180 0096 6C       		.byte	108
+ 181 0097 00       		.byte	0
+ 182 0098 75       		.byte	117
+ 183 0099 00       		.byte	0
+ 184 009a 65       		.byte	101
+ 185 009b 00       		.byte	0
+ 186 009c 74       		.byte	116
+ 187 009d 00       		.byte	0
+ 188 009e 6F       		.byte	111
+ 189 009f 00       		.byte	0
+ 190 00a0 6F       		.byte	111
+ 191 00a1 00       		.byte	0
+ 192 00a2 74       		.byte	116
+ 193 00a3 00       		.byte	0
+ 194 00a4 68       		.byte	104
+ 195 00a5 00       		.byte	0
+ 196 00a6 5F       		.byte	95
+ 197 00a7 00       		.byte	0
+ 198 00a8 72       		.byte	114
+ 199 00a9 00       		.byte	0
+ 200 00aa 78       		.byte	120
+ 201 00ab 00       		.byte	0
+ 202 00ac 74       		.byte	116
+ 203 00ad 00       		.byte	0
+ 204 00ae 78       		.byte	120
+ 205 00af 00       		.byte	0
+ 206 00b0 12       		.byte	18
+ 207 00b1 03       		.byte	3
+ 208 00b2 30       		.byte	48
+ 209 00b3 00       		.byte	0
+ 210 00b4 30       		.byte	48
+ 211 00b5 00       		.byte	0
+ 212 00b6 30       		.byte	48
+ 213 00b7 00       		.byte	0
+ 214 00b8 30       		.byte	48
+ 215 00b9 00       		.byte	0
+ 216 00ba 30       		.byte	48
+ 217 00bb 00       		.byte	0
+ 218 00bc 30       		.byte	48
+ 219 00bd 00       		.byte	0
+ 220 00be 30       		.byte	48
+ 221 00bf 00       		.byte	0
+ 222 00c0 31       		.byte	49
+ 223 00c1 00       		.byte	0
+ 224 00c2 00       		.byte	0
+ 225              		.comm	abVendorReqData,258,4
+ 226              		.comm	v_req_handler,4,4
+ 227              		.section	.text.usb_vendor_request_handler,"ax",%progbits
+ 228              		.align	2
+ 229              		.global	usb_vendor_request_handler
+ 230              		.thumb
+ 231              		.thumb_func
+ 233              	usb_vendor_request_handler:
+ARM GAS  /tmp/ccY9RUNA.s 			page 5
+
+
+ 234              	.LFB0:
+ 235              		.file 1 "ubertooth_usb.c"
+   1:ubertooth_usb.c **** /*
+   2:ubertooth_usb.c ****  * Copyright 2010 Michael Ossmann
+   3:ubertooth_usb.c ****  * Copyright 2013 Dominic Spill
+   4:ubertooth_usb.c ****  *
+   5:ubertooth_usb.c ****  * This file is part of Project Ubertooth.
+   6:ubertooth_usb.c ****  *
+   7:ubertooth_usb.c ****  * This program is free software; you can redistribute it and/or modify
+   8:ubertooth_usb.c ****  * it under the terms of the GNU General Public License as published by
+   9:ubertooth_usb.c ****  * the Free Software Foundation; either version 2, or (at your option)
+  10:ubertooth_usb.c ****  * any later version.
+  11:ubertooth_usb.c ****  *
+  12:ubertooth_usb.c ****  * This program is distributed in the hope that it will be useful,
+  13:ubertooth_usb.c ****  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  14:ubertooth_usb.c ****  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  15:ubertooth_usb.c ****  * GNU General Public License for more details.
+  16:ubertooth_usb.c ****  *
+  17:ubertooth_usb.c ****  * You should have received a copy of the GNU General Public License
+  18:ubertooth_usb.c ****  * along with this program; see the file COPYING.  If not, write to
+  19:ubertooth_usb.c ****  * the Free Software Foundation, Inc., 51 Franklin Street,
+  20:ubertooth_usb.c ****  * Boston, MA 02110-1301, USA.
+  21:ubertooth_usb.c ****  */
+  22:ubertooth_usb.c **** 
+  23:ubertooth_usb.c **** /*
+  24:ubertooth_usb.c **** 	LPCUSB, an USB device driver for LPC microcontrollers	
+  25:ubertooth_usb.c **** 	Copyright (C) 2006 Bertrik Sikken (bertrik@sikken.nl)
+  26:ubertooth_usb.c **** 
+  27:ubertooth_usb.c **** 	Redistribution and use in source and binary forms, with or without
+  28:ubertooth_usb.c **** 	modification, are permitted provided that the following conditions are met:
+  29:ubertooth_usb.c **** 
+  30:ubertooth_usb.c **** 	1. Redistributions of source code must retain the above copyright
+  31:ubertooth_usb.c **** 	   notice, this list of conditions and the following disclaimer.
+  32:ubertooth_usb.c **** 	2. Redistributions in binary form must reproduce the above copyright
+  33:ubertooth_usb.c **** 	   notice, this list of conditions and the following disclaimer in the
+  34:ubertooth_usb.c **** 	   documentation and/or other materials provided with the distribution.
+  35:ubertooth_usb.c **** 	3. The name of the author may not be used to endorse or promote products
+  36:ubertooth_usb.c **** 	   derived from this software without specific prior written permission.
+  37:ubertooth_usb.c **** 
+  38:ubertooth_usb.c **** 	THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+  39:ubertooth_usb.c **** 	IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+  40:ubertooth_usb.c **** 	OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+  41:ubertooth_usb.c **** 	IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, 
+  42:ubertooth_usb.c **** 	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+  43:ubertooth_usb.c **** 	NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  44:ubertooth_usb.c **** 	DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  45:ubertooth_usb.c **** 	THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  46:ubertooth_usb.c **** 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+  47:ubertooth_usb.c **** 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  48:ubertooth_usb.c **** */
+  49:ubertooth_usb.c **** 
+  50:ubertooth_usb.c **** #include "usbapi.h"
+  51:ubertooth_usb.c **** #include "usbhw_lpc.h"
+  52:ubertooth_usb.c **** #include "ubertooth_usb.h"
+  53:ubertooth_usb.c **** 
+  54:ubertooth_usb.c **** #ifdef UBERTOOTH_ZERO
+  55:ubertooth_usb.c **** #define ID_VENDOR 0x1D50
+ARM GAS  /tmp/ccY9RUNA.s 			page 6
+
+
+  56:ubertooth_usb.c **** #define ID_PRODUCT 0x6000
+  57:ubertooth_usb.c **** #elif defined UBERTOOTH_ONE
+  58:ubertooth_usb.c **** #define ID_VENDOR 0x1D50
+  59:ubertooth_usb.c **** #define ID_PRODUCT 0x6002
+  60:ubertooth_usb.c **** #elif defined TC13BADGE
+  61:ubertooth_usb.c **** #define ID_VENDOR 0xFFFF
+  62:ubertooth_usb.c **** #define ID_PRODUCT 0x0004
+  63:ubertooth_usb.c **** #else
+  64:ubertooth_usb.c **** #define ID_VENDOR 0xFFFF
+  65:ubertooth_usb.c **** #define ID_PRODUCT 0x0004
+  66:ubertooth_usb.c **** #endif
+  67:ubertooth_usb.c **** 
+  68:ubertooth_usb.c **** #define BULK_IN_EP		0x82
+  69:ubertooth_usb.c **** #define BULK_OUT_EP		0x05
+  70:ubertooth_usb.c **** 
+  71:ubertooth_usb.c **** #define MAX_PACKET_SIZE	64
+  72:ubertooth_usb.c **** 
+  73:ubertooth_usb.c **** #define LE_WORD(x)		((x)&0xFF),((x)>>8)
+  74:ubertooth_usb.c **** 
+  75:ubertooth_usb.c **** /*
+  76:ubertooth_usb.c ****  * This is supposed to be a lock-free ring buffer, but I haven't verified
+  77:ubertooth_usb.c ****  * atomicity of the operations on head and tail.
+  78:ubertooth_usb.c ****  */
+  79:ubertooth_usb.c **** 
+  80:ubertooth_usb.c **** const u8 abDescriptors[] = {
+  81:ubertooth_usb.c **** 
+  82:ubertooth_usb.c **** /* Device descriptor */
+  83:ubertooth_usb.c **** 	0x12,              		
+  84:ubertooth_usb.c **** 	DESC_DEVICE,       		
+  85:ubertooth_usb.c **** 	LE_WORD(0x0200),		// bcdUSB	
+  86:ubertooth_usb.c **** 	0xFF,              		// bDeviceClass
+  87:ubertooth_usb.c **** 	0x00,              		// bDeviceSubClass
+  88:ubertooth_usb.c **** 	0x00,              		// bDeviceProtocol
+  89:ubertooth_usb.c **** 	MAX_PACKET_SIZE0,  		// bMaxPacketSize
+  90:ubertooth_usb.c **** 	LE_WORD(ID_VENDOR),		// idVendor
+  91:ubertooth_usb.c **** 	LE_WORD(ID_PRODUCT),	// idProduct
+  92:ubertooth_usb.c **** 	LE_WORD(0x0101),		// bcdDevice
+  93:ubertooth_usb.c **** 	0x01,              		// iManufacturer
+  94:ubertooth_usb.c **** 	0x02,              		// iProduct
+  95:ubertooth_usb.c **** 	0x03,              		// iSerialNumber
+  96:ubertooth_usb.c **** 	0x01,              		// bNumConfigurations
+  97:ubertooth_usb.c **** 
+  98:ubertooth_usb.c **** // configuration
+  99:ubertooth_usb.c **** 	0x09,
+ 100:ubertooth_usb.c **** 	DESC_CONFIGURATION,
+ 101:ubertooth_usb.c **** 	LE_WORD(0x20),  		// wTotalLength
+ 102:ubertooth_usb.c **** 	0x01,  					// bNumInterfaces
+ 103:ubertooth_usb.c **** 	0x01,  					// bConfigurationValue
+ 104:ubertooth_usb.c **** 	0x00,  					// iConfiguration
+ 105:ubertooth_usb.c **** 	0x80,  					// bmAttributes
+ 106:ubertooth_usb.c **** 	0x6e,  					// bMaxPower (220mA)
+ 107:ubertooth_usb.c **** 
+ 108:ubertooth_usb.c **** // interface
+ 109:ubertooth_usb.c **** 	0x09,   				
+ 110:ubertooth_usb.c **** 	DESC_INTERFACE, 
+ 111:ubertooth_usb.c **** 	0x00,  		 			// bInterfaceNumber
+ 112:ubertooth_usb.c **** 	0x00,   				// bAlternateSetting
+ARM GAS  /tmp/ccY9RUNA.s 			page 7
+
+
+ 113:ubertooth_usb.c **** 	0x02,   				// bNumEndPoints
+ 114:ubertooth_usb.c **** 	0xFF,   				// bInterfaceClass
+ 115:ubertooth_usb.c **** 	0x00,   				// bInterfaceSubClass
+ 116:ubertooth_usb.c **** 	0x00,   				// bInterfaceProtocol
+ 117:ubertooth_usb.c **** 	0x00,   				// iInterface
+ 118:ubertooth_usb.c **** 
+ 119:ubertooth_usb.c **** // bulk in
+ 120:ubertooth_usb.c **** 	0x07,   		
+ 121:ubertooth_usb.c **** 	DESC_ENDPOINT,   		
+ 122:ubertooth_usb.c **** 	BULK_IN_EP,				// bEndpointAddress
+ 123:ubertooth_usb.c **** 	0x02,   				// bmAttributes = BULK
+ 124:ubertooth_usb.c **** 	LE_WORD(MAX_PACKET_SIZE),// wMaxPacketSize
+ 125:ubertooth_usb.c **** 	0,						// bInterval   		
+ 126:ubertooth_usb.c **** 
+ 127:ubertooth_usb.c **** // bulk out
+ 128:ubertooth_usb.c **** 	0x07,   		
+ 129:ubertooth_usb.c **** 	DESC_ENDPOINT,   		
+ 130:ubertooth_usb.c **** 	BULK_OUT_EP,			// bEndpointAddress
+ 131:ubertooth_usb.c **** 	0x02,   				// bmAttributes = BULK
+ 132:ubertooth_usb.c **** 	LE_WORD(MAX_PACKET_SIZE),// wMaxPacketSize
+ 133:ubertooth_usb.c **** 	0,						// bInterval 
+ 134:ubertooth_usb.c **** 
+ 135:ubertooth_usb.c **** // string descriptors
+ 136:ubertooth_usb.c **** 	0x04,
+ 137:ubertooth_usb.c **** 	DESC_STRING,
+ 138:ubertooth_usb.c **** 	LE_WORD(0x0409),
+ 139:ubertooth_usb.c **** 
+ 140:ubertooth_usb.c **** 	// manufacturer string
+ 141:ubertooth_usb.c **** 	0x5C,
+ 142:ubertooth_usb.c **** 	DESC_STRING,
+ 143:ubertooth_usb.c **** 	'h', 0, 't', 0, 't', 0, 'p', 0, ':', 0, '/', 0, '/', 0, 'g', 0,
+ 144:ubertooth_usb.c **** 	'i', 0, 't', 0, 'h', 0, 'u', 0, 'b', 0, '.', 0, 'c', 0, 'o', 0,
+ 145:ubertooth_usb.c **** 	'm', 0, '/', 0, 'g', 0, 'r', 0, 'e', 0, 'a', 0, 't', 0, 's', 0,
+ 146:ubertooth_usb.c **** 	'c', 0, 'o', 0, 't', 0, 't', 0, 'g', 0, 'a', 0, 'd', 0, 'g', 0,
+ 147:ubertooth_usb.c **** 	'e', 0, 't', 0, 's', 0, '/', 0, 'u', 0, 'b', 0, 'e', 0, 'r', 0,
+ 148:ubertooth_usb.c **** 	't', 0, 'o', 0, 'o', 0, 't', 0, 'h', 0,
+ 149:ubertooth_usb.c **** 
+ 150:ubertooth_usb.c **** 	// product string
+ 151:ubertooth_usb.c **** 	0x1E,
+ 152:ubertooth_usb.c **** 	DESC_STRING,
+ 153:ubertooth_usb.c **** 	'b', 0, 'l', 0, 'u', 0, 'e', 0, 't', 0, 'o', 0, 'o', 0, 't', 0, 'h', 0, '_', 0,
+ 154:ubertooth_usb.c **** 	'r', 0, 'x', 0, 't', 0, 'x', 0,
+ 155:ubertooth_usb.c **** 
+ 156:ubertooth_usb.c **** 	// serial number string
+ 157:ubertooth_usb.c **** 	0x12,
+ 158:ubertooth_usb.c **** 	DESC_STRING,
+ 159:ubertooth_usb.c **** 	'0', 0, '0', 0, '0', 0, '0', 0, '0', 0, '0', 0, '0', 0, '1', 0,
+ 160:ubertooth_usb.c **** 
+ 161:ubertooth_usb.c **** 	// terminator
+ 162:ubertooth_usb.c **** 	0
+ 163:ubertooth_usb.c **** };
+ 164:ubertooth_usb.c **** 
+ 165:ubertooth_usb.c **** 
+ 166:ubertooth_usb.c **** u8 abVendorReqData[258];
+ 167:ubertooth_usb.c **** 
+ 168:ubertooth_usb.c **** /* Unused functions
+ 169:ubertooth_usb.c **** void usb_bulk_in_handler(u8 bEP, u8 bEPStatus)
+ARM GAS  /tmp/ccY9RUNA.s 			page 8
+
+
+ 170:ubertooth_usb.c **** {
+ 171:ubertooth_usb.c **** 	if (!(bEPStatus & EP_STATUS_DATA))
+ 172:ubertooth_usb.c **** 		dequeue_send();
+ 173:ubertooth_usb.c **** }
+ 174:ubertooth_usb.c **** 
+ 175:ubertooth_usb.c **** void usb_bulk_out_handler(u8 bEP, u8 bEPStatus)
+ 176:ubertooth_usb.c **** {
+ 177:ubertooth_usb.c **** }
+ 178:ubertooth_usb.c **** */
+ 179:ubertooth_usb.c **** 
+ 180:ubertooth_usb.c **** VendorRequestHandler *v_req_handler;
+ 181:ubertooth_usb.c **** 
+ 182:ubertooth_usb.c **** BOOL usb_vendor_request_handler(TSetupPacket *pSetup, int *piLen, u8 **ppbData)
+ 183:ubertooth_usb.c **** {
+ 236              		.loc 1 183 0
+ 237              		.cfi_startproc
+ 238              		@ args = 0, pretend = 0, frame = 24
+ 239              		@ frame_needed = 1, uses_anonymous_args = 0
+ 240 0000 90B5     		push	{r4, r7, lr}
+ 241              		.cfi_def_cfa_offset 12
+ 242              		.cfi_offset 4, -12
+ 243              		.cfi_offset 7, -8
+ 244              		.cfi_offset 14, -4
+ 245 0002 87B0     		sub	sp, sp, #28
+ 246              		.cfi_def_cfa_offset 40
+ 247 0004 00AF     		add	r7, sp, #0
+ 248              		.cfi_def_cfa_register 7
+ 249 0006 F860     		str	r0, [r7, #12]
+ 250 0008 B960     		str	r1, [r7, #8]
+ 251 000a 7A60     		str	r2, [r7, #4]
+ 184:ubertooth_usb.c **** 	int rv;
+ 185:ubertooth_usb.c **** 	u16 params[2] = {pSetup->wValue, pSetup->wIndex};
+ 252              		.loc 1 185 0
+ 253 000c FB68     		ldr	r3, [r7, #12]
+ 254 000e 5B88     		ldrh	r3, [r3, #2]
+ 255 0010 3B82     		strh	r3, [r7, #16]	@ movhi
+ 256 0012 FB68     		ldr	r3, [r7, #12]
+ 257 0014 9B88     		ldrh	r3, [r3, #4]
+ 258 0016 7B82     		strh	r3, [r7, #18]	@ movhi
+ 186:ubertooth_usb.c **** 	rv = v_req_handler(pSetup->bRequest, params, *ppbData, piLen);
+ 259              		.loc 1 186 0
+ 260 0018 0B4B     		ldr	r3, .L3
+ 261 001a 1C68     		ldr	r4, [r3]
+ 262 001c FB68     		ldr	r3, [r7, #12]
+ 263 001e 5978     		ldrb	r1, [r3, #1]	@ zero_extendqisi2
+ 264 0020 7B68     		ldr	r3, [r7, #4]
+ 265 0022 1B68     		ldr	r3, [r3]
+ 266 0024 07F11002 		add	r2, r7, #16
+ 267 0028 0846     		mov	r0, r1
+ 268 002a 1146     		mov	r1, r2
+ 269 002c 1A46     		mov	r2, r3
+ 270 002e BB68     		ldr	r3, [r7, #8]
+ 271 0030 A047     		blx	r4
+ 272 0032 7861     		str	r0, [r7, #20]
+ 187:ubertooth_usb.c **** 	return (BOOL) (rv==1);
+ 273              		.loc 1 187 0
+ 274 0034 7B69     		ldr	r3, [r7, #20]
+ARM GAS  /tmp/ccY9RUNA.s 			page 9
+
+
+ 275 0036 012B     		cmp	r3, #1
+ 276 0038 0CBF     		ite	eq
+ 277 003a 0123     		moveq	r3, #1
+ 278 003c 0023     		movne	r3, #0
+ 279 003e DBB2     		uxtb	r3, r3
+ 188:ubertooth_usb.c **** }
+ 280              		.loc 1 188 0
+ 281 0040 1846     		mov	r0, r3
+ 282 0042 1C37     		adds	r7, r7, #28
+ 283              		.cfi_def_cfa_offset 12
+ 284 0044 BD46     		mov	sp, r7
+ 285              		.cfi_def_cfa_register 13
+ 286              		@ sp needed
+ 287 0046 90BD     		pop	{r4, r7, pc}
+ 288              	.L4:
+ 289              		.align	2
+ 290              	.L3:
+ 291 0048 00000000 		.word	v_req_handler
+ 292              		.cfi_endproc
+ 293              	.LFE0:
+ 295              		.section	.rodata
+ 296 00c3 00       		.align	2
+ 297              	.LC0:
+ 298 00c4 7B386163 		.ascii	"{8ac47a88-cc26-4aa9-887b-42ca8cf07a63}\000"
+ 298      34376138 
+ 298      382D6363 
+ 298      32362D34 
+ 298      6161392D 
+ 299              		.section	.text.ubertooth_usb_init,"ax",%progbits
+ 300              		.align	2
+ 301              		.global	ubertooth_usb_init
+ 302              		.thumb
+ 303              		.thumb_func
+ 305              	ubertooth_usb_init:
+ 306              	.LFB1:
+ 189:ubertooth_usb.c **** 
+ 190:ubertooth_usb.c **** int ubertooth_usb_init(VendorRequestHandler *vendor_req_handler)
+ 191:ubertooth_usb.c **** {
+ 307              		.loc 1 191 0
+ 308              		.cfi_startproc
+ 309              		@ args = 0, pretend = 0, frame = 8
+ 310              		@ frame_needed = 1, uses_anonymous_args = 0
+ 311 0000 80B5     		push	{r7, lr}
+ 312              		.cfi_def_cfa_offset 8
+ 313              		.cfi_offset 7, -8
+ 314              		.cfi_offset 14, -4
+ 315 0002 82B0     		sub	sp, sp, #8
+ 316              		.cfi_def_cfa_offset 16
+ 317 0004 00AF     		add	r7, sp, #0
+ 318              		.cfi_def_cfa_register 7
+ 319 0006 7860     		str	r0, [r7, #4]
+ 192:ubertooth_usb.c **** 	// initialise stack
+ 193:ubertooth_usb.c **** 	USBInit();
+ 320              		.loc 1 193 0
+ 321 0008 FFF7FEFF 		bl	USBInit
+ 194:ubertooth_usb.c **** 	
+ 195:ubertooth_usb.c **** 	// register device descriptors
+ARM GAS  /tmp/ccY9RUNA.s 			page 10
+
+
+ 196:ubertooth_usb.c **** 	USBRegisterDescriptors(abDescriptors);
+ 322              		.loc 1 196 0
+ 323 000c 0B48     		ldr	r0, .L7
+ 324 000e FFF7FEFF 		bl	USBRegisterDescriptors
+ 197:ubertooth_usb.c **** 
+ 198:ubertooth_usb.c **** 	// Request handler 
+ 199:ubertooth_usb.c **** 	v_req_handler = vendor_req_handler;
+ 325              		.loc 1 199 0
+ 326 0012 0B4A     		ldr	r2, .L7+4
+ 327 0014 7B68     		ldr	r3, [r7, #4]
+ 328 0016 1360     		str	r3, [r2]
+ 200:ubertooth_usb.c **** 
+ 201:ubertooth_usb.c **** 	// override standard request handler
+ 202:ubertooth_usb.c **** 	USBRegisterRequestHandler(REQTYPE_TYPE_VENDOR, usb_vendor_request_handler, abVendorReqData);
+ 329              		.loc 1 202 0
+ 330 0018 0220     		movs	r0, #2
+ 331 001a 0A49     		ldr	r1, .L7+8
+ 332 001c 0A4A     		ldr	r2, .L7+12
+ 333 001e FFF7FEFF 		bl	USBRegisterRequestHandler
+ 203:ubertooth_usb.c **** 
+ 204:ubertooth_usb.c **** 	// register endpoints
+ 205:ubertooth_usb.c **** 	//USBHwRegisterEPIntHandler(BULK_IN_EP, usb_bulk_in_handler);
+ 206:ubertooth_usb.c **** 	//USBHwRegisterEPIntHandler(BULK_OUT_EP, usb_bulk_out_handler);
+ 207:ubertooth_usb.c **** 
+ 208:ubertooth_usb.c **** 	// enable USB interrupts
+ 209:ubertooth_usb.c **** 	//ISER0 = ISER0_ISE_USB;
+ 210:ubertooth_usb.c **** 
+ 211:ubertooth_usb.c **** 	// Enable WCID / driverless setup on Windows - Consumes Vendor Request 0xFF
+ 212:ubertooth_usb.c **** 	USBRegisterWinusbInterface(0xFF, "{8ac47a88-cc26-4aa9-887b-42ca8cf07a63}");
+ 334              		.loc 1 212 0
+ 335 0022 FF20     		movs	r0, #255
+ 336 0024 0949     		ldr	r1, .L7+16
+ 337 0026 FFF7FEFF 		bl	USBRegisterWinusbInterface
+ 213:ubertooth_usb.c **** 
+ 214:ubertooth_usb.c **** 	// connect to bus
+ 215:ubertooth_usb.c **** 	USBHwConnect(TRUE);
+ 338              		.loc 1 215 0
+ 339 002a 0120     		movs	r0, #1
+ 340 002c FFF7FEFF 		bl	USBHwConnect
+ 216:ubertooth_usb.c **** 
+ 217:ubertooth_usb.c **** 	return 0;
+ 341              		.loc 1 217 0
+ 342 0030 0023     		movs	r3, #0
+ 218:ubertooth_usb.c **** }
+ 343              		.loc 1 218 0
+ 344 0032 1846     		mov	r0, r3
+ 345 0034 0837     		adds	r7, r7, #8
+ 346              		.cfi_def_cfa_offset 8
+ 347 0036 BD46     		mov	sp, r7
+ 348              		.cfi_def_cfa_register 13
+ 349              		@ sp needed
+ 350 0038 80BD     		pop	{r7, pc}
+ 351              	.L8:
+ 352 003a 00BF     		.align	2
+ 353              	.L7:
+ 354 003c 00000000 		.word	abDescriptors
+ 355 0040 00000000 		.word	v_req_handler
+ARM GAS  /tmp/ccY9RUNA.s 			page 11
+
+
+ 356 0044 00000000 		.word	usb_vendor_request_handler
+ 357 0048 00000000 		.word	abVendorReqData
+ 358 004c C4000000 		.word	.LC0
+ 359              		.cfi_endproc
+ 360              	.LFE1:
+ 362              		.comm	fifo,8192,4
+ 363              		.global	head
+ 364              		.bss
+ 365              		.align	2
+ 368              	head:
+ 369 0000 00000000 		.space	4
+ 370              		.global	tail
+ 371              		.align	2
+ 374              	tail:
+ 375 0004 00000000 		.space	4
+ 376              		.section	.text.queue_init,"ax",%progbits
+ 377              		.align	2
+ 378              		.global	queue_init
+ 379              		.thumb
+ 380              		.thumb_func
+ 382              	queue_init:
+ 383              	.LFB2:
+ 219:ubertooth_usb.c **** 
+ 220:ubertooth_usb.c **** usb_pkt_rx fifo[128];
+ 221:ubertooth_usb.c **** 
+ 222:ubertooth_usb.c **** volatile u32 head = 0;
+ 223:ubertooth_usb.c **** volatile u32 tail = 0;
+ 224:ubertooth_usb.c **** 
+ 225:ubertooth_usb.c **** void queue_init()
+ 226:ubertooth_usb.c **** {
+ 384              		.loc 1 226 0
+ 385              		.cfi_startproc
+ 386              		@ args = 0, pretend = 0, frame = 0
+ 387              		@ frame_needed = 1, uses_anonymous_args = 0
+ 388              		@ link register save eliminated.
+ 389 0000 80B4     		push	{r7}
+ 390              		.cfi_def_cfa_offset 4
+ 391              		.cfi_offset 7, -4
+ 392 0002 00AF     		add	r7, sp, #0
+ 393              		.cfi_def_cfa_register 7
+ 227:ubertooth_usb.c **** 	head = 0;
+ 394              		.loc 1 227 0
+ 395 0004 044B     		ldr	r3, .L10
+ 396 0006 0022     		movs	r2, #0
+ 397 0008 1A60     		str	r2, [r3]
+ 228:ubertooth_usb.c **** 	tail = 0;
+ 398              		.loc 1 228 0
+ 399 000a 044B     		ldr	r3, .L10+4
+ 400 000c 0022     		movs	r2, #0
+ 401 000e 1A60     		str	r2, [r3]
+ 229:ubertooth_usb.c **** }
+ 402              		.loc 1 229 0
+ 403 0010 BD46     		mov	sp, r7
+ 404              		.cfi_def_cfa_register 13
+ 405              		@ sp needed
+ 406 0012 5DF8047B 		ldr	r7, [sp], #4
+ 407              		.cfi_restore 7
+ARM GAS  /tmp/ccY9RUNA.s 			page 12
+
+
+ 408              		.cfi_def_cfa_offset 0
+ 409 0016 7047     		bx	lr
+ 410              	.L11:
+ 411              		.align	2
+ 412              	.L10:
+ 413 0018 00000000 		.word	head
+ 414 001c 00000000 		.word	tail
+ 415              		.cfi_endproc
+ 416              	.LFE2:
+ 418              		.section	.text.usb_enqueue,"ax",%progbits
+ 419              		.align	2
+ 420              		.global	usb_enqueue
+ 421              		.thumb
+ 422              		.thumb_func
+ 424              	usb_enqueue:
+ 425              	.LFB3:
+ 230:ubertooth_usb.c **** 
+ 231:ubertooth_usb.c **** usb_pkt_rx *usb_enqueue()
+ 232:ubertooth_usb.c **** {
+ 426              		.loc 1 232 0
+ 427              		.cfi_startproc
+ 428              		@ args = 0, pretend = 0, frame = 8
+ 429              		@ frame_needed = 1, uses_anonymous_args = 0
+ 430              		@ link register save eliminated.
+ 431 0000 80B4     		push	{r7}
+ 432              		.cfi_def_cfa_offset 4
+ 433              		.cfi_offset 7, -4
+ 434 0002 83B0     		sub	sp, sp, #12
+ 435              		.cfi_def_cfa_offset 16
+ 436 0004 00AF     		add	r7, sp, #0
+ 437              		.cfi_def_cfa_register 7
+ 233:ubertooth_usb.c **** 	u8 h = head & 0x7F;
+ 438              		.loc 1 233 0
+ 439 0006 134B     		ldr	r3, .L15
+ 440 0008 1B68     		ldr	r3, [r3]
+ 441 000a DBB2     		uxtb	r3, r3
+ 442 000c 03F07F03 		and	r3, r3, #127
+ 443 0010 FB71     		strb	r3, [r7, #7]
+ 234:ubertooth_usb.c **** 	u8 t = tail & 0x7F;
+ 444              		.loc 1 234 0
+ 445 0012 114B     		ldr	r3, .L15+4
+ 446 0014 1B68     		ldr	r3, [r3]
+ 447 0016 DBB2     		uxtb	r3, r3
+ 448 0018 03F07F03 		and	r3, r3, #127
+ 449 001c BB71     		strb	r3, [r7, #6]
+ 235:ubertooth_usb.c **** 	u8 n = (t + 1) & 0x7F;
+ 450              		.loc 1 235 0
+ 451 001e BB79     		ldrb	r3, [r7, #6]
+ 452 0020 0133     		adds	r3, r3, #1
+ 453 0022 DBB2     		uxtb	r3, r3
+ 454 0024 03F07F03 		and	r3, r3, #127
+ 455 0028 7B71     		strb	r3, [r7, #5]
+ 236:ubertooth_usb.c **** 
+ 237:ubertooth_usb.c **** 	/* fail if queue is full */
+ 238:ubertooth_usb.c **** 	if (h == n) {
+ 456              		.loc 1 238 0
+ 457 002a FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ARM GAS  /tmp/ccY9RUNA.s 			page 13
+
+
+ 458 002c 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
+ 459 002e 9A42     		cmp	r2, r3
+ 460 0030 01D1     		bne	.L13
+ 239:ubertooth_usb.c **** 		return NULL;
+ 461              		.loc 1 239 0
+ 462 0032 0023     		movs	r3, #0
+ 463 0034 08E0     		b	.L14
+ 464              	.L13:
+ 240:ubertooth_usb.c **** 	}
+ 241:ubertooth_usb.c **** 
+ 242:ubertooth_usb.c **** 	++tail;
+ 465              		.loc 1 242 0
+ 466 0036 084B     		ldr	r3, .L15+4
+ 467 0038 1B68     		ldr	r3, [r3]
+ 468 003a 0133     		adds	r3, r3, #1
+ 469 003c 064A     		ldr	r2, .L15+4
+ 470 003e 1360     		str	r3, [r2]
+ 243:ubertooth_usb.c **** 	return &fifo[t];
+ 471              		.loc 1 243 0
+ 472 0040 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 473 0042 9B01     		lsls	r3, r3, #6
+ 474 0044 054A     		ldr	r2, .L15+8
+ 475 0046 1344     		add	r3, r3, r2
+ 476              	.L14:
+ 244:ubertooth_usb.c **** 	
+ 245:ubertooth_usb.c **** }
+ 477              		.loc 1 245 0
+ 478 0048 1846     		mov	r0, r3
+ 479 004a 0C37     		adds	r7, r7, #12
+ 480              		.cfi_def_cfa_offset 4
+ 481 004c BD46     		mov	sp, r7
+ 482              		.cfi_def_cfa_register 13
+ 483              		@ sp needed
+ 484 004e 5DF8047B 		ldr	r7, [sp], #4
+ 485              		.cfi_restore 7
+ 486              		.cfi_def_cfa_offset 0
+ 487 0052 7047     		bx	lr
+ 488              	.L16:
+ 489              		.align	2
+ 490              	.L15:
+ 491 0054 00000000 		.word	head
+ 492 0058 00000000 		.word	tail
+ 493 005c 00000000 		.word	fifo
+ 494              		.cfi_endproc
+ 495              	.LFE3:
+ 497              		.section	.text.dequeue,"ax",%progbits
+ 498              		.align	2
+ 499              		.global	dequeue
+ 500              		.thumb
+ 501              		.thumb_func
+ 503              	dequeue:
+ 504              	.LFB4:
+ 246:ubertooth_usb.c **** 
+ 247:ubertooth_usb.c **** usb_pkt_rx *dequeue()
+ 248:ubertooth_usb.c **** {
+ 505              		.loc 1 248 0
+ 506              		.cfi_startproc
+ARM GAS  /tmp/ccY9RUNA.s 			page 14
+
+
+ 507              		@ args = 0, pretend = 0, frame = 8
+ 508              		@ frame_needed = 1, uses_anonymous_args = 0
+ 509              		@ link register save eliminated.
+ 510 0000 80B4     		push	{r7}
+ 511              		.cfi_def_cfa_offset 4
+ 512              		.cfi_offset 7, -4
+ 513 0002 83B0     		sub	sp, sp, #12
+ 514              		.cfi_def_cfa_offset 16
+ 515 0004 00AF     		add	r7, sp, #0
+ 516              		.cfi_def_cfa_register 7
+ 249:ubertooth_usb.c **** 	u8 h = head & 0x7F;
+ 517              		.loc 1 249 0
+ 518 0006 104B     		ldr	r3, .L20
+ 519 0008 1B68     		ldr	r3, [r3]
+ 520 000a DBB2     		uxtb	r3, r3
+ 521 000c 03F07F03 		and	r3, r3, #127
+ 522 0010 FB71     		strb	r3, [r7, #7]
+ 250:ubertooth_usb.c **** 	u8 t = tail & 0x7F;
+ 523              		.loc 1 250 0
+ 524 0012 0E4B     		ldr	r3, .L20+4
+ 525 0014 1B68     		ldr	r3, [r3]
+ 526 0016 DBB2     		uxtb	r3, r3
+ 527 0018 03F07F03 		and	r3, r3, #127
+ 528 001c BB71     		strb	r3, [r7, #6]
+ 251:ubertooth_usb.c **** 
+ 252:ubertooth_usb.c **** 	/* fail if queue is empty */
+ 253:ubertooth_usb.c **** 	if (h == t) {
+ 529              		.loc 1 253 0
+ 530 001e FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 531 0020 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 532 0022 9A42     		cmp	r2, r3
+ 533 0024 01D1     		bne	.L18
+ 254:ubertooth_usb.c **** 		return NULL;
+ 534              		.loc 1 254 0
+ 535 0026 0023     		movs	r3, #0
+ 536 0028 08E0     		b	.L19
+ 537              	.L18:
+ 255:ubertooth_usb.c **** 	}
+ 256:ubertooth_usb.c **** 
+ 257:ubertooth_usb.c **** 	++head;
+ 538              		.loc 1 257 0
+ 539 002a 074B     		ldr	r3, .L20
+ 540 002c 1B68     		ldr	r3, [r3]
+ 541 002e 0133     		adds	r3, r3, #1
+ 542 0030 054A     		ldr	r2, .L20
+ 543 0032 1360     		str	r3, [r2]
+ 258:ubertooth_usb.c **** 	return &fifo[h];
+ 544              		.loc 1 258 0
+ 545 0034 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 546 0036 9B01     		lsls	r3, r3, #6
+ 547 0038 054A     		ldr	r2, .L20+8
+ 548 003a 1344     		add	r3, r3, r2
+ 549              	.L19:
+ 259:ubertooth_usb.c **** }
+ 550              		.loc 1 259 0
+ 551 003c 1846     		mov	r0, r3
+ 552 003e 0C37     		adds	r7, r7, #12
+ARM GAS  /tmp/ccY9RUNA.s 			page 15
+
+
+ 553              		.cfi_def_cfa_offset 4
+ 554 0040 BD46     		mov	sp, r7
+ 555              		.cfi_def_cfa_register 13
+ 556              		@ sp needed
+ 557 0042 5DF8047B 		ldr	r7, [sp], #4
+ 558              		.cfi_restore 7
+ 559              		.cfi_def_cfa_offset 0
+ 560 0046 7047     		bx	lr
+ 561              	.L21:
+ 562              		.align	2
+ 563              	.L20:
+ 564 0048 00000000 		.word	head
+ 565 004c 00000000 		.word	tail
+ 566 0050 00000000 		.word	fifo
+ 567              		.cfi_endproc
+ 568              	.LFE4:
+ 570              		.global	last_usb_pkt
+ 571              		.bss
+ 572              		.align	2
+ 575              	last_usb_pkt:
+ 576 0008 00000000 		.space	4
+ 577              		.section	.text.dequeue_send,"ax",%progbits
+ 578              		.align	2
+ 579              		.global	dequeue_send
+ 580              		.thumb
+ 581              		.thumb_func
+ 583              	dequeue_send:
+ 584              	.LFB5:
+ 260:ubertooth_usb.c **** 
+ 261:ubertooth_usb.c **** #define USB_KEEP_ALIVE 400000
+ 262:ubertooth_usb.c **** u32 last_usb_pkt = 0;  // for keep alive packets
+ 263:ubertooth_usb.c **** 
+ 264:ubertooth_usb.c **** int dequeue_send(u32 clkn)
+ 265:ubertooth_usb.c **** {
+ 585              		.loc 1 265 0
+ 586              		.cfi_startproc
+ 587              		@ args = 0, pretend = 0, frame = 16
+ 588              		@ frame_needed = 1, uses_anonymous_args = 0
+ 589 0000 80B5     		push	{r7, lr}
+ 590              		.cfi_def_cfa_offset 8
+ 591              		.cfi_offset 7, -8
+ 592              		.cfi_offset 14, -4
+ 593 0002 84B0     		sub	sp, sp, #16
+ 594              		.cfi_def_cfa_offset 24
+ 595 0004 00AF     		add	r7, sp, #0
+ 596              		.cfi_def_cfa_register 7
+ 597 0006 7860     		str	r0, [r7, #4]
+ 266:ubertooth_usb.c **** 	usb_pkt_rx *pkt = dequeue(&pkt);
+ 598              		.loc 1 266 0
+ 599 0008 07F10C03 		add	r3, r7, #12
+ 600 000c 1846     		mov	r0, r3
+ 601 000e FFF7FEFF 		bl	dequeue
+ 602 0012 0346     		mov	r3, r0
+ 603 0014 FB60     		str	r3, [r7, #12]
+ 267:ubertooth_usb.c **** 	if (pkt != NULL) {
+ 604              		.loc 1 267 0
+ 605 0016 FB68     		ldr	r3, [r7, #12]
+ARM GAS  /tmp/ccY9RUNA.s 			page 16
+
+
+ 606 0018 002B     		cmp	r3, #0
+ 607 001a 0AD0     		beq	.L23
+ 268:ubertooth_usb.c **** 		last_usb_pkt = clkn;
+ 608              		.loc 1 268 0
+ 609 001c 114A     		ldr	r2, .L27
+ 610 001e 7B68     		ldr	r3, [r7, #4]
+ 611 0020 1360     		str	r3, [r2]
+ 269:ubertooth_usb.c **** 		USBHwEPWrite(BULK_IN_EP, (u8 *)pkt, sizeof(usb_pkt_rx));
+ 612              		.loc 1 269 0
+ 613 0022 FB68     		ldr	r3, [r7, #12]
+ 614 0024 8220     		movs	r0, #130
+ 615 0026 1946     		mov	r1, r3
+ 616 0028 4022     		movs	r2, #64
+ 617 002a FFF7FEFF 		bl	USBHwEPWrite
+ 270:ubertooth_usb.c **** 		return 1;
+ 618              		.loc 1 270 0
+ 619 002e 0123     		movs	r3, #1
+ 620 0030 13E0     		b	.L26
+ 621              	.L23:
+ 271:ubertooth_usb.c **** 	} else {
+ 272:ubertooth_usb.c **** 		if (clkn - last_usb_pkt > USB_KEEP_ALIVE) {
+ 622              		.loc 1 272 0
+ 623 0032 0C4B     		ldr	r3, .L27
+ 624 0034 1B68     		ldr	r3, [r3]
+ 625 0036 7A68     		ldr	r2, [r7, #4]
+ 626 0038 D31A     		subs	r3, r2, r3
+ 627 003a 0B4A     		ldr	r2, .L27+4
+ 628 003c 9342     		cmp	r3, r2
+ 629 003e 0BD9     		bls	.L25
+ 630              	.LBB2:
+ 273:ubertooth_usb.c **** 			u8 pkt_type = KEEP_ALIVE;
+ 631              		.loc 1 273 0
+ 632 0040 0323     		movs	r3, #3
+ 633 0042 FB72     		strb	r3, [r7, #11]
+ 274:ubertooth_usb.c **** 			last_usb_pkt = clkn;
+ 634              		.loc 1 274 0
+ 635 0044 074A     		ldr	r2, .L27
+ 636 0046 7B68     		ldr	r3, [r7, #4]
+ 637 0048 1360     		str	r3, [r2]
+ 275:ubertooth_usb.c **** 			USBHwEPWrite(BULK_IN_EP, &pkt_type, 1);
+ 638              		.loc 1 275 0
+ 639 004a 07F10B03 		add	r3, r7, #11
+ 640 004e 8220     		movs	r0, #130
+ 641 0050 1946     		mov	r1, r3
+ 642 0052 0122     		movs	r2, #1
+ 643 0054 FFF7FEFF 		bl	USBHwEPWrite
+ 644              	.L25:
+ 645              	.LBE2:
+ 276:ubertooth_usb.c **** 		}
+ 277:ubertooth_usb.c **** 		return 0;
+ 646              		.loc 1 277 0
+ 647 0058 0023     		movs	r3, #0
+ 648              	.L26:
+ 278:ubertooth_usb.c **** 	}
+ 279:ubertooth_usb.c **** }
+ 649              		.loc 1 279 0 discriminator 1
+ 650 005a 1846     		mov	r0, r3
+ARM GAS  /tmp/ccY9RUNA.s 			page 17
+
+
+ 651 005c 1037     		adds	r7, r7, #16
+ 652              		.cfi_def_cfa_offset 8
+ 653 005e BD46     		mov	sp, r7
+ 654              		.cfi_def_cfa_register 13
+ 655              		@ sp needed
+ 656 0060 80BD     		pop	{r7, pc}
+ 657              	.L28:
+ 658 0062 00BF     		.align	2
+ 659              	.L27:
+ 660 0064 00000000 		.word	last_usb_pkt
+ 661 0068 801A0600 		.word	400000
+ 662              		.cfi_endproc
+ 663              	.LFE5:
+ 665              		.section	.text.handle_usb,"ax",%progbits
+ 666              		.align	2
+ 667              		.global	handle_usb
+ 668              		.thumb
+ 669              		.thumb_func
+ 671              	handle_usb:
+ 672              	.LFB6:
+ 280:ubertooth_usb.c **** 
+ 281:ubertooth_usb.c **** void handle_usb(u32 clkn)
+ 282:ubertooth_usb.c **** {
+ 673              		.loc 1 282 0
+ 674              		.cfi_startproc
+ 675              		@ args = 0, pretend = 0, frame = 16
+ 676              		@ frame_needed = 1, uses_anonymous_args = 0
+ 677 0000 80B5     		push	{r7, lr}
+ 678              		.cfi_def_cfa_offset 8
+ 679              		.cfi_offset 7, -8
+ 680              		.cfi_offset 14, -4
+ 681 0002 84B0     		sub	sp, sp, #16
+ 682              		.cfi_def_cfa_offset 24
+ 683 0004 00AF     		add	r7, sp, #0
+ 684              		.cfi_def_cfa_register 7
+ 685 0006 7860     		str	r0, [r7, #4]
+ 283:ubertooth_usb.c **** 	u8 epstat;
+ 284:ubertooth_usb.c **** 
+ 285:ubertooth_usb.c **** 	/* write queued packets to USB if possible */
+ 286:ubertooth_usb.c **** 	epstat = USBHwEPGetStatus(BULK_IN_EP);
+ 686              		.loc 1 286 0
+ 687 0008 8220     		movs	r0, #130
+ 688 000a FFF7FEFF 		bl	USBHwEPGetStatus
+ 689 000e 0346     		mov	r3, r0
+ 690 0010 FB73     		strb	r3, [r7, #15]
+ 287:ubertooth_usb.c **** 	if (!(epstat & EPSTAT_B1FULL)) {
+ 691              		.loc 1 287 0
+ 692 0012 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 693 0014 03F02003 		and	r3, r3, #32
+ 694 0018 002B     		cmp	r3, #0
+ 695 001a 02D1     		bne	.L30
+ 288:ubertooth_usb.c **** 		dequeue_send(clkn);
+ 696              		.loc 1 288 0
+ 697 001c 7868     		ldr	r0, [r7, #4]
+ 698 001e FFF7FEFF 		bl	dequeue_send
+ 699              	.L30:
+ 289:ubertooth_usb.c **** 	}
+ARM GAS  /tmp/ccY9RUNA.s 			page 18
+
+
+ 290:ubertooth_usb.c **** 	if (!(epstat & EPSTAT_B2FULL)) {
+ 700              		.loc 1 290 0
+ 701 0022 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 702 0024 03F04003 		and	r3, r3, #64
+ 703 0028 002B     		cmp	r3, #0
+ 704 002a 02D1     		bne	.L31
+ 291:ubertooth_usb.c **** 		dequeue_send(clkn);
+ 705              		.loc 1 291 0
+ 706 002c 7868     		ldr	r0, [r7, #4]
+ 707 002e FFF7FEFF 		bl	dequeue_send
+ 708              	.L31:
+ 292:ubertooth_usb.c **** 	}
+ 293:ubertooth_usb.c **** 
+ 294:ubertooth_usb.c **** 	/* polled "interrupt" */
+ 295:ubertooth_usb.c **** 	USBHwISR();
+ 709              		.loc 1 295 0
+ 710 0032 FFF7FEFF 		bl	USBHwISR
+ 296:ubertooth_usb.c **** }
+ 711              		.loc 1 296 0
+ 712 0036 1037     		adds	r7, r7, #16
+ 713              		.cfi_def_cfa_offset 8
+ 714 0038 BD46     		mov	sp, r7
+ 715              		.cfi_def_cfa_register 13
+ 716              		@ sp needed
+ 717 003a 80BD     		pop	{r7, pc}
+ 718              		.cfi_endproc
+ 719              	.LFE6:
+ 721              		.text
+ 722              	.Letext0:
+ 723              		.file 2 "../common/lpcusb/target/type.h"
+ 724              		.file 3 "../common/lpcusb/target/usbstruct.h"
+ 725              		.file 4 "/usr/lib/gcc/arm-none-eabi/4.9.3/include/stdint-gcc.h"
+ 726              		.file 5 "../../host/libubertooth/src/ubertooth_interface.h"
+ 727              		.file 6 "../common/ubertooth.h"
+ 728              		.file 7 "ubertooth_usb.h"
+ARM GAS  /tmp/ccY9RUNA.s 			page 19
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ubertooth_usb.c
+     /tmp/ccY9RUNA.s:19     .data:0000000000000000 $d
+     /tmp/ccY9RUNA.s:22     .data:0000000000000000 iap_entry
+     /tmp/ccY9RUNA.s:29     .rodata:0000000000000000 abDescriptors
+     /tmp/ccY9RUNA.s:26     .rodata:0000000000000000 $d
+                            *COM*:0000000000000102 abVendorReqData
+                            *COM*:0000000000000004 v_req_handler
+     /tmp/ccY9RUNA.s:228    .text.usb_vendor_request_handler:0000000000000000 $t
+     /tmp/ccY9RUNA.s:233    .text.usb_vendor_request_handler:0000000000000000 usb_vendor_request_handler
+     /tmp/ccY9RUNA.s:291    .text.usb_vendor_request_handler:0000000000000048 $d
+     /tmp/ccY9RUNA.s:300    .text.ubertooth_usb_init:0000000000000000 $t
+     /tmp/ccY9RUNA.s:305    .text.ubertooth_usb_init:0000000000000000 ubertooth_usb_init
+     /tmp/ccY9RUNA.s:354    .text.ubertooth_usb_init:000000000000003c $d
+                            *COM*:0000000000002000 fifo
+     /tmp/ccY9RUNA.s:368    .bss:0000000000000000 head
+     /tmp/ccY9RUNA.s:365    .bss:0000000000000000 $d
+     /tmp/ccY9RUNA.s:374    .bss:0000000000000004 tail
+     /tmp/ccY9RUNA.s:377    .text.queue_init:0000000000000000 $t
+     /tmp/ccY9RUNA.s:382    .text.queue_init:0000000000000000 queue_init
+     /tmp/ccY9RUNA.s:413    .text.queue_init:0000000000000018 $d
+     /tmp/ccY9RUNA.s:419    .text.usb_enqueue:0000000000000000 $t
+     /tmp/ccY9RUNA.s:424    .text.usb_enqueue:0000000000000000 usb_enqueue
+     /tmp/ccY9RUNA.s:491    .text.usb_enqueue:0000000000000054 $d
+     /tmp/ccY9RUNA.s:498    .text.dequeue:0000000000000000 $t
+     /tmp/ccY9RUNA.s:503    .text.dequeue:0000000000000000 dequeue
+     /tmp/ccY9RUNA.s:564    .text.dequeue:0000000000000048 $d
+     /tmp/ccY9RUNA.s:575    .bss:0000000000000008 last_usb_pkt
+     /tmp/ccY9RUNA.s:578    .text.dequeue_send:0000000000000000 $t
+     /tmp/ccY9RUNA.s:583    .text.dequeue_send:0000000000000000 dequeue_send
+     /tmp/ccY9RUNA.s:660    .text.dequeue_send:0000000000000064 $d
+     /tmp/ccY9RUNA.s:666    .text.handle_usb:0000000000000000 $t
+     /tmp/ccY9RUNA.s:671    .text.handle_usb:0000000000000000 handle_usb
+                     .debug_frame:0000000000000010 $d
+
+UNDEFINED SYMBOLS
+USBInit
+USBRegisterDescriptors
+USBRegisterRequestHandler
+USBRegisterWinusbInterface
+USBHwConnect
+USBHwEPWrite
+USBHwEPGetStatus
+USBHwISR
