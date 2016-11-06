@@ -1563,6 +1563,7 @@ void bt_stream_rx()
 	u8 diff = 0;
 	u8 k = 0;
 	u8 temp = 0;
+	u8 outage = 0;
 //	TXLED_SET;
 	queue_init();
 
@@ -1603,15 +1604,10 @@ void bt_stream_rx()
 
 //		diff_ts = CLK100NS - first_ts;
 //wpson
-		while (window < 10)
-		{
-		
+		while (window < 5)
+		{	
 			now = cc2400_get_rev(FREQEST);	 
-		//	diff = add (now, 0xfa); // 1->6
-		//	diff = add (now, 0xf9); // 2->7
-		//	diff = add (now, 0xfc); // 3->4
-		//	diff = add (now, 0xfb); // 4->5
-			diff = add (now, 0xf8); // 5->8
+			diff = add (now, old); // 5->8
 			if (diff & 0x80) 
 				diff = add (~diff, 1);	
 
@@ -1619,32 +1615,27 @@ void bt_stream_rx()
 				window++;
 			else
 			{
-				old++;
-				if (old > 1)
+				outage = add (outage, 1);
+				if (outage > 1)
 				{
-					old = 0;
+					outage = 0;
 					window = 0;
 				}
 			}
-		//	old = now;
+			old = now;
 		}
 	
+//		first_ts = CLK100NS;
+		rssi_avg = ((int8_t)cc2400_get_rev(RSSI) + (int8_t)cc2400_get_rev(RSSI))/2;
+//		freq_avg = now;
 
-	//	if (now >= 0 && now <= 3)
-		{
-	
-//			first_ts = CLK100NS;
-			rssi_avg = ((int8_t)cc2400_get_rev(RSSI) + (int8_t)cc2400_get_rev(RSSI))/2;
-//			freq_avg = now;
-	
-//			diff_ts = second_ts - first_ts;
-			enqueue_with_ts(FREQ_PACKET, rssi, diff_ts);
-			handle_usb(clkn);
-		}
+//		diff_ts = second_ts - first_ts;
+		enqueue_with_ts(FREQ_PACKET, rssi, diff_ts);
+		handle_usb(clkn);
 
-		first_ts = CLK100NS;
-		while ((CLK100NS-first_ts)<3000)
-		{};
+//		first_ts = CLK100NS;
+//		while ((CLK100NS-first_ts)<3000)
+//		{};
 /*		cc2400_strobe (SRFOFF);
 		while ((cc2400_status () & FS_LOCK));
 

@@ -76,6 +76,8 @@
 
 void show_libusb_error(int error_code);
 int cmd_rx_syms(struct libusb_device_handle* devh);
+int cmd_rx_freq(struct libusb_device_handle* devh);
+int cmd_rx_proposed(struct libusb_device_handle* devh);
 int cmd_specan(struct libusb_device_handle* devh, u16 low_freq, u16 high_freq);
 int cmd_led_specan(struct libusb_device_handle* devh, u16 rssi_threshold);
 int cmd_set_usrled(struct libusb_device_handle* devh, u16 state);

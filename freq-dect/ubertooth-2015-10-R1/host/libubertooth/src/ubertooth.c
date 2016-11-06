@@ -49,6 +49,14 @@ static uint64_t abs_start_ns;
 static uint32_t start_clk100ns = 0;
 static uint64_t last_clk100ns = 0;
 static uint64_t clk100ns_upper = 0;
+static double prev_offset = 0;
+static double diff = 0;
+
+static const double mapA[] = {-24.98, -34.04, -40.62};
+static const double mapB[] = {-28.61, -21.9, -33};
+static const double mapC[] = {-42.92, -34.23, -22.45};
+
+
 
 u8 debug = 0;
 FILE *infile = NULL;
@@ -331,7 +339,7 @@ static void unpack_symbols(uint8_t* buf, char* unpacked)
 static int8_t cc2400_rssi_to_dbm( const int8_t rssi ) 
 {
 	/* models the cc2400 datasheet fig 22 for 1M as piece-wise linear */
-	if (rssi < -48) {
+/*	if (rssi < -48) {
 		return -120;
 	}
 	else if (rssi <= -45) {
@@ -346,6 +354,20 @@ static int8_t cc2400_rssi_to_dbm( const int8_t rssi )
 	else {
 		return 0;
 	}
+*/
+	if (rssi <= -46)
+	{
+		return -100;
+	}
+	else if (rssi >= 34)
+	{
+		return -20;
+	}
+	else
+	{
+		return rssi - 54;
+	}
+
 }
 
 #define NUM_BREDR_CHANNELS 79
@@ -356,6 +378,34 @@ static int8_t cc2400_rssi_to_dbm( const int8_t rssi )
 
 static int8_t rssi_history[NUM_BREDR_CHANNELS][RSSI_HISTORY_LEN] = {{INT8_MIN}};
 
+static void determine_dev( usb_pkt_rx *rx, int8_t * sig, int8_t * noise ) 
+{
+	int8_t * channel_rssi_history = rssi_history[rx->channel];
+	int8_t rssi;
+	int i;
+
+        /* Shift rssi max history and append current max */
+	memmove(channel_rssi_history,
+		channel_rssi_history+1,
+		RSSI_HISTORY_LEN-1);
+	channel_rssi_history[RSSI_HISTORY_LEN-1] = rx->rssi_max;
+
+#if 0
+        /* Signal starts in oldest bank, but may cross into second
+	 * oldest bank.  Take the max or the 2 maxs. */
+	rssi = MAX(channel_rssi_history[0], channel_rssi_history[1]);
+#else
+	/* Alternatively, use all banks in history. */
+	rssi = channel_rssi_history[0];
+	for (i = 1; i < RSSI_HISTORY_LEN; i++)
+		rssi = MAX(rssi, channel_rssi_history[i]);
+#endif
+	*sig = cc2400_rssi_to_dbm( rssi );
+
+	/* Noise is an IIR of averages */
+	/* FIXME: currently bogus */
+	*noise = cc2400_rssi_to_dbm( rx->rssi_avg );
+}
 static void determine_signal_and_noise( usb_pkt_rx *rx, int8_t * sig, int8_t * noise ) 
 {
 	int8_t * channel_rssi_history = rssi_history[rx->channel];
@@ -427,6 +477,157 @@ static uint64_t now_ns_from_clk100ns( const usb_pkt_rx *rx )
 /* Sniff for LAPs. If a piconet is provided, use the given LAP to
  * search for UAP.
  */
+static void cb_br_rx_dev(void* args, usb_pkt_rx *rx, int bank)
+{
+	btbb_packet *pkt = NULL;
+	btbb_piconet *pn = (btbb_piconet *)args;
+	char syms[BANK_LEN * NUM_BANKS];
+	int i;
+	int8_t signal_level;
+	int8_t noise_level;
+	int8_t snr;
+	int offset;
+	uint32_t clkn;
+	uint32_t lap = LAP_ANY;
+	uint8_t uap = UAP_ANY;
+
+	/* Sanity check */
+	if (rx->channel > (NUM_BREDR_CHANNELS-1))
+		goto out;
+
+	/* Copy packet (for dump) */
+	memcpy(&usb_packets[bank], rx, sizeof(usb_pkt_rx));
+
+	unpack_symbols(rx->data, br_symbols[bank]);
+
+	/* Do analysis based on oldest packet */
+	rx = &usb_packets[ (bank+1) % NUM_BANKS ];
+	uint64_t nowns = now_ns_from_clk100ns( rx );
+
+	determine_signal_and_noise( rx, &signal_level, &noise_level );
+	snr = signal_level - noise_level;
+	signal_level = rx->rssi_avg;
+
+	/* WC4: use vm circbuf if target allows. This gets rid of this
+	 * wrapped copy step. */
+
+	/* Copy 2 oldest banks of symbols for analysis. Packet may
+	 * cross a bank boundary. */
+	for (i = 0; i < 2; i++)
+		memcpy(syms + i * BANK_LEN,
+		       br_symbols[(i + 1 + bank) % NUM_BANKS],
+		       BANK_LEN);
+	
+	/* Look for packets with specified LAP, if given. Otherwise
+	 * search for any packet.  Also determine if UAP is known. */
+	if (pn) {
+		lap = btbb_piconet_get_flag(pn, BTBB_LAP_VALID) ? btbb_piconet_get_lap(pn) : LAP_ANY;
+		uap = btbb_piconet_get_flag(pn, BTBB_UAP_VALID) ? btbb_piconet_get_uap(pn) : UAP_ANY;
+	}
+
+	/* Pass packet-pointer-pointer so that
+	 * packet can be created in libbtbb. */
+	offset = btbb_find_ac(syms, BANK_LEN, lap, max_ac_errors, &pkt);
+//	offset = btbb_find_ac(syms, 2*BANK_LEN, lap, max_ac_errors, &pkt);
+
+	if (offset < 0)
+		goto out;
+
+	btbb_packet_set_modulation(pkt, BTBB_MOD_GFSK);
+	btbb_packet_set_transport(pkt, BTBB_TRANSPORT_ANY);
+
+	/* Copy out remaining banks of symbols for full analysis. */
+	for (i = 1; i < NUM_BANKS; i++)
+		memcpy(syms + i * BANK_LEN,
+		       br_symbols[(i + 1 + bank) % NUM_BANKS],
+		       BANK_LEN);
+
+	/* Once offset is known for a valid packet, copy in symbols
+	 * and other rx data. CLKN here is the 312.5us CLK27-0. The
+	 * btbb library can shift it be CLK1 if needed. */
+	clkn = (rx->clkn_high << 20) + (le32toh(rx->clk100ns) + offset*10) / 3125;
+	btbb_packet_set_data(pkt, syms + offset, NUM_BANKS * BANK_LEN - offset,
+			   rx->channel, clkn);
+
+	/* When reading from file, caller will read
+	 * systime before calling this routine, so do
+	 * not overwrite. Otherwise, get current time. */
+	if (infile == NULL)
+		systime = time(NULL);
+
+	/* If dumpfile is specified, write out all banks to the
+	 * file. There could be duplicate data in the dump if more
+	 * than one LAP is found within the span of NUM_BANKS. */
+	if (dumpfile) {
+		for(i = 0; i < NUM_BANKS; i++) {
+			uint32_t systime_be = htobe32(systime);
+			if (fwrite(&systime_be, 
+				   sizeof(systime_be), 1,
+				   dumpfile)
+			    != 1) {;}
+			if (fwrite(&usb_packets[(i + 1 + bank) % NUM_BANKS],
+				   sizeof(usb_pkt_rx), 1, dumpfile)
+			    != 1) {;}
+		}
+		fflush(dumpfile);
+	}
+
+	
+	diff = offset + rx->clk100ns * 0.1 - prev_offset;
+	prev_offset = offset + rx->clk100ns * 0.1;
+	
+	printf("ch=%2d LAP=%06x err=%u clk100ns=%u offset=%u t_diff=%f s=%d n=%d snr=%d\n",
+	btbb_packet_get_channel(pkt),
+	btbb_packet_get_lap(pkt),
+	btbb_packet_get_ac_errors(pkt),
+	rx->clk100ns,
+	offset,
+	diff,
+	signal_level,
+	noise_level,
+	snr);
+/*	printf("offset=%u systime=%u ch=%2d LAP=%06x err=%u clk100ns=%u clk1=%u s=%d n=%d snr=%d\n",
+	offset,
+	(int)systime,
+	btbb_packet_get_channel(pkt),
+	btbb_packet_get_lap(pkt),
+	btbb_packet_get_ac_errors(pkt),
+	rx->clk100ns,
+	btbb_packet_get_clkn(pkt),
+	signal_level,
+	noise_level,
+	snr);
+*/
+	i = btbb_process_packet(pkt, pn);
+
+	/* Dump to PCAP/PCAPNG if specified */
+#ifdef ENABLE_PCAP
+	if (h_pcap_bredr) {
+		btbb_pcap_append_packet(h_pcap_bredr, nowns,
+					signal_level, noise_level,
+					lap, uap, pkt);
+	}
+#endif
+	if (h_pcapng_bredr) {
+		btbb_pcapng_append_packet(h_pcapng_bredr, nowns, 
+					signal_level, noise_level,
+					lap, uap, pkt);
+	}
+	
+	if(i < 0) {
+		follow_pn = pn;
+		stop_ubertooth = 1;
+	}
+
+out:
+	if (pkt)
+		btbb_packet_unref(pkt);
+}
+
+
+/* Sniff for LAPs. If a piconet is provided, use the given LAP to
+ * search for UAP.
+ */
 static void cb_br_rx(void* args, usb_pkt_rx *rx, int bank)
 {
 	btbb_packet *pkt = NULL;
@@ -477,6 +678,8 @@ static void cb_br_rx(void* args, usb_pkt_rx *rx, int bank)
 	/* Pass packet-pointer-pointer so that
 	 * packet can be created in libbtbb. */
 	offset = btbb_find_ac(syms, BANK_LEN, lap, max_ac_errors, &pkt);
+//	offset = btbb_find_ac(syms, 2*BANK_LEN, lap, max_ac_errors, &pkt);
+
 	if (offset < 0)
 		goto out;
 
@@ -519,17 +722,32 @@ static void cb_br_rx(void* args, usb_pkt_rx *rx, int bank)
 		fflush(dumpfile);
 	}
 
-	printf("systime=%u ch=%2d LAP=%06x err=%u clk100ns=%u clk1=%u s=%d n=%d snr=%d\n",
-	       (int)systime,
-	       btbb_packet_get_channel(pkt),
-	       btbb_packet_get_lap(pkt),
-	       btbb_packet_get_ac_errors(pkt),
-	       rx->clk100ns,
-	       btbb_packet_get_clkn(pkt),
-	       signal_level,
-	       noise_level,
-	       snr);
-
+	
+	diff = offset + rx->clk100ns * 0.1 - prev_offset;
+	prev_offset = offset + rx->clk100ns * 0.1;
+	
+	printf("ch=%2d LAP=%06x err=%u clk100ns=%u offset=%u t_diff=%f s=%d n=%d snr=%d\n",
+	btbb_packet_get_channel(pkt),
+	btbb_packet_get_lap(pkt),
+	btbb_packet_get_ac_errors(pkt),
+	rx->clk100ns,
+	offset,
+	diff,
+	signal_level,
+	noise_level,
+	snr);
+/*	printf("offset=%u systime=%u ch=%2d LAP=%06x err=%u clk100ns=%u clk1=%u s=%d n=%d snr=%d\n",
+	offset,
+	(int)systime,
+	btbb_packet_get_channel(pkt),
+	btbb_packet_get_lap(pkt),
+	btbb_packet_get_ac_errors(pkt),
+	rx->clk100ns,
+	btbb_packet_get_clkn(pkt),
+	signal_level,
+	noise_level,
+	snr);
+*/
 	i = btbb_process_packet(pkt, pn);
 
 	/* Dump to PCAP/PCAPNG if specified */
@@ -556,37 +774,59 @@ out:
 		btbb_packet_unref(pkt);
 }
 
-/* Receive and process packets. For now, returning from
- * stream_rx_usb() means that UAP and clocks have been found, and that
- * hopping should be started. A more flexible framework would be
- * nice. */
+
 void rx_live(struct libusb_device_handle* devh, btbb_piconet* pn, int timeout)
 {
-	int r = btbb_init(max_ac_errors);
-	if (r < 0)
-		return;
+//	int r = btbb_init(max_ac_errors);
+//	if (r < 0)
+//		return;
 
 	if (timeout)
 		set_timeout(timeout);
 
-	if (follow_pn)
-		cmd_set_clock(devh, 0);
-	else {
-		stream_rx_usb(devh, XFER_LEN, cb_br_rx, pn);
-		/* Allow pending transfers to finish */
-		sleep(1);
+	int stop = stream_rx_freq(devh, XFER_LEN);
+	
+	sleep(1);
+	if (stop == 1)
+	{
+		stream_rx_proposed(devh, XFER_LEN);
 	}
-	/* Used when follow_pn is preset OR set by stream_rx_usb above
-	 * i.e. This cannot be rolled in to the above if...else
-	 */
-	if (follow_pn) {
-		stop_ubertooth = 0;
-		usb_really_full = 0;
-		cmd_stop(devh);
-		cmd_set_bdaddr(devh, btbb_piconet_get_bdaddr(follow_pn));
-		cmd_start_hopping(devh, btbb_piconet_get_clk_offset(follow_pn));
-		stream_rx_usb(devh, XFER_LEN, cb_br_rx, follow_pn);
+
+}
+
+void rx_proposed(struct libusb_device_handle* devh, btbb_piconet* pn, int timeout)
+{
+	if (timeout)
+		set_timeout(timeout);
+
+	int stop = stream_rx_freq(devh, XFER_LEN);
+	
+	sleep(1);
+
+	if (stop == 1)
+	{
+		stream_rx_proposed(devh, XFER_LEN);
 	}
+
+
+	if (timeout)
+		set_timeout(timeout);
+}
+
+
+
+/* Receive and process packets. For now, returning from
+ * stream_rx_usb() means that UAP and clocks have been found, and that
+ * hopping should be started. A more flexible framework would be
+ * nice. */
+void rx_legacy(struct libusb_device_handle* devh, btbb_piconet* pn, int timeout)
+{
+
+	if (timeout)
+		set_timeout(timeout);
+
+	stream_rx_legacy(devh, XFER_LEN);
+	sleep(1);
 }
 
 /* sniff one target LAP until the UAP is determined */
@@ -799,6 +1039,616 @@ void rx_dump(struct libusb_device_handle* devh, int bitstream)
 		stream_rx_usb(devh, XFER_LEN, cb_dump_bitstream, NULL);
 	else
 		stream_rx_usb(devh, XFER_LEN, cb_dump_full, NULL);
+}
+
+// wpson
+int stream_rx_freq(struct libusb_device_handle* devh, int xfer_size)
+{	
+	int xfer_blocks, i, r, j, rssi;
+	usb_pkt_rx* rx;
+	int crc_count = 0;
+	int freq_count = 0;
+	
+	uint8_t rx_buf1[BUFFER_SIZE];
+	uint8_t rx_buf2[BUFFER_SIZE];
+
+	int counter[3][100];
+	int index[3];
+	index[0] = 0;
+	index[1] = 0;
+	index[2] = 0;
+
+	for (i = 0; i < 100; i++)
+	{
+		counter[0][i] = 0;
+		counter[1][i] = 0;
+		counter[2][i] = 0;
+	}
+//	int r, i, j, xfer_blocks, frequency, transferred;
+
+	if (xfer_size > BUFFER_SIZE)
+		xfer_size = BUFFER_SIZE;
+	xfer_blocks = xfer_size / PKT_LEN;
+	xfer_size = xfer_blocks * PKT_LEN;
+	
+	empty_usb_buf = &rx_buf1[0];
+	full_usb_buf = &rx_buf2[0];
+	usb_really_full = 0;
+	
+	rx_xfer = libusb_alloc_transfer(0);
+	libusb_fill_bulk_transfer(rx_xfer, devh, DATA_IN, empty_usb_buf,
+			xfer_size, cb_xfer, NULL, TIMEOUT);
+
+
+	cmd_rx_syms(devh);
+//	cmd_specan(devh, low_freq, high_freq);
+
+	r = libusb_submit_transfer(rx_xfer);
+	
+	if (r < 0)
+	{
+		fprintf(stderr, "rx_xfer submission: %f\n", r);
+		return -1;
+	}
+	while (1) 
+	{
+		while (!usb_really_full) 
+			{
+				r = libusb_handle_events(NULL);
+				if (r < 0)
+				{
+					if (r == LIBUSB_ERROR_INTERRUPTED)
+						break;
+					show_libusb_error(r);
+				}
+			}
+		/* process each received block */
+		for (i = 0; i < xfer_blocks; i++) 
+		{
+			
+			rx = (usb_pkt_rx *)(full_usb_buf + PKT_LEN * i);
+
+			if (rx->pkt_type == MESSAGE) // freq detection
+			{
+				struct timeval tv;
+				gettimeofday(&tv, NULL);
+				double time_in_mill = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
+//			        printf("\nMESSAGE systime %f, Device: %d\n ", time_in_mill, rx->reserved[0]);
+
+				index[rx->reserved[0]]++;
+				
+				for (j = PKT_LEN * i + SYM_OFFSET + 21; j < PKT_LEN * i + SYM_OFFSET + 32; j++)
+				{			
+					counter[rx->reserved[0]][convert_to_int(full_usb_buf[j])+50]++;
+				}
+				
+				if (index[rx->reserved[0]] % 10 == 0)
+			  	{
+					int maximum = counter[rx->reserved[0]][0];
+					int location = 0;
+					for (j = 1; j < 100; j++)
+					{
+						if (counter[rx->reserved[0]][j] > maximum)
+						{
+							maximum = counter[rx->reserved[0]][j];
+							location = j - 50;
+						}
+					}
+					printf("DEV: %d CFO: %d\n", rx->reserved[0], location);
+					int q;
+					for (q = 0; q < 100; q++)
+					{
+						counter[rx->reserved[0]][q] = 0;
+					}
+				}
+
+
+			}
+
+			if (stop_ubertooth) 
+			{
+				if(rx_xfer)
+					libusb_cancel_transfer(rx_xfer);
+				return 1;
+			}
+		}
+		usb_really_full = 0;
+		fflush(stderr);
+	}
+	return 0;
+}
+
+
+// wpson
+int stream_rx_legacy(struct libusb_device_handle* devh, int xfer_size)
+{
+	
+
+	
+	int xfer_blocks, i, r, j, rssi;
+	usb_pkt_rx* rx;
+	int crc_count = 0;
+	int freq_count = 0;
+	
+	uint8_t rx_buf1[BUFFER_SIZE];
+	uint8_t rx_buf2[BUFFER_SIZE];
+
+	if (xfer_size > BUFFER_SIZE)
+		xfer_size = BUFFER_SIZE;
+	xfer_blocks = xfer_size / PKT_LEN;
+	xfer_size = xfer_blocks * PKT_LEN;
+	
+	empty_usb_buf = &rx_buf1[0];
+	full_usb_buf = &rx_buf2[0];
+	usb_really_full = 0;
+	
+	rx_xfer = libusb_alloc_transfer(0);
+	libusb_fill_bulk_transfer(rx_xfer, devh, DATA_IN, empty_usb_buf,
+			xfer_size, cb_xfer, NULL, TIMEOUT);
+
+
+	cmd_rx_syms(devh);
+//	cmd_specan(devh, low_freq, high_freq);
+
+	r = libusb_submit_transfer(rx_xfer);
+	
+	if (r < 0)
+	{
+		fprintf(stderr, "rx_xfer submission: %f\n", r);
+		return -1;
+	}
+	while (1) 
+	{
+		while (!usb_really_full) 
+			{
+				r = libusb_handle_events(NULL);
+				if (r < 0)
+				{
+					if (r == LIBUSB_ERROR_INTERRUPTED)
+						break;
+					show_libusb_error(r);
+				}
+			}
+		/* process each received block */
+		for (i = 0; i < xfer_blocks; i++) 
+		{
+			
+			rx = (usb_pkt_rx *)(full_usb_buf + PKT_LEN * i);
+			if (rx->pkt_type == BR_PACKET)
+			{
+				struct timeval tv;
+				gettimeofday(&tv, NULL);
+				double time_in_mill = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
+
+				int k = PKT_LEN * i + SYM_OFFSET + 38;
+	
+				if (full_usb_buf[k] == 0x00 && full_usb_buf[k+1] == 0x3d)
+				{
+					rssi = cc2400_rssi_to_dbm (convert_to_int (rx->rssi_avg));
+					printf ("Legacy DEV: %02x time: %f RSSI: %d \n\n",
+						full_usb_buf[k+2],
+						time_in_mill,
+						rssi);
+				}
+			}
+
+			if (stop_ubertooth) 
+			{
+				if(rx_xfer)
+					libusb_cancel_transfer(rx_xfer);
+				return 1;
+			}
+		}
+		usb_really_full = 0;
+		fflush(stderr);
+	}
+	return 0;
+}
+
+
+
+// wpson
+int stream_rx_proposed(struct libusb_device_handle* devh, int xfer_size)
+{
+	
+
+	
+	int xfer_blocks, i, r, j, rssi;
+	usb_pkt_rx* rx;
+	int crc_count = 0;
+	int freq_count = 0;
+	
+	uint8_t rx_buf1[BUFFER_SIZE];
+	uint8_t rx_buf2[BUFFER_SIZE];
+
+	int counter[3][100];
+	int index[3];
+	index[0] = 0;
+	index[1] = 0;
+	index[2] = 0;
+
+	for (i = 0; i < 100; i++)
+	{
+		counter[0][i] = 0;
+		counter[1][i] = 0;
+		counter[2][i] = 0;
+	}
+
+	if (xfer_size > BUFFER_SIZE)
+		xfer_size = BUFFER_SIZE;
+	xfer_blocks = xfer_size / PKT_LEN;
+	xfer_size = xfer_blocks * PKT_LEN;
+	
+	empty_usb_buf = &rx_buf1[0];
+	full_usb_buf = &rx_buf2[0];
+	usb_really_full = 0;
+	
+	rx_xfer = libusb_alloc_transfer(0);
+	libusb_fill_bulk_transfer(rx_xfer, devh, DATA_IN, empty_usb_buf,
+			xfer_size, cb_xfer, NULL, TIMEOUT);
+
+
+	cmd_rx_syms(devh);
+//	cmd_specan(devh, low_freq, high_freq);
+
+	r = libusb_submit_transfer(rx_xfer);
+	
+	if (r < 0)
+	{
+		fprintf(stderr, "rx_xfer submission: %f\n", r);
+		return -1;
+	}
+	while (1) 
+	{
+		while (!usb_really_full) 
+			{
+				r = libusb_handle_events(NULL);
+				if (r < 0)
+				{
+					if (r == LIBUSB_ERROR_INTERRUPTED)
+						break;
+					show_libusb_error(r);
+				}
+			}
+		/* process each received block */
+		for (i = 0; i < xfer_blocks; i++) 
+		{
+			
+			rx = (usb_pkt_rx *)(full_usb_buf + PKT_LEN * i);
+			if (rx->pkt_type == FREQ_PACKET)
+//&& (convert_to_int(rx->rssi_count) >= 5) && (convert_to_int(rx->rssi_count) <= 10))
+			{
+			//	freq_count++;
+				struct timeval tv;
+				gettimeofday(&tv, NULL);
+				double time_in_mill = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
+				printf("Proposed, systime=%f, DIFF: %d, RSSI: %d, FREQ: %d\n\n", 
+					time_in_mill,
+					rx->clk100ns,
+					cc2400_rssi_to_dbm(convert_to_int(rx->rssi_avg)),
+					convert_to_int(rx->rssi_count));
+			}
+			if (rx->pkt_type == MESSAGE) // freq detection
+			{
+				struct timeval tv;
+				gettimeofday(&tv, NULL);
+				double time_in_mill = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
+//			        printf("\nMESSAGE systime %f, Device: %d\n ", time_in_mill, rx->reserved[0]);
+
+				index[rx->reserved[0]]++;
+				
+				for (j = PKT_LEN * i + SYM_OFFSET + 21; j < PKT_LEN * i + SYM_OFFSET + 32; j++)
+				{			
+					counter[rx->reserved[0]][convert_to_int(full_usb_buf[j])+50]++;
+				}
+				
+				if (index[rx->reserved[0]] % 10 == 0)
+			  	{
+					int maximum = counter[rx->reserved[0]][0];
+					int location = 0;
+					for (j = 1; j < 100; j++)
+					{
+						if (counter[rx->reserved[0]][j] > maximum)
+						{
+							maximum = counter[rx->reserved[0]][j];
+							location = j - 50;
+						}
+					}
+					printf("DEV: %d CFO: %d\n", rx->reserved[0], location);
+					int q;
+					for (q = 0; q < 100; q++)
+					{
+						counter[rx->reserved[0]][q] = 0;
+					}
+				}
+
+
+			}
+
+
+			if (stop_ubertooth) 
+			{
+				if(rx_xfer)
+					libusb_cancel_transfer(rx_xfer);
+				return 1;
+			}
+		}
+		usb_really_full = 0;
+		fflush(stderr);
+	}
+	return 0;
+}
+
+// wpson
+int stream_rx_data(struct libusb_device_handle* devh, int xfer_size)
+{
+	
+
+	int xfer_blocks, i, r, j, rssi;
+	usb_pkt_rx* rx;
+	
+	uint8_t rx_buf1[BUFFER_SIZE];
+	uint8_t rx_buf2[BUFFER_SIZE];
+
+//	int r, i, j, xfer_blocks, frequency, transferred;
+
+	if (xfer_size > BUFFER_SIZE)
+		xfer_size = BUFFER_SIZE;
+	xfer_blocks = xfer_size / PKT_LEN;
+	xfer_size = xfer_blocks * PKT_LEN;
+	
+	empty_usb_buf = &rx_buf1[0];
+	full_usb_buf = &rx_buf2[0];
+	usb_really_full = 0;
+	
+	rx_xfer = libusb_alloc_transfer(0);
+	libusb_fill_bulk_transfer(rx_xfer, devh, DATA_IN, empty_usb_buf,
+			xfer_size, cb_xfer, NULL, TIMEOUT);
+
+
+	cmd_rx_syms(devh);
+//	cmd_specan(devh, low_freq, high_freq);
+
+	r = libusb_submit_transfer(rx_xfer);
+	
+	if (r < 0)
+	{
+		fprintf(stderr, "rx_xfer submission: %d\n", r);
+		return -1;
+	}
+	while (1) {
+		while (!usb_really_full) 
+			{
+				r = libusb_handle_events(NULL);
+				if (r < 0)
+				{
+					if (r == LIBUSB_ERROR_INTERRUPTED)
+						break;
+					show_libusb_error(r);
+				}
+			}
+		/* process each received block */
+		for (i = 0; i < xfer_blocks; i++) 
+		{
+			
+			rx = (usb_pkt_rx *)(full_usb_buf + PKT_LEN * i);
+			if (rx->pkt_type == BR_PACKET)
+			{
+
+				printf("\n\n");
+				for (j = PKT_LEN * i + SYM_OFFSET; j < PKT_LEN * i + 64; j++)
+				{
+					printf("%02x", full_usb_buf[j]);
+				}
+			}
+		
+			if (stop_ubertooth) 
+				{
+					if(rx_xfer)
+						libusb_cancel_transfer(rx_xfer);
+					return 1;
+				}
+		}
+		usb_really_full = 0;
+		fflush(stderr);
+	}
+//	return 0;
+}
+
+
+
+// wpson
+int stream_rx_fp(struct libusb_device_handle* devh, int xfer_size)
+{
+	
+
+	int xfer_blocks, i, r, j, rssi;
+	usb_pkt_rx* rx;
+		
+	double rssi2 = 0;
+	double rssi4 = 0;
+	double rssi5 = 0;
+	
+	uint8_t rx_buf1[BUFFER_SIZE];
+	uint8_t rx_buf2[BUFFER_SIZE];
+
+//	int r, i, j, xfer_blocks, frequency, transferred;
+
+	if (xfer_size > BUFFER_SIZE)
+		xfer_size = BUFFER_SIZE;
+	xfer_blocks = xfer_size / PKT_LEN;
+	xfer_size = xfer_blocks * PKT_LEN;
+	
+	empty_usb_buf = &rx_buf1[0];
+	full_usb_buf = &rx_buf2[0];
+	usb_really_full = 0;
+	
+	rx_xfer = libusb_alloc_transfer(0);
+	libusb_fill_bulk_transfer(rx_xfer, devh, DATA_IN, empty_usb_buf,
+			xfer_size, cb_xfer, NULL, TIMEOUT);
+
+
+	cmd_rx_syms(devh);
+//	cmd_specan(devh, low_freq, high_freq);
+
+	r = libusb_submit_transfer(rx_xfer);
+	
+	if (r < 0)
+	{
+		fprintf(stderr, "rx_xfer submission: %d\n", r);
+		return -1;
+	}
+	while (1) {
+		while (!usb_really_full) 
+			{
+				r = libusb_handle_events(NULL);
+				if (r < 0)
+				{
+					if (r == LIBUSB_ERROR_INTERRUPTED)
+						break;
+					show_libusb_error(r);
+				}
+			}
+		/* process each received block */
+		for (i = 0; i < xfer_blocks; i++) 
+		{
+			
+			rx = (usb_pkt_rx *)(full_usb_buf + PKT_LEN * i);
+			if (rx->pkt_type == BR_PACKET)
+			{
+				int k = PKT_LEN * i + SYM_OFFSET + 39;
+
+
+				if (full_usb_buf[k] == 0x80 && full_usb_buf[k+1] == 0x9c)
+				{
+					rssi = cc2400_rssi_to_dbm(convert_to_int (rx->rssi_avg));
+					printf("\n-----------------------\n");
+					printf("systime=%u\n", time(NULL));
+					rssi2 = rssi;
+					
+					if (rssi2 != 0 && rssi4 != 0 && rssi5 != 0)
+					{
+						printf("position: %d\n", distance(rssi2, rssi4, rssi5));
+					}
+			
+			//		printf("02 rssi: %d\n", rssi);
+/*					for (j = PKT_LEN * i + SYM_OFFSET; j < PKT_LEN * i + 64; j++)
+					{
+						printf("%02x", full_usb_buf[j]);
+					}
+*/
+
+				}
+
+				if (full_usb_buf[k] == 0x3d && full_usb_buf[k+1] == 0xde)
+				{
+					rssi = cc2400_rssi_to_dbm(convert_to_int (rx->rssi_avg));
+					printf("\n-----------------------\n");
+					printf("systime=%u\n", time(NULL));
+					rssi4 = rssi;
+
+					if (rssi2 != 0 && rssi4 != 0 && rssi5 != 0)
+					{
+						printf("position: %d\n", distance(rssi2, rssi4, rssi5));
+					}
+
+//					printf("04 rssi: %d\n", rssi);
+
+/*					for (j = PKT_LEN * i + SYM_OFFSET; j < PKT_LEN * i + 64; j++)
+					{
+						printf("%02x", full_usb_buf[j]);
+					}
+*/
+
+				}
+
+
+				if (full_usb_buf[k] == 0xe6 && full_usb_buf[k+1] == 0xac)
+				{
+					rssi = cc2400_rssi_to_dbm(convert_to_int (rx->rssi_avg));
+					printf("\n-----------------------\n");
+					printf("systime=%u\n", time(NULL));
+					rssi5 = rssi;
+
+					if (rssi2 != 0 && rssi4 != 0 && rssi5 != 0)
+					{
+						printf("position: %d\n", distance(rssi2, rssi4, rssi5));
+					}
+
+//					printf("05 rssi: %d\n", rssi);
+
+/*					for (j = PKT_LEN * i + SYM_OFFSET; j < PKT_LEN * i + 64; j++)
+					{
+						printf("%02x", full_usb_buf[j]);
+					}
+*/
+
+				}
+
+			}
+/*			if (rx->pkt_type == MESSAGE)
+			{
+				for (j = PKT_LEN * i + SYM_OFFSET; j < PKT_LEN * i + 64; j++)
+				{
+					frequency = convert_to_freq (full_usb_buf[j]);
+					printf("%d", frequency);
+				}
+			}
+*/
+			
+			if (stop_ubertooth) 
+				{
+					if(rx_xfer)
+						libusb_cancel_transfer(rx_xfer);
+					return 1;
+				}
+		}
+		usb_really_full = 0;
+		fflush(stderr);
+	}
+//	return 0;
+}
+
+int distance (double rssi2, double rssi4, double rssi5)
+{
+	double dist[3];
+	dist[0] = (mapA[0] - rssi2) * (mapA[0] - rssi2)
+		+ (mapA[1] - rssi4) * (mapA[1] - rssi4)
+		+ (mapA[2] - rssi5) * (mapA[2] - rssi5);
+
+	dist[1] = (mapB[0] - rssi2) * (mapB[0] - rssi2)
+		+ (mapB[1] - rssi4) * (mapB[1] - rssi4)
+		+ (mapB[2] - rssi5) * (mapB[2] - rssi5);
+
+	dist[2] = (mapC[0] - rssi2) * (mapC[0] - rssi2)
+		+ (mapC[1] - rssi4) * (mapC[1] - rssi4)
+		+ (mapC[2] - rssi5) * (mapC[2] - rssi5);
+
+	
+	int i;
+	int index = 0;
+	double min = dist[0];
+	for (i = 1; i < 3; i++)
+	{
+		if (dist[i] < min)
+		{
+			index = i;
+			min = dist[i];
+		}
+	}
+
+	return index;
+
+}
+
+int convert_to_int (int in)
+{
+  int out;
+  if (in >= 128)
+	out = (in - 256);
+  else
+	out = in;
+  return out;
 }
 
 /* Spectrum analyser mode */

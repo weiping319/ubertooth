@@ -80,6 +80,34 @@ int cmd_rx_syms(struct libusb_device_handle* devh)
 	return 0;
 }
 
+int cmd_rx_freq(struct libusb_device_handle* devh)
+{
+	int r;
+
+	r = libusb_control_transfer(devh, CTRL_OUT, UBERTOOTH_RX_FREQ, 0, 0,
+			NULL, 0, 1000);
+	if (r < 0) {
+		show_libusb_error(r);
+		return r;
+	}
+	return 0;
+}
+
+int cmd_rx_proposed(struct libusb_device_handle* devh)
+{
+	int r;
+
+	r = libusb_control_transfer(devh, CTRL_OUT, UBERTOOTH_RX_PROPOSED, 0, 0,
+			NULL, 0, 1000);
+	if (r < 0) {
+		show_libusb_error(r);
+		return r;
+	}
+	return 0;
+}
+
+
+
 int cmd_specan(struct libusb_device_handle* devh, u16 low_freq, u16 high_freq)
 {
 	int r;

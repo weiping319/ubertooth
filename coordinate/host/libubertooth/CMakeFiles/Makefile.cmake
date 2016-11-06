@@ -8,7 +8,7 @@ SET(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 SET(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
   "/home/weiping/wpson-ubertooth/.git/HEAD"
-  "/home/weiping/wpson-ubertooth/.git/refs/heads/bt"
+  "/home/weiping/wpson-ubertooth/.git/refs/heads/master"
   "../CMakeLists.txt"
   "../cmake/cmake_uninstall.cmake.in"
   "../cmake/modules/FindBLUETOOTH.cmake"
