@@ -1167,8 +1167,6 @@ int stream_rx_proposed(struct libusb_device_handle* devh, int xfer_size)
 {
 	int xfer_blocks, i, r, j, rssi;
 	usb_pkt_rx* rx;
-	int crc_count = 0;
-	int freq_count = 0;
 	
 	uint8_t rx_buf1[BUFFER_SIZE];
 	uint8_t rx_buf2[BUFFER_SIZE];
@@ -1218,13 +1216,13 @@ int stream_rx_proposed(struct libusb_device_handle* devh, int xfer_size)
 			rx = (usb_pkt_rx *)(full_usb_buf + PKT_LEN * i);
 			if (rx->pkt_type == FREQ_PACKET)
 			{
-				struct timeval tv;
-				gettimeofday(&tv, NULL);
-				double time_in_mill = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
+//				struct timeval tv;
+//				gettimeofday(&tv, NULL);
+//				double time_in_mill = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
 				uint8_t diff1, diff2;
 				
-				diff1 = add (cfo[0], add (~(rx->rssi_count), 1)); // 5->8
-				diff2 = add (cfo[1], add (~(rx->rssi_count), 1)); // 5->8
+				diff1 = add (cfo[0], add (~(rx->reserved[1]), 1)); // 5->8
+				diff2 = add (cfo[1], add (~(rx->reserved[1]), 1)); // 5->8
                         	if (diff1 & 0x80)
                                 	diff1 = add (~diff1, 1);
                         	if (diff2 & 0x80)
@@ -1232,11 +1230,10 @@ int stream_rx_proposed(struct libusb_device_handle* devh, int xfer_size)
 
 
                         	if ((diff1 < 0x04) || (diff2 < 0x04))
-				   	printf("Proposed time: %f DIFF: %d RSSI: %d FREQ: %d\n\n", 
-						time_in_mill,
-						rx->clk100ns,
+				   	printf("Proposed time: %f RSSI: %d FREQ: %d\n\n", 
+						(double)(rx->clk100ns) * 0.3125,
 						cc2400_rssi_to_dbm(convert_to_int(rx->rssi_avg)),
-						convert_to_int(rx->rssi_count));
+						convert_to_int(rx->reserved[1]));
 			}
 		}
 		usb_really_full = 0;
@@ -1252,8 +1249,6 @@ int stream_rx_legacy(struct libusb_device_handle* devh, int xfer_size)
 	printf("Legacy \n\n");
 	int xfer_blocks, i, r, j, rssi;
 	usb_pkt_rx* rx;
-	int crc_count = 0;
-	int freq_count = 0;
 	
 	uint8_t rx_buf1[BUFFER_SIZE];
 	uint8_t rx_buf2[BUFFER_SIZE];
@@ -1273,7 +1268,6 @@ int stream_rx_legacy(struct libusb_device_handle* devh, int xfer_size)
 
 
 	cmd_rx_syms(devh);
-//	cmd_specan(devh, low_freq, high_freq);
 
 	r = libusb_submit_transfer(rx_xfer);
 	
@@ -1301,9 +1295,9 @@ int stream_rx_legacy(struct libusb_device_handle* devh, int xfer_size)
 			rx = (usb_pkt_rx *)(full_usb_buf + PKT_LEN * i);
 			if (rx->pkt_type == BR_PACKET)
 			{
-				struct timeval tv;
-				gettimeofday(&tv, NULL);
-				double time_in_mill = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
+//				struct timeval tv;
+//				gettimeofday(&tv, NULL);
+//				double time_in_mill = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
 
 				int k = PKT_LEN * i + SYM_OFFSET + 38;
 	
@@ -1312,7 +1306,7 @@ int stream_rx_legacy(struct libusb_device_handle* devh, int xfer_size)
 					rssi = cc2400_rssi_to_dbm (convert_to_int (rx->rssi_avg));
 					printf("Legacy DEV: %02x time: %f RSSI: %d \n\n",
 						full_usb_buf[k+2],
-						time_in_mill,
+						(double)(rx->clk100ns)*0.3125,
 						rssi);
 				}
 			}

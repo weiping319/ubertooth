@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccpJwKA0.s 			page 1
+ARM GAS  /tmp/cc2Y2aXw.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
   61 001d 1B       		.byte	27
   62 001e 1C       		.byte	28
   63 001f 1D       		.byte	29
-ARM GAS  /tmp/ccpJwKA0.s 			page 2
+ARM GAS  /tmp/cc2Y2aXw.s 			page 2
 
 
   64 0020 1E       		.byte	30
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  122 0055 01       		.byte	1
  123 0056 01       		.byte	1
  124 0057 00       		.byte	0
-ARM GAS  /tmp/ccpJwKA0.s 			page 3
+ARM GAS  /tmp/cc2Y2aXw.s 			page 3
 
 
  125 0058 00       		.byte	0
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  179 008e 00       		.byte	0
  180 008f 01       		.byte	1
  181 0090 00       		.byte	0
-ARM GAS  /tmp/ccpJwKA0.s 			page 4
+ARM GAS  /tmp/cc2Y2aXw.s 			page 4
 
 
  182 0091 00       		.byte	0
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  238 00c6 0F       		.byte	15
  239 00c7 65       		.byte	101
  240 00c8 42       		.byte	66
-ARM GAS  /tmp/ccpJwKA0.s 			page 5
+ARM GAS  /tmp/cc2Y2aXw.s 			page 5
 
 
  241 00c9 27       		.byte	39
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  297 00fd 1E       		.byte	30
  298 00fe 20       		.byte	32
  299 00ff 1D       		.byte	29
-ARM GAS  /tmp/ccpJwKA0.s 			page 6
+ARM GAS  /tmp/cc2Y2aXw.s 			page 6
 
 
  300 0100 11       		.byte	17
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  356 01ac 2CEFF0C7 		.word	-940511444
  357 01b0 8DD257A1 		.word	-1588079987
  358 01b4 3DA766B0 		.word	-1335449795
-ARM GAS  /tmp/ccpJwKA0.s 			page 7
+ARM GAS  /tmp/cc2Y2aXw.s 			page 7
 
 
  359 01b8 75311148 		.word	1209086325
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  413 0290 0824CB3B 		.word	1003168776
  414 0294 FC71A3F4 		.word	-190615044
  415 0298 5568CFA9 		.word	-1446025131
-ARM GAS  /tmp/ccpJwKA0.s 			page 8
+ARM GAS  /tmp/cc2Y2aXw.s 			page 8
 
 
  416 029c 196C5D4C 		.word	1281190937
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  470 0374 A3F45568 		.word	1750463651
  471 0378 CFA9196C 		.word	1813621199
  472 037c 5D4C0492 		.word	-1845212067
-ARM GAS  /tmp/ccpJwKA0.s 			page 9
+ARM GAS  /tmp/cc2Y2aXw.s 			page 9
 
 
  473 0380 E51DFEB8 		.word	-1191305755
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  527 0458 7FDC287D 		.word	2099829887
  528 045c 15DA736A 		.word	1785977365
  529 0460 065B1713 		.word	320297734
-ARM GAS  /tmp/ccpJwKA0.s 			page 10
+ARM GAS  /tmp/cc2Y2aXw.s 			page 10
 
 
  530 0464 81647987 		.word	-2022087551
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  584 053c ABD09E53 		.word	1402917035
  585 0540 33D8BA98 		.word	-1732585421
  586 0544 0824CB3B 		.word	1003168776
-ARM GAS  /tmp/ccpJwKA0.s 			page 11
+ARM GAS  /tmp/cc2Y2aXw.s 			page 11
 
 
  587 0548 FC71A3F4 		.word	-190615044
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  641 0620 C31F374A 		.word	1245126595
  642 0624 5F85F69C 		.word	-1661565601
  643 0628 9AC1D6C5 		.word	-975781478
-ARM GAS  /tmp/ccpJwKA0.s 			page 12
+ARM GAS  /tmp/cc2Y2aXw.s 			page 12
 
 
  644 062c 442059DE 		.word	-564584380
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  698 0704 8B8940B2 		.word	-1304393333
  699 0708 BCC31F37 		.word	924828604
  700 070c 4A5F85F6 		.word	-159031478
-ARM GAS  /tmp/ccpJwKA0.s 			page 13
+ARM GAS  /tmp/cc2Y2aXw.s 			page 13
 
 
  701 0710 60EB6222 		.word	576908128
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  755 07e8 57A13DA7 		.word	-1489133225
  756 07ec 66B07531 		.word	829796454
  757 07f0 11489677 		.word	2006337553
-ARM GAS  /tmp/ccpJwKA0.s 			page 14
+ARM GAS  /tmp/cc2Y2aXw.s 			page 14
 
 
  758 07f4 F8E346E9 		.word	-381230088
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
    8:bluetooth_le.c ****  * the Free Software Foundation; either version 2, or (at your option)
    9:bluetooth_le.c ****  * any later version.
   10:bluetooth_le.c ****  *
-ARM GAS  /tmp/ccpJwKA0.s 			page 15
+ARM GAS  /tmp/cc2Y2aXw.s 			page 15
 
 
   11:bluetooth_le.c ****  * This program is distributed in the hope that it will be useful,
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  840 0032 DB00     		lsls	r3, r3, #3
  841 0034 0B44     		add	r3, r3, r1
  842 0036 9B00     		lsls	r3, r3, #2
-ARM GAS  /tmp/ccpJwKA0.s 			page 16
+ARM GAS  /tmp/cc2Y2aXw.s 			page 16
 
 
  843 0038 0B44     		add	r3, r3, r1
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
   38:bluetooth_le.c **** 	channel /= 2;
  894              		.loc 1 38 0
  895 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
-ARM GAS  /tmp/ccpJwKA0.s 			page 17
+ARM GAS  /tmp/cc2Y2aXw.s 			page 17
 
 
  896 000c 5B08     		lsrs	r3, r3, #1
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
   49:bluetooth_le.c **** 	return idx;
  940              		.loc 1 49 0
  941 0048 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
-ARM GAS  /tmp/ccpJwKA0.s 			page 18
+ARM GAS  /tmp/cc2Y2aXw.s 			page 18
 
 
   50:bluetooth_le.c **** }
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  991 001e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
  992 0020 242B     		cmp	r3, #36
  993 0022 06D8     		bhi	.L15
-ARM GAS  /tmp/ccpJwKA0.s 			page 19
+ARM GAS  /tmp/cc2Y2aXw.s 			page 19
 
 
   57:bluetooth_le.c **** 		phys = 2428 + 2 * (idx - 11);
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  1040 0062 00BF     		.section	.text.btle_calc_crc,"ax",%progbits
  1041              		.align	2
  1042              		.global	btle_calc_crc
-ARM GAS  /tmp/ccpJwKA0.s 			page 20
+ARM GAS  /tmp/cc2Y2aXw.s 			page 20
 
 
  1043              		.thumb
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  1080 0024 1B78     		ldrb	r3, [r3]
  1081 0026 FB76     		strb	r3, [r7, #27]
   84:bluetooth_le.c **** 		for (j = 0; j < 8; ++j) {
-ARM GAS  /tmp/ccpJwKA0.s 			page 21
+ARM GAS  /tmp/cc2Y2aXw.s 			page 21
 
 
  1082              		.loc 1 84 0
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  1127              		.loc 1 82 0 is_stmt 1 discriminator 2
  1128 0068 3B6A     		ldr	r3, [r7, #32]
  1129 006a 0133     		adds	r3, r3, #1
-ARM GAS  /tmp/ccpJwKA0.s 			page 22
+ARM GAS  /tmp/cc2Y2aXw.s 			page 22
 
 
  1130 006c 3B62     		str	r3, [r7, #32]
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  1172              		.cfi_offset 7, -4
  1173 0002 8DB0     		sub	sp, sp, #52
  1174              		.cfi_def_cfa_offset 56
-ARM GAS  /tmp/ccpJwKA0.s 			page 23
+ARM GAS  /tmp/cc2Y2aXw.s 			page 23
 
 
  1175 0004 00AF     		add	r7, sp, #0
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  1218 0044 42FA03F3 		asr	r3, r2, r3
  1219 0048 03F00102 		and	r2, r3, #1
  1220 004c 7B69     		ldr	r3, [r7, #20]
-ARM GAS  /tmp/ccpJwKA0.s 			page 24
+ARM GAS  /tmp/cc2Y2aXw.s 			page 24
 
 
  1221 004e 5340     		eors	r3, r3, r2
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  122:bluetooth_le.c **** 		ret |= ((state >> i) & 1) << (23 - i);
  1264              		.loc 1 122 0 discriminator 3
  1265 0088 FA6A     		ldr	r2, [r7, #44]
-ARM GAS  /tmp/ccpJwKA0.s 			page 25
+ARM GAS  /tmp/cc2Y2aXw.s 			page 25
 
 
  1266 008a 7B6A     		ldr	r3, [r7, #36]
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  1318 0024 00A60D00 		.word	894464
  1319 0028 C0120C00 		.word	791232
  1320 002c 80CF0E00 		.word	970624
-ARM GAS  /tmp/ccpJwKA0.s 			page 26
+ARM GAS  /tmp/cc2Y2aXw.s 			page 26
 
 
  1321 0030 407B0F00 		.word	1014592
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  1375 0108 C0846C00 		.word	7111872
  1376 010c 80596E00 		.word	7231872
  1377 0110 40ED6F00 		.word	7335232
-ARM GAS  /tmp/ccpJwKA0.s 			page 27
+ARM GAS  /tmp/cc2Y2aXw.s 			page 27
 
 
  1378 0114 00E36B00 		.word	7070464
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  1432 01ec 802B4E00 		.word	5122944
  1433 01f0 409F4F00 		.word	5218112
  1434 01f4 00914B00 		.word	4952320
-ARM GAS  /tmp/ccpJwKA0.s 			page 28
+ARM GAS  /tmp/cc2Y2aXw.s 			page 28
 
 
  1435 01f8 C0254A00 		.word	4859328
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  1489 02d0 4069F500 		.word	16083264
  1490 02d4 0067F100 		.word	15820544
  1491 02d8 C0D3F000 		.word	15782848
-ARM GAS  /tmp/ccpJwKA0.s 			page 29
+ARM GAS  /tmp/cc2Y2aXw.s 			page 29
 
 
  1492 02dc 800EF200 		.word	15863424
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  1546 03b4 00BD8A00 		.word	9092352
  1547 03b8 C0098B00 		.word	9112000
  1548 03bc 80D48900 		.word	9032832
-ARM GAS  /tmp/ccpJwKA0.s 			page 30
+ARM GAS  /tmp/cc2Y2aXw.s 			page 30
 
 
  1549 03c0 40608800 		.word	8937536
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  156:bluetooth_le.c **** 	0x81c800, 0x807cc0, 0x82a180, 0x831540, 0x871b00, 0x86afc0, 0x847280, 0x85c640,
  157:bluetooth_le.c **** 	0x8c6e00, 0x8ddac0, 0x8f0780, 0x8eb340, 0x8abd00, 0x8b09c0, 0x89d480, 0x886040,
  158:bluetooth_le.c **** 	0x9a8400, 0x9b30c0, 0x99ed80, 0x985940, 0x9c5700, 0x9de3c0, 0x9f3e80, 0x9e8a40,
-ARM GAS  /tmp/ccpJwKA0.s 			page 31
+ARM GAS  /tmp/cc2Y2aXw.s 			page 31
 
 
  159:bluetooth_le.c **** 	0x972200, 0x9696c0, 0x944b80, 0x95ff40, 0x91f100, 0x9045c0, 0x929880, 0x932c40
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  1609 002c 1A0A     		lsrs	r2, r3, #8
  1610 002e FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
  1611 0030 0949     		ldr	r1, .L43
-ARM GAS  /tmp/ccpJwKA0.s 			page 32
+ARM GAS  /tmp/cc2Y2aXw.s 			page 32
 
 
  1612 0032 51F82330 		ldr	r3, [r1, r3, lsl #2]
@@ -1903,40 +1903,40 @@ ARM GAS  /tmp/ccpJwKA0.s 			page 1
  1647              		.file 2 "/usr/lib/gcc/arm-none-eabi/4.9.3/include/stdint-gcc.h"
  1648              		.file 3 "../common/ubertooth.h"
  1649              		.file 4 "bluetooth_le.h"
-ARM GAS  /tmp/ccpJwKA0.s 			page 33
+ARM GAS  /tmp/cc2Y2aXw.s 			page 33
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 bluetooth_le.c
-     /tmp/ccpJwKA0.s:19     .data:0000000000000000 $d
-     /tmp/ccpJwKA0.s:22     .data:0000000000000000 iap_entry
-     /tmp/ccpJwKA0.s:25     .rodata:0000000000000000 $d
-     /tmp/ccpJwKA0.s:28     .rodata:0000000000000000 advertising_channels
-     /tmp/ccpJwKA0.s:35     .rodata:0000000000000004 data_channels
-     /tmp/ccpJwKA0.s:76     .rodata:000000000000002c payload
-     /tmp/ccpJwKA0.s:100    .rodata:0000000000000040 whitening
-     /tmp/ccpJwKA0.s:231    .rodata:00000000000000c0 whitening_index
-     /tmp/ccpJwKA0.s:275    .rodata:00000000000000e8 hop_interval_lut
-     /tmp/ccpJwKA0.s:316    .rodata:0000000000000110 whitening_word
-     /tmp/ccpJwKA0.s:798    .text.btle_next_hop:0000000000000000 $t
-     /tmp/ccpJwKA0.s:803    .text.btle_next_hop:0000000000000000 btle_next_hop
-     /tmp/ccpJwKA0.s:962    .text.btle_channel_index_to_phys:0000000000000000 btle_channel_index_to_phys
-     /tmp/ccpJwKA0.s:861    .text.btle_next_hop:000000000000004c $d
-     /tmp/ccpJwKA0.s:870    .bss:0000000000000000 received_data
-     /tmp/ccpJwKA0.s:867    .bss:0000000000000000 $d
-     /tmp/ccpJwKA0.s:873    .text.btle_channel_index:0000000000000000 $t
-     /tmp/ccpJwKA0.s:878    .text.btle_channel_index:0000000000000000 btle_channel_index
-     /tmp/ccpJwKA0.s:957    .text.btle_channel_index_to_phys:0000000000000000 $t
-     /tmp/ccpJwKA0.s:1041   .text.btle_calc_crc:0000000000000000 $t
-     /tmp/ccpJwKA0.s:1046   .text.btle_calc_crc:0000000000000000 btle_calc_crc
-     /tmp/ccpJwKA0.s:1153   .text.btle_calc_crc:0000000000000084 $d
-     /tmp/ccpJwKA0.s:1158   .text.btle_reverse_crc:0000000000000000 $t
-     /tmp/ccpJwKA0.s:1163   .text.btle_reverse_crc:0000000000000000 btle_reverse_crc
-     /tmp/ccpJwKA0.s:1300   .text.btle_reverse_crc:00000000000000c0 $d
-     /tmp/ccpJwKA0.s:1309   .data:0000000000000004 btle_crc_lut
-     /tmp/ccpJwKA0.s:1567   .text.btle_crcgen_lut:0000000000000000 $t
-     /tmp/ccpJwKA0.s:1572   .text.btle_crcgen_lut:0000000000000000 btle_crcgen_lut
-     /tmp/ccpJwKA0.s:1641   .text.btle_crcgen_lut:0000000000000058 $d
+     /tmp/cc2Y2aXw.s:19     .data:0000000000000000 $d
+     /tmp/cc2Y2aXw.s:22     .data:0000000000000000 iap_entry
+     /tmp/cc2Y2aXw.s:25     .rodata:0000000000000000 $d
+     /tmp/cc2Y2aXw.s:28     .rodata:0000000000000000 advertising_channels
+     /tmp/cc2Y2aXw.s:35     .rodata:0000000000000004 data_channels
+     /tmp/cc2Y2aXw.s:76     .rodata:000000000000002c payload
+     /tmp/cc2Y2aXw.s:100    .rodata:0000000000000040 whitening
+     /tmp/cc2Y2aXw.s:231    .rodata:00000000000000c0 whitening_index
+     /tmp/cc2Y2aXw.s:275    .rodata:00000000000000e8 hop_interval_lut
+     /tmp/cc2Y2aXw.s:316    .rodata:0000000000000110 whitening_word
+     /tmp/cc2Y2aXw.s:798    .text.btle_next_hop:0000000000000000 $t
+     /tmp/cc2Y2aXw.s:803    .text.btle_next_hop:0000000000000000 btle_next_hop
+     /tmp/cc2Y2aXw.s:962    .text.btle_channel_index_to_phys:0000000000000000 btle_channel_index_to_phys
+     /tmp/cc2Y2aXw.s:861    .text.btle_next_hop:000000000000004c $d
+     /tmp/cc2Y2aXw.s:870    .bss:0000000000000000 received_data
+     /tmp/cc2Y2aXw.s:867    .bss:0000000000000000 $d
+     /tmp/cc2Y2aXw.s:873    .text.btle_channel_index:0000000000000000 $t
+     /tmp/cc2Y2aXw.s:878    .text.btle_channel_index:0000000000000000 btle_channel_index
+     /tmp/cc2Y2aXw.s:957    .text.btle_channel_index_to_phys:0000000000000000 $t
+     /tmp/cc2Y2aXw.s:1041   .text.btle_calc_crc:0000000000000000 $t
+     /tmp/cc2Y2aXw.s:1046   .text.btle_calc_crc:0000000000000000 btle_calc_crc
+     /tmp/cc2Y2aXw.s:1153   .text.btle_calc_crc:0000000000000084 $d
+     /tmp/cc2Y2aXw.s:1158   .text.btle_reverse_crc:0000000000000000 $t
+     /tmp/cc2Y2aXw.s:1163   .text.btle_reverse_crc:0000000000000000 btle_reverse_crc
+     /tmp/cc2Y2aXw.s:1300   .text.btle_reverse_crc:00000000000000c0 $d
+     /tmp/cc2Y2aXw.s:1309   .data:0000000000000004 btle_crc_lut
+     /tmp/cc2Y2aXw.s:1567   .text.btle_crcgen_lut:0000000000000000 $t
+     /tmp/cc2Y2aXw.s:1572   .text.btle_crcgen_lut:0000000000000000 btle_crcgen_lut
+     /tmp/cc2Y2aXw.s:1641   .text.btle_crcgen_lut:0000000000000058 $d
                      .debug_frame:0000000000000010 $d
 
 NO UNDEFINED SYMBOLS

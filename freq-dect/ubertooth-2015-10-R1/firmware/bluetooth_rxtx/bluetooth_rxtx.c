@@ -274,7 +274,7 @@ static int enqueue(u8 type, u8 *buf)
 	f->rssi_min = rssi_min;
 	f->rssi_max = rssi_max;
 	f->reserved[0] = device_index;
-//	f->rssi_avg = device_index;
+	f->rssi_avg = rssi_sum/rssi_count;
 	
 //	f->rssi_count = device_index;
 
@@ -305,6 +305,160 @@ static int enqueue(u8 type, u8 *buf)
 
 	return 1;
 }
+
+
+static int enqueue_legacy(u8 type, u8 *buf)
+{
+	usb_pkt_rx *f = usb_enqueue();
+
+	/* fail if queue is full */
+	if (f == NULL) {
+		status |= FIFO_OVERFLOW;
+		return 0;
+	}
+
+	f->pkt_type = type;
+//	f->clkn_high = idle_buf_clkn_high;
+	f->clk100ns = clkn;
+	
+	f->channel = idle_buf_channel - 2402;
+//	f->rssi_min = rssi_min;
+//	f->rssi_max = rssi_max;
+//	f->reserved[0] = device_index;
+	f->rssi_avg = rssi_sum/rssi_count;
+	
+//	f->rssi_count = device_index;
+
+	USRLED_SET;
+
+	// Unrolled copy of 50 bytes from buf to fifo
+	u32 *p1 = (u32 *)f->data;
+	u32 *p2 = (u32 *)buf;
+	p1[0] = p2[0];
+	p1[1] = p2[1];
+	p1[2] = p2[2];
+	p1[3] = p2[3];
+	p1[4] = p2[4];
+	p1[5] = p2[5];
+	p1[6] = p2[6];
+	p1[7] = p2[7];
+	p1[8] = p2[8];
+	p1[9] = p2[9];
+	p1[10] = p2[10];
+	p1[11] = p2[11];
+	/* Avoid gcc warning about strict-aliasing */
+	u16 *p3 = (u16 *)f->data;
+	u16 *p4 = (u16 *)buf;
+	p3[24] = p4[24];
+
+	f->status = status;
+	status = 0;
+
+	return 1;
+}
+
+
+
+static int enqueue_freq(u8 type, u8 *buf)
+{
+	usb_pkt_rx *f = usb_enqueue();
+
+	/* fail if queue is full */
+	if (f == NULL) {
+		status |= FIFO_OVERFLOW;
+		return 0;
+	}
+
+	f->pkt_type = type;
+	
+	f->clkn_high = idle_buf_clkn_high;
+	f->clk100ns = clkn;
+	
+	f->channel = idle_buf_channel - 2402;
+//	f->rssi_min = rssi_min;
+//	f->rssi_max = rssi_max;
+	f->reserved[0] = device_index;
+//	f->rssi_avg = rssi_sum/rssi_count;
+
+	USRLED_SET;
+
+	// Unrolled copy of 50 bytes from buf to fifo
+	u32 *p1 = (u32 *)f->data;
+	u32 *p2 = (u32 *)buf;
+	p1[0] = p2[0];
+	p1[1] = p2[1];
+	p1[2] = p2[2];
+	p1[3] = p2[3];
+	p1[4] = p2[4];
+	p1[5] = p2[5];
+	p1[6] = p2[6];
+	p1[7] = p2[7];
+	p1[8] = p2[8];
+	p1[9] = p2[9];
+	p1[10] = p2[10];
+	p1[11] = p2[11];
+	/* Avoid gcc warning about strict-aliasing */
+	u16 *p3 = (u16 *)f->data;
+	u16 *p4 = (u16 *)buf;
+	p3[24] = p4[24];
+
+	f->status = status;
+	status = 0;
+
+	return 1;
+}
+
+
+
+static int enqueue_proposed(u8 type, u8 *buf)
+{
+	usb_pkt_rx *f = usb_enqueue();
+
+	/* fail if queue is full */
+	if (f == NULL) {
+		status |= FIFO_OVERFLOW;
+		return 0;
+	}
+
+	f->pkt_type = type;
+//	f->clkn_high = idle_buf_clkn_high;
+	f->clk100ns = clkn;
+	f->channel = idle_buf_channel - 2402;
+//	f->rssi_min = rssi_min;
+//	f->rssi_max = rssi_max;
+	f->rssi_avg = rssi_avg;
+	
+	f->reserved[1] = freq_avg;
+//	f->rssi_count = device_index;
+
+	USRLED_SET;
+
+	// Unrolled copy of 50 bytes from buf to fifo
+/*	u32 *p1 = (u32 *)f->data;
+	u32 *p2 = (u32 *)buf;
+	p1[0] = p2[0];
+	p1[1] = p2[1];
+	p1[2] = p2[2];
+	p1[3] = p2[3];
+	p1[4] = p2[4];
+	p1[5] = p2[5];
+	p1[6] = p2[6];
+	p1[7] = p2[7];
+	p1[8] = p2[8];
+	p1[9] = p2[9];
+	p1[10] = p2[10];
+	p1[11] = p2[11];
+	u16 *p3 = (u16 *)f->data;
+	u16 *p4 = (u16 *)buf;
+	p3[24] = p4[24];
+*/
+	f->status = status;
+	status = 0;
+
+	return 1;
+}
+
+
 
 int enqueue_with_ts(u8 type, u8 *buf, u32 ts)
 {
@@ -1615,7 +1769,7 @@ void bt_stream_proposed()
 		freq_avg = now;
 	
 		diff_ts = second_ts - first_ts;
-		enqueue_with_ts(FREQ_PACKET, rssi, diff_ts);
+		enqueue_proposed(FREQ_PACKET, rssi);
 //		enqueue(FREQ_PACKET, rssi);
 		handle_usb(clkn);
 
@@ -1752,7 +1906,7 @@ void bt_stream_freq()
 		if (p[38] == 0x00 && p[39] == 0x3d)
 		{
 			device_index = p[40];
-			enqueue (MESSAGE, freq_buf);
+			enqueue_freq (MESSAGE, freq_buf);
 			handle_usb(clkn);
 		}
 		RXLED_CLR;
@@ -1782,6 +1936,148 @@ void bt_stream_freq()
 //	dio_ssp_stop ();
 //	cs_trigger_disable ();
 }
+
+
+// wpson
+void bt_stream_legacy()
+{
+//	TXLED_SET;
+	RXLED_CLR;
+	int i;
+	
+	u8 rssi_buf[DMA_SIZE];
+	queue_init();
+	dio_ssp_init();
+	dma_init_le();
+	dio_ssp_start();
+	
+	cc2400_set(MANAND, 0x7fff);
+	cc2400_set(LMTST,   0x2b22);
+	cc2400_set(MDMTST0, 0x124b); // without PRNG
+	cc2400_set(GRMDM,   0x0561); // un-buffered mode, GFSK
+	cc2400_set(MDMCTRL, 0x0040); // 160 kHz frequency deviation
+
+//	cc2400_set(SYNCH, 0xf9ae);
+//	cc2400_set(SYNCL, 0x1584);
+	
+	cc2400_set(SYNCL,   rbit(0x8e89bed6) & 0xffff);
+	cc2400_set(SYNCH,   (rbit(0x8e89bed6) >> 16) & 0xffff);
+	
+#ifdef UBERTOOTH_ONE
+	PAEN_SET;
+//	HGM_SET;
+#endif
+
+	while (!(cc2400_status() & XOSC16M_STABLE));
+	while ((cc2400_status() & FS_LOCK));
+
+	cc2400_set(FSDIV, channel - 1);
+	cc2400_strobe(SFSON);
+	while (!(cc2400_status() & FS_LOCK));
+	cc2400_strobe(SRX);
+	
+	while (requested_mode == MODE_RX_SYMBOLS) {
+		
+		while (!(cc2400_status () & SYNC_RECEIVED));
+/*		int out;
+                u8 rssi = cc2400_get(RSSI) >> 8;
+                if (rssi >= 128)
+                        out = rssi - 256;
+                else
+                        out = rssi;
+                if (out < 0)
+		  goto rx_flush;
+*/
+		rssi_sum = 0;
+		rssi_count = 5;
+		for (i = 0; i < rssi_count; i++)
+		{
+			rssi_sum += (int8_t)(cc2400_get(RSSI) >> 8);
+		}
+	
+		while (!rx_tc);
+	
+		RXLED_SET;
+		if (rx_err) {
+		status |= DMA_ERROR;
+		}	
+		if (rx_tc > 1)
+			status |= DMA_OVERFLOW;
+		uint32_t packet[48/4+1];
+		u8 *p = (u8 *)packet;
+		packet[0] = le.access_address;
+
+                while (DMACC0Config & DMACCxConfig_E && rx_err == 0);
+                
+			
+		DIO_SSP_DMACR &= ~SSPDMACR_RXDMAE;
+	
+		const uint32_t *whit = whitening_word[btle_channel_index(channel-2402)];
+		for (i = 0; i < 44; i += 4) {
+			uint32_t v = rxbuf1[i+0] << 24
+                                          | rxbuf1[i+1] << 16
+                                      | rxbuf1[i+2] << 8
+                                          | rxbuf1[i+3] << 0;
+                        packet[i/4+1] = rbit(v) ^ whit[i/4];
+		}
+
+/*		for (i = 0; i < 36; i += 4) {
+			uint32_t v = eddystone[i+0] << 24
+                                          | eddystone[i+1] << 16
+                                      | eddystone[i+2] << 8
+                                          | eddystone[i+3] << 0;
+                        packet[i/4+1] = rbit(v) ^ whit[i/4];
+		}
+*/
+		unsigned len = (p[5] & 0x3f) + 2;
+		
+		if (len > 39)
+			goto rx_flush;
+
+		u32 calc_crc = btle_crcgen_lut(le.crc_init_reversed, p + 4, len);
+		u32 wire_crc = (p[4+len+2] << 16)
+                                                 | (p[4+len+1] << 8)
+                                                 | (p[4+len+0] << 0);
+                if (calc_crc != wire_crc) // skip packets with a bad CRC
+                        goto rx_flush;
+
+
+		enqueue_legacy (BR_PACKET, (uint8_t*)packet);
+//		enqueue (BR_PACKET, (uint8_t*)rxbuf1);
+		handle_usb(clkn);
+//		enqueue (MESSAGE, rssi_buf);
+//		handle_usb(clkn);
+		RXLED_CLR;
+	       
+	rx_flush:
+		cc2400_strobe (SRFOFF);
+                while ((cc2400_status () & FS_LOCK));
+
+                while (!(cc2400_status () & XOSC16M_STABLE));
+
+                cc2400_strobe (SFSON);
+                while (!(cc2400_status () & FS_LOCK));
+
+		DIO_SSP_DMACR &= ~SSPDMACR_RXDMAE;
+		while (SSP1SR & SSPSR_RNE) {
+                        u8 tmp = (u8)DIO_SSP_DR;
+                }
+		dma_init_le();
+		dio_ssp_start();
+		
+//              msleep(500);    
+                cc2400_strobe (SRX);
+		rx_tc = 0;
+		rx_err = 0;
+	 
+	
+	}
+	dio_ssp_stop ();
+	cs_trigger_disable ();
+}
+
+
+
 
 // wpson
 void bt_stream_rx()
@@ -2919,7 +3215,7 @@ int main()
 					break;
 				case MODE_RX_SYMBOLS:
 					mode = MODE_RX_SYMBOLS;
-					bt_stream_rx();
+					bt_stream_legacy();
 					break;
 				case MODE_RX_FREQ:
 					mode = MODE_RX_FREQ;
