@@ -51,6 +51,10 @@ u8 device_index;
 u32 first_ts, second_ts, diff_ts;
 uint8_t rssi_avg;
 uint8_t freq_avg;
+uint32_t clkn_freq;
+uint32_t clkn_legacy;
+uint32_t clkn_proposed;
+
 
 volatile u32 clkn;                       // clkn 3200 Hz counter
 #define CLK100NS (3125*(clkn & 0xfffff) + T0TC)
@@ -320,7 +324,7 @@ static int enqueue_legacy(u8 type, u8 *buf)
 
 	f->pkt_type = type;
 //	f->clkn_high = idle_buf_clkn_high;
-	f->clk100ns = clkn;
+	f->clk100ns = clkn_legacy;
 	
 	f->channel = idle_buf_channel - 2402;
 //	f->rssi_min = rssi_min;
@@ -373,7 +377,7 @@ static int enqueue_freq(u8 type, u8 *buf)
 	f->pkt_type = type;
 	
 	f->clkn_high = idle_buf_clkn_high;
-	f->clk100ns = clkn;
+	f->clk100ns = clkn_freq;
 	
 	f->channel = idle_buf_channel - 2402;
 //	f->rssi_min = rssi_min;
@@ -423,7 +427,7 @@ static int enqueue_proposed(u8 type, u8 *buf)
 
 	f->pkt_type = type;
 //	f->clkn_high = idle_buf_clkn_high;
-	f->clk100ns = clkn;
+	f->clk100ns = clkn_proposed;
 	f->channel = idle_buf_channel - 2402;
 //	f->rssi_min = rssi_min;
 //	f->rssi_max = rssi_max;
@@ -435,7 +439,7 @@ static int enqueue_proposed(u8 type, u8 *buf)
 	USRLED_SET;
 
 	// Unrolled copy of 50 bytes from buf to fifo
-/*	u32 *p1 = (u32 *)f->data;
+	u32 *p1 = (u32 *)f->data;
 	u32 *p2 = (u32 *)buf;
 	p1[0] = p2[0];
 	p1[1] = p2[1];
@@ -452,7 +456,7 @@ static int enqueue_proposed(u8 type, u8 *buf)
 	u16 *p3 = (u16 *)f->data;
 	u16 *p4 = (u16 *)buf;
 	p3[24] = p4[24];
-*/
+
 	f->status = status;
 	status = 0;
 
@@ -1681,7 +1685,7 @@ u8 add (u8 x, u8 y)
   return x;
 }
 
-// wpson
+// wpson proposed
 void bt_stream_proposed()
 {
 
@@ -1734,7 +1738,7 @@ void bt_stream_proposed()
 	{
 
 			
-//		while (!(cc2400_status () & SYNC_RECEIVED));	
+	//	while (!(cc2400_status () & SYNC_RECEIVED));	
 		window = 0;
 		old = 0;
 		now = 0;
@@ -1743,40 +1747,41 @@ void bt_stream_proposed()
 
 //		diff_ts = CLK100NS - first_ts;
 //wpson
-		while (window < 8)
+		while ( window < 5)
 		{	
-			first_ts = CLK100NS;
+//			first_ts = CLK100NS;
 			now = cc2400_get_rev(FREQEST);	 
 			diff = add (now, add (~old, 1)); // 5->8
 			if (diff & 0x80) 
 				diff = add (~diff, 1);	
 
-			if (diff < 0x03)
+			if (diff < 0x05)
 				window++;
 			else
 			{
-				outage = add (outage, 1);
-				if (outage > 1)
-				{
-					outage = 0;
+			//	outage = add (outage, 1);
+			//	if (outage > 1)
+		//		{
+			//		outage = 0;
 					window = 0;
-				}
+		//		}
 			}
 			old = now;
-			second_ts = CLK100NS;
+//			second_ts = CLK100NS;
 		}
-	
+
 		rssi_avg = ((int8_t)cc2400_get_rev(RSSI) + (int8_t)cc2400_get_rev(RSSI))/2;
 		freq_avg = now;
 	
-		diff_ts = second_ts - first_ts;
+		clkn_proposed = clkn;
+//		diff_ts = second_ts - first_ts;
 		enqueue_proposed(FREQ_PACKET, rssi);
 //		enqueue(FREQ_PACKET, rssi);
 		handle_usb(clkn);
 
-//		first_ts = CLK100NS;
-//		while ((CLK100NS-first_ts)<3000)
-//		{};
+		first_ts = CLK100NS;
+		while ((CLK100NS-first_ts)<500)
+		{};
 /*		cc2400_strobe (SRFOFF);
 		while ((cc2400_status () & FS_LOCK));
 
@@ -1791,8 +1796,8 @@ void bt_stream_proposed()
 */
 	}
 	mode = MODE_IDLE;
-//	dio_ssp_stop ();
-//	cs_trigger_disable ();
+	dio_ssp_stop ();
+	cs_trigger_disable ();
 }
 
 
@@ -1855,8 +1860,8 @@ void bt_stream_freq()
 		{
 			freq_buf[i] = cc2400_get_rev(FREQEST);	
 		}
-
-
+		clkn_freq = clkn;
+		
 		while (!rx_tc);
 	
 		RXLED_SET;
@@ -1934,8 +1939,8 @@ void bt_stream_freq()
 	 
 	
 	}
-//	dio_ssp_stop ();
-//	cs_trigger_disable ();
+	dio_ssp_stop ();
+	cs_trigger_disable ();
 }
 
 
@@ -1996,6 +2001,7 @@ void bt_stream_legacy()
 			rssi_sum += (int8_t)(cc2400_get(RSSI) >> 8);
 		}
 	
+		clkn_legacy = clkn;
 		while (!rx_tc);
 	
 		RXLED_SET;

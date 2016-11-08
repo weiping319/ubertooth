@@ -24,6 +24,7 @@
 
 #include "ubertooth_control.h"
 #include <btbb.h>
+#include <math.h>
 
 /* Mark unused variables to avoid gcc/clang warnings */
 #define UNUSED(x) (void)(x)

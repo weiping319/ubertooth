@@ -26,6 +26,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <math.h>
 
 #ifdef ENABLE_PCAP
 #include <pcap.h>

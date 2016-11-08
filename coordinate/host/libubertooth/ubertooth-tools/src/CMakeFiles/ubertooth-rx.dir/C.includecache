@@ -41,6 +41,8 @@ ubertooth_control.h
 src/ubertooth_control.h
 btbb.h
 -
+math.h
+-
 
 src/ubertooth_control.h
 libusb.h

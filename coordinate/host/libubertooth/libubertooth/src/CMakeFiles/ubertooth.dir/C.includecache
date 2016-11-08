@@ -19,6 +19,8 @@ unistd.h
 -
 signal.h
 -
+math.h
+-
 ubertooth.h
 /home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.h
 ubertooth_control.h
@@ -28,6 +30,8 @@ ubertooth_control.h
 ubertooth_control.h
 /home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth_control.h
 btbb.h
+-
+math.h
 -
 
 /home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth_control.h

@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cckcwL0q.s 			page 1
+ARM GAS  /tmp/ccJqrrQc.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
   14:bluetooth.c   ****  * GNU General Public License for more details.
   15:bluetooth.c   ****  *
   16:bluetooth.c   ****  * You should have received a copy of the GNU General Public License
-ARM GAS  /tmp/cckcwL0q.s 			page 2
+ARM GAS  /tmp/ccJqrrQc.s 			page 2
 
 
   17:bluetooth.c   ****  * along with this program; see the file COPYING.  If not, write to
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
   77 0034 FB73     		strb	r3, [r7, #15]
   78              	.L2:
   36:bluetooth.c   **** 	for (i = 0; n != 0; i++)
-ARM GAS  /tmp/cckcwL0q.s 			page 3
+ARM GAS  /tmp/ccJqrrQc.s 			page 3
 
 
   79              		.loc 1 36 0 is_stmt 0 discriminator 1
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  125 0010 7849     		ldr	r1, .L13+4
  126 0012 4FF00002 		mov	r2, #0
  127 0016 4FF00003 		mov	r3, #0
-ARM GAS  /tmp/cckcwL0q.s 			page 4
+ARM GAS  /tmp/ccJqrrQc.s 			page 4
 
 
  128 001a C1E90023 		strd	r2, [r1]
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  170 0064 BB68     		ldr	r3, [r7, #8]
  171 0066 DB0C     		lsrs	r3, r3, #19
  172 0068 DBB2     		uxtb	r3, r3
-ARM GAS  /tmp/cckcwL0q.s 			page 5
+ARM GAS  /tmp/ccJqrrQc.s 			page 5
 
 
  173 006a 03F00F03 		and	r3, r3, #15
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  218              		.loc 1 63 0
  219 00c2 BB68     		ldr	r3, [r7, #8]
  220 00c4 9B0A     		lsrs	r3, r3, #10
-ARM GAS  /tmp/cckcwL0q.s 			page 6
+ARM GAS  /tmp/ccJqrrQc.s 			page 6
 
 
  221 00c6 9BB2     		uxth	r3, r3
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  266 011a 1344     		add	r3, r3, r2
  267 011c DAB2     		uxtb	r2, r3
   69:bluetooth.c   **** 		((address >> 2) & 0x02) +
-ARM GAS  /tmp/cckcwL0q.s 			page 7
+ARM GAS  /tmp/ccJqrrQc.s 			page 7
 
 
  268              		.loc 1 69 0
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  314 0170 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
  315 0172 1344     		add	r3, r3, r2
  316 0174 DAB2     		uxtb	r2, r3
-ARM GAS  /tmp/cckcwL0q.s 			page 8
+ARM GAS  /tmp/ccJqrrQc.s 			page 8
 
 
  317 0176 284B     		ldr	r3, .L13+40
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  363 01be DB08     		lsrs	r3, r3, #3
  364 01c0 DBB2     		uxtb	r3, r3
  365 01c2 1A46     		mov	r2, r3
-ARM GAS  /tmp/cckcwL0q.s 			page 9
+ARM GAS  /tmp/ccJqrrQc.s 			page 9
 
 
  366 01c4 154B     		ldr	r3, .L13+44
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  418 0006 00       		.byte	0
  419 0007 03       		.byte	3
  420 0008 01       		.byte	1
-ARM GAS  /tmp/cckcwL0q.s 			page 10
+ARM GAS  /tmp/ccJqrrQc.s 			page 10
 
 
  421 0009 00       		.byte	0
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  470 0012 FB79     		ldrb	r3, [r7, #7]
  471 0014 03F01F03 		and	r3, r3, #31
  472 0018 FB71     		strb	r3, [r7, #7]
-ARM GAS  /tmp/cckcwL0q.s 			page 11
+ARM GAS  /tmp/ccJqrrQc.s 			page 11
 
 
   89:bluetooth.c   **** 	p_high &= 0x1f;
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  516 0070 0A46     		mov	r2, r1
  517 0072 1A70     		strb	r2, [r3]
   98:bluetooth.c   **** 		p[i] = (p_low >> i) & 0x01;
-ARM GAS  /tmp/cckcwL0q.s 			page 12
+ARM GAS  /tmp/ccJqrrQc.s 			page 12
 
 
  518              		.loc 1 98 0 discriminator 3
@@ -718,7 +718,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  563 00c0 03F00103 		and	r3, r3, #1
  564 00c4 D9B2     		uxtb	r1, r3
  565 00c6 07F13C02 		add	r2, r7, #60
-ARM GAS  /tmp/cckcwL0q.s 			page 13
+ARM GAS  /tmp/ccJqrrQc.s 			page 13
 
 
  566 00ca 7B6C     		ldr	r3, [r7, #68]
@@ -778,7 +778,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  611 0124 1344     		add	r3, r3, r2
  612 0126 13F80C2C 		ldrb	r2, [r3, #-12]	@ zero_extendqisi2
  613 012a 07F14803 		add	r3, r7, #72
-ARM GAS  /tmp/cckcwL0q.s 			page 14
+ARM GAS  /tmp/ccJqrrQc.s 			page 14
 
 
  614 012e 0B44     		add	r3, r3, r1
@@ -838,7 +838,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  657 0184 0133     		adds	r3, r3, #1
  658 0186 7B64     		str	r3, [r7, #68]
  659              	.L25:
-ARM GAS  /tmp/cckcwL0q.s 			page 15
+ARM GAS  /tmp/ccJqrrQc.s 			page 15
 
 
  119:bluetooth.c   **** 	for (i = 0; i < 5; i++)
@@ -898,7 +898,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  129:bluetooth.c   **** 	u32 base_f, f, f_dash;
  130:bluetooth.c   **** 
  131:bluetooth.c   **** 	clock &= 0xffffffff;
-ARM GAS  /tmp/cckcwL0q.s 			page 16
+ARM GAS  /tmp/ccJqrrQc.s 			page 16
 
 
  132:bluetooth.c   **** 	/* Variable names used in Vol 2, Part B, Section 2.6 of the spec */
@@ -958,7 +958,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  753 006c FB83     		strh	r3, [r7, #30]	@ movhi
  140:bluetooth.c   **** 	/* e is already defined */
  141:bluetooth.c   **** 	base_f = (clock >> 3) & 0x1fffff0;
-ARM GAS  /tmp/cckcwL0q.s 			page 17
+ARM GAS  /tmp/ccJqrrQc.s 			page 17
 
 
  754              		.loc 1 141 0
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  147:bluetooth.c   **** 		d);
  148:bluetooth.c   **** 	/* hop selection */
  149:bluetooth.c   **** 	next_channel = bank[(perm + e + f + y2) % CHANNELS];
-ARM GAS  /tmp/cckcwL0q.s 			page 18
+ARM GAS  /tmp/ccJqrrQc.s 			page 18
 
 
  803              		.loc 1 149 0
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  854 0146 104A     		ldr	r2, .L33+36
  855 0148 D35C     		ldrb	r3, [r2, r3]
  856 014a 87F82730 		strb	r3, [r7, #39]
-ARM GAS  /tmp/cckcwL0q.s 			page 19
+ARM GAS  /tmp/ccJqrrQc.s 			page 19
 
 
  857              	.L31:
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  906              		.cfi_def_cfa_offset 40
  907 0004 00AF     		add	r7, sp, #0
  908              		.cfi_def_cfa_register 7
-ARM GAS  /tmp/cckcwL0q.s 			page 20
+ARM GAS  /tmp/ccJqrrQc.s 			page 20
 
 
  909 0006 7860     		str	r0, [r7, #4]
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  953              		.loc 1 165 0 is_stmt 0 discriminator 1
  954 0068 3969     		ldr	r1, [r7, #16]
  955 006a 0729     		cmp	r1, #7
-ARM GAS  /tmp/cckcwL0q.s 			page 21
+ARM GAS  /tmp/ccJqrrQc.s 			page 21
 
 
  956 006c D6DD     		ble	.L38
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  995 00b0 0133     		adds	r3, r3, #1
  996 00b2 3B61     		str	r3, [r7, #16]
  997 00b4 3B69     		ldr	r3, [r7, #16]
-ARM GAS  /tmp/cckcwL0q.s 			page 22
+ARM GAS  /tmp/ccJqrrQc.s 			page 22
 
 
  998 00b6 7A68     		ldr	r2, [r7, #4]
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  1043 0118 1846     		mov	r0, r3
  1044 011a 1837     		adds	r7, r7, #24
  1045              		.cfi_def_cfa_offset 16
-ARM GAS  /tmp/cckcwL0q.s 			page 23
+ARM GAS  /tmp/ccJqrrQc.s 			page 23
 
 
  1046 011c BD46     		mov	sp, r7
@@ -1338,13 +1338,13 @@ ARM GAS  /tmp/cckcwL0q.s 			page 1
  1061              		.file 3 "../../host/libubertooth/src/ubertooth_interface.h"
  1062              		.file 4 "../common/ubertooth.h"
  1063              		.file 5 "bluetooth.h"
-ARM GAS  /tmp/cckcwL0q.s 			page 24
+ARM GAS  /tmp/ccJqrrQc.s 			page 24
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 bluetooth.c
-     /tmp/cckcwL0q.s:19     .data:0000000000000000 $d
-     /tmp/cckcwL0q.s:22     .data:0000000000000000 iap_entry
+     /tmp/ccJqrrQc.s:19     .data:0000000000000000 $d
+     /tmp/ccJqrrQc.s:22     .data:0000000000000000 iap_entry
                             *COM*:0000000000000010 target
                             *COM*:0000000000000008 syncword
                             *COM*:0000000000000001 afh_enabled
@@ -1357,21 +1357,21 @@ DEFINED SYMBOLS
                             *COM*:000000000000004f bank
                             *COM*:000000000000004f afh_bank
                             *COM*:0000000000000001 used_channels
-     /tmp/cckcwL0q.s:37     .text.count_bits:0000000000000000 $t
-     /tmp/cckcwL0q.s:42     .text.count_bits:0000000000000000 count_bits
-     /tmp/cckcwL0q.s:100    .text.precalc:0000000000000000 $t
-     /tmp/cckcwL0q.s:105    .text.precalc:0000000000000000 precalc
-     /tmp/cckcwL0q.s:394    .text.precalc:00000000000001f0 $d
-     /tmp/cckcwL0q.s:410    .rodata:0000000000000000 $d
-     /tmp/cckcwL0q.s:443    .text.perm5:0000000000000000 $t
-     /tmp/cckcwL0q.s:448    .text.perm5:0000000000000000 perm5
-     /tmp/cckcwL0q.s:681    .text.perm5:000000000000019c $d
-     /tmp/cckcwL0q.s:687    .text.next_hop:0000000000000000 $t
-     /tmp/cckcwL0q.s:692    .text.next_hop:0000000000000000 next_hop
-     /tmp/cckcwL0q.s:874    .text.next_hop:0000000000000164 $d
-     /tmp/cckcwL0q.s:888    .text.find_access_code:0000000000000000 $t
-     /tmp/cckcwL0q.s:893    .text.find_access_code:0000000000000000 find_access_code
-     /tmp/cckcwL0q.s:1053   .text.find_access_code:0000000000000120 $d
+     /tmp/ccJqrrQc.s:37     .text.count_bits:0000000000000000 $t
+     /tmp/ccJqrrQc.s:42     .text.count_bits:0000000000000000 count_bits
+     /tmp/ccJqrrQc.s:100    .text.precalc:0000000000000000 $t
+     /tmp/ccJqrrQc.s:105    .text.precalc:0000000000000000 precalc
+     /tmp/ccJqrrQc.s:394    .text.precalc:00000000000001f0 $d
+     /tmp/ccJqrrQc.s:410    .rodata:0000000000000000 $d
+     /tmp/ccJqrrQc.s:443    .text.perm5:0000000000000000 $t
+     /tmp/ccJqrrQc.s:448    .text.perm5:0000000000000000 perm5
+     /tmp/ccJqrrQc.s:681    .text.perm5:000000000000019c $d
+     /tmp/ccJqrrQc.s:687    .text.next_hop:0000000000000000 $t
+     /tmp/ccJqrrQc.s:692    .text.next_hop:0000000000000000 next_hop
+     /tmp/ccJqrrQc.s:874    .text.next_hop:0000000000000164 $d
+     /tmp/ccJqrrQc.s:888    .text.find_access_code:0000000000000000 $t
+     /tmp/ccJqrrQc.s:893    .text.find_access_code:0000000000000000 find_access_code
+     /tmp/ccJqrrQc.s:1053   .text.find_access_code:0000000000000120 $d
                      .debug_frame:0000000000000010 $d
 
 NO UNDEFINED SYMBOLS

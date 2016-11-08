@@ -12,7 +12,7 @@ SET(CMAKE_C_COMPILER_ID "GNU")
 # Preprocessor definitions for this target.
 SET(CMAKE_TARGET_DEFINITIONS
   "ENABLE_PCAP"
-  "RELEASE=\"998f89b*\""
+  "RELEASE=\"7461aa4*\""
   "VERSION=\"0.2\""
   )
 

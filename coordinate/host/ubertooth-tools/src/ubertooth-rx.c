@@ -63,8 +63,9 @@ int main(int argc, char *argv[])
 	uint8_t uap = 0;
 	int legacy = 0;
 	int proposed = 0;
+	int demo = 0;
 
-	while ((opt=getopt(argc,argv,"LPhVi:l:u:U:d:e:r:sq:t:")) != EOF) {
+	while ((opt=getopt(argc,argv,"DLPhVi:l:u:U:d:e:r:sq:t:")) != EOF) {
 		switch(opt) {
 		case 'i':
 			infile = fopen(optarg, "r");
@@ -130,6 +131,9 @@ int main(int argc, char *argv[])
 		case 'P':
 			proposed = 1;
 			break;
+		case 'D':
+			demo = 1;
+ 			break;
 		case 'V':
 			print_version();
 			return 0;
@@ -181,7 +185,11 @@ int main(int argc, char *argv[])
 		{ 
 			rx_legacy(devh, pn, timeout);
 		}
-		else
+		else if (demo == 1)
+		{
+			rx_demo(devh, pn, timeout);
+		}
+		else 
 		{
 			rx_live(devh, pn, timeout);
 		}

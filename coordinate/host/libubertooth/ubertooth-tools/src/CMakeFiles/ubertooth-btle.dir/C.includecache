@@ -21,6 +21,8 @@ unistd.h
 -
 stdlib.h
 -
+math.h
+-
 pcap.h
 -
 
@@ -48,6 +50,8 @@ src/ubertooth.h
 ubertooth_control.h
 src/ubertooth_control.h
 btbb.h
+-
+math.h
 -
 
 src/ubertooth_control.h
