@@ -1149,7 +1149,7 @@ int stream_rx_freq_demo(struct libusb_device_handle* devh, int xfer_size)
 					}
 				
 				
-					if (index == 5)
+					if (index == 10)
 			  		{
 						int maximum = counter[0];
 						int location = 0;
@@ -1164,6 +1164,13 @@ int stream_rx_freq_demo(struct libusb_device_handle* devh, int xfer_size)
 						cfo[0] = location;
 						printf("DEV: %d CFO: %d TIME: %f\n", rx->reserved[0], location, time_in_mill);
 						stop_ubertooth = 1;
+						for (j = 0; j < 100; j++)
+						{
+							if (counter[j] != 0)
+							{
+								printf("DEV: %d CFO: %d COUNT: %d\n", rx->reserved[0], j - 50, counter[j]);
+							}	
+						}
 					}
 				}
 			}
@@ -1383,9 +1390,9 @@ int stream_rx_proposed_demo(struct libusb_device_handle* devh, int xfer_size)
 					cycle++;
 					remainder = advInterval - remainder;
 				}	
-				if (remainder < 15 * cycle) 
+				if (remainder < 10 * cycle) 
 				{
-                        		if (diffCfo[0] < 0x04)
+                        		if (diffCfo[0] < 0x03)
 					{
 						arrTime[0] = time_in_mill;
 						

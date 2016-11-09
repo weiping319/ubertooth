@@ -1701,7 +1701,7 @@ void bt_stream_proposed()
 //	u8 index = 0;
 	u8 old = 0;
 	u8 now = 0;
-	u8 diff = 0;
+	int8_t diff = 0;
 	u8 k = 0;
 	u8 temp = 0;
 	u8 outage = 0;
@@ -1747,31 +1747,24 @@ void bt_stream_proposed()
 
 //		diff_ts = CLK100NS - first_ts;
 //wpson
-		while ( window < 5)
+		while ( window < 6)
 		{	
 //			first_ts = CLK100NS;
-			now = cc2400_get_rev(FREQEST);	 
-			diff = add (now, add (~old, 1)); // 5->8
-			if (diff & 0x80) 
+			now = cc2400_get_rev(FREQEST);
+			diff = add (now, add (~old, 1));	 
+/*			if (diff & 0x80) 
 				diff = add (~diff, 1);	
-
-			if (diff < 0x05)
+*/
+			if (diff < 4 && diff > -4)
 				window++;
 			else
-			{
-			//	outage = add (outage, 1);
-			//	if (outage > 1)
-		//		{
-			//		outage = 0;
-					window = 0;
-		//		}
-			}
+				window = 0;
 			old = now;
 //			second_ts = CLK100NS;
 		}
 
-		rssi_avg = ((int8_t)cc2400_get_rev(RSSI) + (int8_t)cc2400_get_rev(RSSI))/2;
-		freq_avg = now;
+		rssi_avg = (int8_t)cc2400_get_rev(RSSI);
+		freq_avg = cc2400_get_rev(FREQEST);;
 	
 		clkn_proposed = clkn;
 //		diff_ts = second_ts - first_ts;
@@ -1795,14 +1788,14 @@ void bt_stream_proposed()
 		cc2400_strobe (SRX);
 */
 	}
-	mode = MODE_IDLE;
+	cc2400_idle();
 	dio_ssp_stop ();
 	cs_trigger_disable ();
 }
 
 
 
-// wpson
+// wpson freq
 void bt_stream_freq()
 {
 //	TXLED_SET;
@@ -1939,6 +1932,7 @@ void bt_stream_freq()
 	 
 	
 	}
+	cc2400_idle();
 	dio_ssp_stop ();
 	cs_trigger_disable ();
 }
