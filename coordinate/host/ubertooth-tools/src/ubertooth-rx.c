@@ -29,6 +29,8 @@ extern FILE *infile;
 extern int max_ac_errors;
 
 struct libusb_device_handle *devh = NULL;
+struct libusb_device_handle *devh1 = NULL;
+struct libusb_device_handle *devh2 = NULL;
 
 static void usage()
 {
@@ -58,12 +60,15 @@ int main(int argc, char *argv[])
 	int reset_scan = 0;
 	char *end;
 	char ubertooth_device = -1;
+	char ubertooth_device1 = -1;
+	char ubertooth_device2 = -1;
 	btbb_piconet *pn = NULL;
 	uint32_t lap = 0;
 	uint8_t uap = 0;
 	int legacy = 0;
 	int proposed = 0;
 	int demo = 0;
+	
 
 	while ((opt=getopt(argc,argv,"DLPhVi:l:u:U:d:e:r:sq:t:")) != EOF) {
 		switch(opt) {
@@ -84,7 +89,10 @@ int main(int argc, char *argv[])
 			have_uap++;
 			break;
 		case 'U':
-			ubertooth_device = atoi(optarg);
+			if (ubertooth_device1 == -1)
+				ubertooth_device1 = atoi(optarg);
+			else
+				ubertooth_device2 = atoi(optarg);
 			break;
 		case 'r':
 			if (!h_pcapng_bredr) {
@@ -160,38 +168,62 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	if (infile == NULL) {
-		devh = ubertooth_start(ubertooth_device);
-		if (devh == NULL) {
+	if (infile == NULL) 
+	{
+		devh1 = ubertooth_start(ubertooth_device1);
+		if (devh1 == NULL) 
+		{
 			usage();
 			return 1;
 		}
+		if (ubertooth_device2 != -1)
+		{
+			devh2 = ubertooth_start(ubertooth_device2);
+			if (devh2 == NULL) 
+			{
+				usage();
+				return 1;
+			}
+		}
+	
 
 		/* Scan all frequencies. Same effect as
 		 * ubertooth-utils -c9999. This is necessary after
 		 * following a piconet. */
-		if (reset_scan) {
+/*		if (reset_scan) {
 			cmd_set_channel(devh, 9999);
 		}
-
+*/
 		/* Clean up on exit. */
-		register_cleanup_handler(devh);
-	
+
+		register_cleanup_handler(devh1);
+		
+		if (ubertooth_device2 != -1)
+		{
+			register_cleanup_handler(devh2);
+		}
+
 		if (proposed == 1)
 		{
-			rx_proposed(devh, pn, timeout);
+			if (ubertooth_device2 != -1)
+				rx_proposed2(devh1, devh2, pn, timeout);
+			else
+				rx_proposed(devh1, pn, timeout);
 		}
 		else if (legacy == 1)
 		{ 
-			rx_legacy(devh, pn, timeout);
+			rx_legacy(devh1, pn, timeout);
 		}
 		else if (demo == 1)
 		{
-			rx_demo(devh, pn, timeout);
+			if (ubertooth_device2 != -1)
+				rx_demo2(devh1, devh2, pn, timeout);
+			else
+				rx_demo(devh1, pn, timeout);
 		}
 		else 
 		{
-			rx_live(devh, pn, timeout);
+			rx_live(devh1, pn, timeout);
 		}
 //		rx_live(devh, pn, timeout);
 
@@ -199,8 +231,15 @@ int main(int argc, char *argv[])
 		if (pn)
 			btbb_print_afh_map(pn);
 
-		ubertooth_stop(devh);
-	} else {
+		if (ubertooth_device1 != -1)
+			ubertooth_stop(devh1);
+
+		if (ubertooth_device2 != -1)
+			ubertooth_stop(devh2);
+
+	} 
+	else 
+	{
 		rx_file(infile, pn);
 		fclose(infile);
 	}

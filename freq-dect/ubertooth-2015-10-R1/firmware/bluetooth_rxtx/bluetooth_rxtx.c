@@ -2073,6 +2073,8 @@ void bt_stream_legacy()
 	 
 	
 	}
+
+	cc2400_idle();
 	dio_ssp_stop ();
 	cs_trigger_disable ();
 }

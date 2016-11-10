@@ -41,9 +41,17 @@
 static usb_pkt_rx usb_packets[NUM_BANKS];
 static char br_symbols[NUM_BANKS][BANK_LEN];
 static u8 *empty_usb_buf = NULL;
+static u8 *empty_usb_buf1 = NULL;
+static u8 *empty_usb_buf2 = NULL;
 static u8 *full_usb_buf = NULL;
+static u8 *full_usb_buf1 = NULL;
+static u8 *full_usb_buf2 = NULL;
 static u8 usb_really_full = 0;
+static u8 usb_really_full1 = 0;
+static u8 usb_really_full2 = 0;
 static struct libusb_transfer *rx_xfer = NULL;
+static struct libusb_transfer *rx_xfer1 = NULL;
+static struct libusb_transfer *rx_xfer2 = NULL;
 static uint32_t systime;
 static u8 stop_ubertooth = 0;
 static uint64_t abs_start_ns;
@@ -247,6 +255,90 @@ static void cb_xfer(struct libusb_transfer *xfer)
 	rx_xfer->buffer = empty_usb_buf;
 
 	r = libusb_submit_transfer(rx_xfer);
+	if (r < 0)
+		fprintf(stderr, "Failed to submit USB transfer (%d)\n", r);
+}
+
+
+static void cb_xfer1(struct libusb_transfer *xfer)
+{
+	int r;
+	uint8_t *tmp;
+
+	if (xfer->status != LIBUSB_TRANSFER_COMPLETED) {
+		if(xfer->status == LIBUSB_TRANSFER_TIMED_OUT) {
+			r = libusb_submit_transfer(rx_xfer1);
+			if (r < 0)
+			fprintf(stderr, "Failed to submit USB transfer (%d)\n", r);
+			return;
+		}
+		if(xfer->status != LIBUSB_TRANSFER_CANCELLED)
+			rx_xfer_status(xfer->status);
+		libusb_free_transfer(xfer);
+		rx_xfer1 = NULL;
+		return;
+	}
+
+	if(usb_really_full1) {
+		/* This should never happen, but we'd prefer to error and exit
+		 * than to clobber existing data
+		 */
+		fprintf(stderr, "uh oh, full_usb_buf not emptied\n");
+		stop_ubertooth = 1;
+	}
+	
+	if(stop_ubertooth)
+		return;
+
+	tmp = full_usb_buf1;
+	full_usb_buf1 = empty_usb_buf1;
+	empty_usb_buf1 = tmp;
+	usb_really_full1 = 1;
+	rx_xfer1->buffer = empty_usb_buf1;
+
+	r = libusb_submit_transfer(rx_xfer1);
+	if (r < 0)
+		fprintf(stderr, "Failed to submit USB transfer (%d)\n", r);
+}
+
+
+static void cb_xfer2(struct libusb_transfer *xfer)
+{
+	int r;
+	uint8_t *tmp;
+
+	if (xfer->status != LIBUSB_TRANSFER_COMPLETED) {
+		if(xfer->status == LIBUSB_TRANSFER_TIMED_OUT) {
+			r = libusb_submit_transfer(rx_xfer2);
+			if (r < 0)
+			fprintf(stderr, "Failed to submit USB transfer (%d)\n", r);
+			return;
+		}
+		if(xfer->status != LIBUSB_TRANSFER_CANCELLED)
+			rx_xfer_status(xfer->status);
+		libusb_free_transfer(xfer);
+		rx_xfer2 = NULL;
+		return;
+	}
+
+	if(usb_really_full2) {
+		/* This should never happen, but we'd prefer to error and exit
+		 * than to clobber existing data
+		 */
+		fprintf(stderr, "uh oh, full_usb_buf not emptied\n");
+		stop_ubertooth = 1;
+	}
+	
+	if(stop_ubertooth)
+		return;
+
+	tmp = full_usb_buf2;
+	full_usb_buf2 = empty_usb_buf2;
+	empty_usb_buf2 = tmp;
+	usb_really_full2 = 1;
+	rx_xfer2->buffer = empty_usb_buf2;
+
+	r = libusb_submit_transfer(rx_xfer2);
 	if (r < 0)
 		fprintf(stderr, "Failed to submit USB transfer (%d)\n", r);
 }
@@ -819,6 +911,47 @@ void rx_proposed(struct libusb_device_handle* devh, btbb_piconet* pn, int timeou
 //		cmd_stop(devh);
 	}
 }
+void rx_proposed2(struct libusb_device_handle* devh1, struct libusb_device_handle* devh2, btbb_piconet* pn, int timeout)
+{
+	if (timeout)
+		set_timeout(timeout);
+
+	int stop = stream_rx_freq(devh1, XFER_LEN);
+	
+	sleep(1);
+	if (stop == 1)
+	{
+		stop_ubertooth = 0;
+		usb_really_full = 0;
+		cmd_stop(devh1);
+		sleep(1);
+				
+		stream_rx_proposed(devh1, XFER_LEN);
+//		cmd_stop(devh);
+	}
+}
+
+void rx_demo2(struct libusb_device_handle* devh1, struct libusb_device_handle* devh2, btbb_piconet* pn, int timeout)
+{
+	if (timeout)
+		set_timeout(timeout);
+
+	int stop = stream_rx_freq_demo(devh2, XFER_LEN);
+	
+	sleep(1);
+	if (stop == 1)
+	{
+		stop_ubertooth = 0;
+		usb_really_full1 = 0;
+		usb_really_full2 = 0;
+		cmd_stop(devh2);
+		sleep(1);
+				
+		stream_rx_proposed_demo2(devh1, devh2, XFER_LEN);
+//		cmd_stop(devh);
+	}
+}
+
 
 void rx_demo(struct libusb_device_handle* devh, btbb_piconet* pn, int timeout)
 {
@@ -839,8 +972,6 @@ void rx_demo(struct libusb_device_handle* devh, btbb_piconet* pn, int timeout)
 //		cmd_stop(devh);
 	}
 }
-
-
 
 /* Receive and process packets. For now, returning from
  * stream_rx_usb() means that UAP and clocks have been found, and that
@@ -1316,6 +1447,177 @@ u8 add (u8 x, u8 y)
   }
   return x;
 }
+
+
+// wpson demo
+int stream_rx_proposed_demo2(struct libusb_device_handle* devh1, struct libusb_device_handle* devh2, int xfer_size)
+{
+	int xfer_blocks, i, r, j, rssi;
+	usb_pkt_rx* rx;
+	
+	double last1 = 0;
+	double last2 = 0;
+	uint8_t rx_buf11[BUFFER_SIZE];
+	uint8_t rx_buf12[BUFFER_SIZE];
+	uint8_t rx_buf21[BUFFER_SIZE];
+	uint8_t rx_buf22[BUFFER_SIZE];
+
+	if (xfer_size > BUFFER_SIZE)
+		xfer_size = BUFFER_SIZE;
+
+	xfer_blocks = xfer_size / PKT_LEN;
+	xfer_size = xfer_blocks * PKT_LEN;
+	
+	empty_usb_buf1 = &rx_buf11[0];
+	empty_usb_buf2 = &rx_buf12[0];
+
+	full_usb_buf1 = &rx_buf21[0];
+	full_usb_buf2 = &rx_buf22[0];
+
+	usb_really_full1 = 0;
+	usb_really_full2 = 0;
+	
+	rx_xfer1 = libusb_alloc_transfer(0);
+	rx_xfer2 = libusb_alloc_transfer(0);
+
+	libusb_fill_bulk_transfer(rx_xfer1, devh1, DATA_IN, empty_usb_buf1,
+			xfer_size, cb_xfer1, NULL, TIMEOUT);
+	libusb_fill_bulk_transfer(rx_xfer2, devh2, DATA_IN, empty_usb_buf2,
+			xfer_size, cb_xfer2, NULL, TIMEOUT);
+
+
+
+	printf("start proposed + legacy\n");
+
+	cmd_rx_syms(devh1);
+
+	cmd_rx_proposed(devh2);
+
+
+	r = libusb_submit_transfer(rx_xfer1);
+	
+	if (r < 0)
+	{
+		fprintf(stderr, "rx_xfer1 submission: %f\n", r);
+		return -1;
+	}
+	
+	r = libusb_submit_transfer(rx_xfer2);
+	
+	if (r < 0)
+	{
+		fprintf(stderr, "rx_xfer2 submission: %f\n", r);
+		return -1;
+	}
+
+	while (1) 
+	{
+		while ((!usb_really_full1) && (!usb_really_full2)) 
+			{
+				r = libusb_handle_events(NULL);
+				if (r < 0)
+				{
+					if (r == LIBUSB_ERROR_INTERRUPTED)
+						break;
+					show_libusb_error(r);
+				}
+			}
+		if (usb_really_full1)
+		{
+		/* process each received block */
+			for (i = 0; i < xfer_blocks; i++) 
+			{
+			
+				rx = (usb_pkt_rx *)(full_usb_buf1 + PKT_LEN * i);
+				if (rx->pkt_type == BR_PACKET)
+				{
+					struct timeval tv;
+					gettimeofday(&tv, NULL);
+					double time_in_mill = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
+
+					int k = PKT_LEN * i + SYM_OFFSET + 38;
+	
+					if (full_usb_buf1[k] == 0x00 && full_usb_buf1[k+1] == 0x3d)
+					{
+						rssi = cc2400_rssi_to_dbm (convert_to_int (rx->rssi_avg));
+						printf("Legacy DEV: %02x time: %f RSSI: %d DIFF: %f s\n\n",
+							full_usb_buf1[k+2],
+							time_in_mill,
+							rssi,
+							(time_in_mill - last1)/1000);
+						last1 = time_in_mill;
+					}
+				}
+
+				if (stop_ubertooth) 
+				{
+					if(rx_xfer1)
+						libusb_cancel_transfer(rx_xfer1);
+					return 1;
+				}
+			}
+			usb_really_full1 = 0;
+			fflush(stderr);
+		}
+
+		if (usb_really_full2)
+		{
+		/* process each received block */
+			for (i = 0; i < xfer_blocks; i++) 
+			{
+			
+				rx = (usb_pkt_rx *)(full_usb_buf2 + PKT_LEN * i);
+				if (rx->pkt_type == FREQ_PACKET)
+				{
+					struct timeval tv;
+					gettimeofday(&tv, NULL);
+					double time_in_mill = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
+              
+					diffTime[0] = time_in_mill - arrTime[0];
+
+					diffCfo[0] = add (cfo[0], add (~(rx->reserved[1]), 1)); // 5->8		          	
+					if (diffCfo[0] & 0x80)
+                                		diffCfo[0] = add (~diffCfo[0], 1);
+				
+					int cycle = (int)(diffTime[0]/advInterval);
+					int remainder = diffTime[0] - advInterval * cycle;
+					if (remainder > (advInterval/2))
+					{
+						cycle++;
+						remainder = advInterval - remainder;
+					}	
+					if (remainder < 10 * cycle) 
+					{
+                        			if (diffCfo[0] < 0x03)
+						{
+							arrTime[0] = time_in_mill;
+						
+							printf("Proposed time: %f  DEV: 0 RSSI: %d FREQ: %d DIFF: %f s\n\n", 
+								time_in_mill,
+								cc2400_rssi_to_dbm(convert_to_int(rx->rssi_avg)),
+								convert_to_int(rx->reserved[1]),
+								(time_in_mill - last2)/1000);
+							last2 = time_in_mill;
+
+						}
+					}	
+				}
+				if (stop_ubertooth) 
+				{
+					if(rx_xfer2)
+						libusb_cancel_transfer(rx_xfer2);
+					return 1;
+				}
+			}
+			usb_really_full2 = 0;
+			fflush(stderr);
+		}
+	}
+	ubertooth_stop (devh1);
+	ubertooth_stop (devh2);
+	return 0;
+}
+
 
 
 // wpson demo
