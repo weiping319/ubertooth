@@ -23,6 +23,9 @@
 #include <err.h>
 #include <getopt.h>
 #include <stdlib.h>
+#include <signal.h>
+#include <unistd.h>
+
 
 extern FILE *dumpfile;
 extern FILE *infile;
@@ -68,7 +71,7 @@ int main(int argc, char *argv[])
 	int legacy = 0;
 	int proposed = 0;
 	int demo = 0;
-	
+
 
 	while ((opt=getopt(argc,argv,"DLPhVi:l:u:U:d:e:r:sq:t:")) != EOF) {
 		switch(opt) {
@@ -196,11 +199,14 @@ int main(int argc, char *argv[])
 */
 		/* Clean up on exit. */
 
-		register_cleanup_handler(devh1);
 		
 		if (ubertooth_device2 != -1)
 		{
-			register_cleanup_handler(devh2);
+			register_cleanup_handler2(devh1, devh2);
+		}
+		else
+		{
+			register_cleanup_handler(devh1);
 		}
 
 		if (proposed == 1)

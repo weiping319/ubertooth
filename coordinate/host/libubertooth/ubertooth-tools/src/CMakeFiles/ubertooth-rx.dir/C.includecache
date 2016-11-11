@@ -15,6 +15,10 @@ getopt.h
 -
 stdlib.h
 -
+signal.h
+-
+unistd.h
+-
 
 /usr/include/libusb-1.0/libusb.h
 stdint.h

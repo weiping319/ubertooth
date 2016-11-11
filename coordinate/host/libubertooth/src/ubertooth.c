@@ -96,12 +96,23 @@ void print_version() {
 }
 
 struct libusb_device_handle *cleanup_devh = NULL;
+struct libusb_device_handle *cleanup_devh1 = NULL;
+struct libusb_device_handle *cleanup_devh2 = NULL;
 static void cleanup(int sig __attribute__((unused)))
 {
 	if (cleanup_devh) {
 		ubertooth_stop(cleanup_devh);
 	}
+//	exit(0);
+	if (cleanup_devh1) {
+		ubertooth_stop(cleanup_devh1);
+	}
+//	exit(0);
+	if (cleanup_devh2) {
+		ubertooth_stop(cleanup_devh2);
+	}
 	exit(0);
+
 }
 
 void register_cleanup_handler(struct libusb_device_handle *devh) {
@@ -112,6 +123,16 @@ void register_cleanup_handler(struct libusb_device_handle *devh) {
 	signal(SIGQUIT, cleanup);
 	signal(SIGTERM, cleanup);
 }
+void register_cleanup_handler2(struct libusb_device_handle *devh1, struct libusb_device_handle *devh2) {
+	cleanup_devh1 = devh1;
+	cleanup_devh2 = devh2;
+
+	/* Clean up on exit. */
+	signal(SIGINT, cleanup);
+	signal(SIGQUIT, cleanup);
+	signal(SIGTERM, cleanup);
+}
+
 
 void stop_transfers(int sig __attribute__((unused))) {
 	stop_ubertooth = 1;
@@ -241,7 +262,7 @@ static void cb_xfer(struct libusb_transfer *xfer)
 		/* This should never happen, but we'd prefer to error and exit
 		 * than to clobber existing data
 		 */
-		fprintf(stderr, "uh oh, full_usb_buf not emptied\n");
+	//	fprintf(stderr, "uh oh, full_usb_buf not emptied\n");
 		stop_ubertooth = 1;
 	}
 	
@@ -283,7 +304,7 @@ static void cb_xfer1(struct libusb_transfer *xfer)
 		/* This should never happen, but we'd prefer to error and exit
 		 * than to clobber existing data
 		 */
-		fprintf(stderr, "uh oh, full_usb_buf not emptied\n");
+//		fprintf(stderr, "uh oh, full_usb_buf not emptied\n");
 		stop_ubertooth = 1;
 	}
 	
@@ -325,7 +346,7 @@ static void cb_xfer2(struct libusb_transfer *xfer)
 		/* This should never happen, but we'd prefer to error and exit
 		 * than to clobber existing data
 		 */
-		fprintf(stderr, "uh oh, full_usb_buf not emptied\n");
+//		fprintf(stderr, "uh oh, full_usb_buf not emptied\n");
 		stop_ubertooth = 1;
 	}
 	
