@@ -160,7 +160,9 @@ volatile u8 requested_mode = MODE_IDLE;
 volatile u8 jam_mode = JAM_NONE;
 volatile u8 ego_mode = 0;
 volatile u8 modulation = MOD_BT_BASIC_RATE;
-volatile u16 channel = 2402;
+//volatile u16 channel = 2402;
+volatile u16 channel = 2426;
+//volatile u16 channel = 2480;
 volatile u16 requested_channel = 0;
 volatile u16 saved_request = 0;
 volatile u16 low_freq = 2400;
@@ -1764,7 +1766,7 @@ void bt_stream_proposed()
 		}
 
 		rssi_avg = (int8_t)cc2400_get_rev(RSSI);
-		freq_avg = cc2400_get_rev(FREQEST);;
+		freq_avg = now;
 	
 		clkn_proposed = clkn;
 //		diff_ts = second_ts - first_ts;

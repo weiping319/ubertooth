@@ -71,9 +71,9 @@ int main(int argc, char *argv[])
 	int legacy = 0;
 	int proposed = 0;
 	int demo = 0;
+	int cfo_mode = 0;
 
-
-	while ((opt=getopt(argc,argv,"DLPhVi:l:u:U:d:e:r:sq:t:")) != EOF) {
+	while ((opt=getopt(argc,argv,"FDLPhVi:l:u:U:d:e:r:sq:t:")) != EOF) {
 		switch(opt) {
 		case 'i':
 			infile = fopen(optarg, "r");
@@ -145,6 +145,9 @@ int main(int argc, char *argv[])
 		case 'D':
 			demo = 1;
  			break;
+		case 'F':
+			cfo_mode = 1;
+			break;
 		case 'V':
 			print_version();
 			return 0;
@@ -226,6 +229,10 @@ int main(int argc, char *argv[])
 				rx_demo2(devh1, devh2, pn, timeout);
 			else
 				rx_demo(devh1, pn, timeout);
+		}
+		else if (cfo_mode == 1)
+		{
+			rx_cfo(devh1, pn, timeout);
 		}
 		else 
 		{

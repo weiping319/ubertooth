@@ -37,6 +37,8 @@
 #define VERSION "unknown"
 #endif
 
+#define NUM 9
+
 /* this stuff should probably be in a struct managed by the calling program */
 static usb_pkt_rx usb_packets[NUM_BANKS];
 static char br_symbols[NUM_BANKS][BANK_LEN];
@@ -913,6 +915,17 @@ void rx_live(struct libusb_device_handle* devh, btbb_piconet* pn, int timeout)
 
 }
 
+
+void rx_cfo(struct libusb_device_handle* devh, btbb_piconet* pn, int timeout)
+{
+	if (timeout)
+		set_timeout(timeout);
+
+	stream_rx_cfo(devh, XFER_LEN);
+}
+
+
+
 void rx_proposed(struct libusb_device_handle* devh, btbb_piconet* pn, int timeout)
 {
 	if (timeout)
@@ -928,10 +941,13 @@ void rx_proposed(struct libusb_device_handle* devh, btbb_piconet* pn, int timeou
 		cmd_stop(devh);
 		sleep(1);
 				
-		stream_rx_proposed(devh, XFER_LEN);
+//		stream_rx_proposed(devh, XFER_LEN);
 //		cmd_stop(devh);
 	}
 }
+
+
+
 void rx_proposed2(struct libusb_device_handle* devh1, struct libusb_device_handle* devh2, btbb_piconet* pn, int timeout)
 {
 	if (timeout)
@@ -959,14 +975,14 @@ void rx_demo2(struct libusb_device_handle* devh1, struct libusb_device_handle* d
 
 	int stop = stream_rx_freq_demo(devh2, XFER_LEN);
 	
-	sleep(1);
+//	sleep(1);
 	if (stop == 1)
 	{
 		stop_ubertooth = 0;
 		usb_really_full1 = 0;
 		usb_really_full2 = 0;
 		cmd_stop(devh2);
-		sleep(1);
+		//sleep(1);
 				
 		stream_rx_proposed_demo2(devh1, devh2, XFER_LEN);
 //		cmd_stop(devh);
@@ -1341,10 +1357,93 @@ int stream_rx_freq_demo(struct libusb_device_handle* devh, int xfer_size)
 }
 
 
+// wpson cfo
+int stream_rx_cfo(struct libusb_device_handle* devh, int xfer_size)
+{	
+	int xfer_blocks, i, r, j, rssi, finished;
+	usb_pkt_rx* rx;
+	
+	uint8_t rx_buf1[BUFFER_SIZE];
+	uint8_t rx_buf2[BUFFER_SIZE];
+
+
+	if (xfer_size > BUFFER_SIZE)
+		xfer_size = BUFFER_SIZE;
+	xfer_blocks = xfer_size / PKT_LEN;
+	xfer_size = xfer_blocks * PKT_LEN;
+	
+	empty_usb_buf = &rx_buf1[0];
+	full_usb_buf = &rx_buf2[0];
+	usb_really_full = 0;
+	
+	rx_xfer = libusb_alloc_transfer(0);
+	libusb_fill_bulk_transfer(rx_xfer, devh, DATA_IN, empty_usb_buf,
+			xfer_size, cb_xfer, NULL, TIMEOUT);
+
+
+	cmd_rx_freq(devh);
+//	cmd_specan(devh, low_freq, high_freq);
+
+	r = libusb_submit_transfer(rx_xfer);
+	
+	if (r < 0)
+	{
+		fprintf(stderr, "rx_xfer submission: %f\n", r);
+		return -1;
+	}
+	while (1) 
+	{
+		while (!usb_really_full) 
+			{
+				r = libusb_handle_events(NULL);
+				if (r < 0)
+				{
+					if (r == LIBUSB_ERROR_INTERRUPTED)
+						break;
+					show_libusb_error(r);
+				}
+			}
+		/* process each received block */
+		for (i = 0; i < xfer_blocks; i++) 
+		{
+			
+			rx = (usb_pkt_rx *)(full_usb_buf + PKT_LEN * i);
+
+			if (rx->pkt_type == MESSAGE) // freq detection
+			{
+				struct timeval tv;
+				gettimeofday(&tv, NULL);
+				double time_in_mill = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
+//			        printf("\nMESSAGE systime %f, Device: %d\n ", time_in_mill, rx->reserved[0]);
+				if (rx->reserved[0] == 0)
+				{	
+					printf("\n\n");
+					for (j = PKT_LEN * i + SYM_OFFSET; j < PKT_LEN * i + SYM_OFFSET + 45; j++)	
+			  		{
+						printf("DEV: %d CFO: %d \n", rx->reserved[0], convert_to_int(full_usb_buf[j]));
+					}
+				}
+			}
+		
+			if (stop_ubertooth) 
+			{
+				if(rx_xfer)
+					libusb_cancel_transfer(rx_xfer);
+				return 1;
+			}
+		}
+		usb_really_full = 0;
+		fflush(stderr);
+	}
+	return 0;
+}
+
+
+
 // wpson freq
 int stream_rx_freq(struct libusb_device_handle* devh, int xfer_size)
 {	
-	int xfer_blocks, i, r, j, rssi;
+	int xfer_blocks, i, r, j, rssi, finished;
 	usb_pkt_rx* rx;
 	
 	uint8_t rx_buf1[BUFFER_SIZE];
@@ -1352,17 +1451,18 @@ int stream_rx_freq(struct libusb_device_handle* devh, int xfer_size)
 
 	
 
-	int counter[3][100];
-	int index[3];
-	index[0] = 0;
-	index[1] = 0;
-	index[2] = 0;
+	int counter[NUM][100];
+	int index[NUM];
+	finished = 0;
+
+	for (i = 0; i < NUM; i++)
+		index[i] = 0;
+	
 
 	for (i = 0; i < 100; i++)
 	{
-		counter[0][i] = 0;
-		counter[1][i] = 0;
-		counter[2][i] = 0;
+		for (j = 0; j < NUM; j++)	
+			counter[j][i] = 0;
 	}
 //	int r, i, j, xfer_blocks, frequency, transferred;
 
@@ -1419,13 +1519,14 @@ int stream_rx_freq(struct libusb_device_handle* devh, int xfer_size)
 			
 				arrTime[rx->reserved[0]] = time_in_mill;
 	
-				for (j = PKT_LEN * i + SYM_OFFSET + 21; j < PKT_LEN * i + SYM_OFFSET + 32; j++)
+				for (j = PKT_LEN * i + SYM_OFFSET + 21; j < PKT_LEN * i + SYM_OFFSET + 30; j++)
 				{			
 					counter[rx->reserved[0]][convert_to_int(full_usb_buf[j])+50]++;
 				}
 				
-				if (index[rx->reserved[0]] == 5)
+				if (index[rx->reserved[0]] == 10)
 			  	{
+					finished++;
 					int maximum = counter[rx->reserved[0]][0];
 					int location = 0;
 					for (j = 1; j < 100; j++)
@@ -1439,9 +1540,21 @@ int stream_rx_freq(struct libusb_device_handle* devh, int xfer_size)
 					cfo[rx->reserved[0]] = location;
 					printf("DEV: %d CFO: %d TIME: %f\n", rx->reserved[0], location, time_in_mill);
 				}
-				if (index[0] >= 5 && index[1] >= 5 && index[2] >=5)
+				if (finished == NUM)
 				{
 					stop_ubertooth = 1;
+					for (i = 0; i < NUM; i++)
+					{
+						printf("\n");
+						for (j = 0; j < 100; j++)
+						{
+							if (counter[i][j] != 0)
+							{
+								printf("DEV: %d CFO: %d COUNT: %d\n", i, j - 50, counter[i][j]);
+							}	
+						}
+					}
+
 				}
 			}
 		
@@ -1508,7 +1621,7 @@ int stream_rx_proposed_demo2(struct libusb_device_handle* devh1, struct libusb_d
 
 
 
-	printf("start proposed + legacy\n");
+	printf("\n\nstart proposed + legacy\n\n");
 
 	cmd_rx_syms(devh1);
 
@@ -1556,6 +1669,7 @@ int stream_rx_proposed_demo2(struct libusb_device_handle* devh1, struct libusb_d
 					gettimeofday(&tv, NULL);
 					double time_in_mill = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
 
+
 					int k = PKT_LEN * i + SYM_OFFSET + 38;
 	
 					if (full_usb_buf1[k] == 0x00 && full_usb_buf1[k+1] == 0x3d)
@@ -1565,8 +1679,10 @@ int stream_rx_proposed_demo2(struct libusb_device_handle* devh1, struct libusb_d
 							full_usb_buf1[k+2],
 							time_in_mill,
 							rssi,
-							(time_in_mill - last1)/1000);
-						last1 = time_in_mill;
+							(time_in_mill - arrTime[0])/1000);
+
+						arrTime[0] = time_in_mill;
+
 					}
 				}
 
@@ -1611,15 +1727,14 @@ int stream_rx_proposed_demo2(struct libusb_device_handle* devh1, struct libusb_d
 					{
                         			if (diffCfo[0] < 0x03)
 						{
-							arrTime[0] = time_in_mill;
 						
-							printf("Proposed time: %f  DEV: 0 RSSI: %d FREQ: %d DIFF: %f s\n\n", 
+							printf("Proposed DEV: 0 time: %f  RSSI: %d DIFF: %f s\n\n", 
 								time_in_mill,
 								cc2400_rssi_to_dbm(convert_to_int(rx->rssi_avg)),
 								convert_to_int(rx->reserved[1]),
-								(time_in_mill - last2)/1000);
-							last2 = time_in_mill;
+								(time_in_mill - arrTime[0])/1000);
 
+							arrTime[0] = time_in_mill;
 						}
 					}	
 				}
@@ -1893,6 +2008,7 @@ int stream_rx_legacy(struct libusb_device_handle* devh, int xfer_size)
 				if (full_usb_buf[k] == 0x00 && full_usb_buf[k+1] == 0x3d)
 				{
 					rssi = cc2400_rssi_to_dbm (convert_to_int (rx->rssi_avg));
+					if (full_usb_buf[k+2] == 0)
 					printf("Legacy DEV: %02x time: %f RSSI: %d DIFF: %f s\n\n",
 						full_usb_buf[k+2],
 						time_in_mill,
