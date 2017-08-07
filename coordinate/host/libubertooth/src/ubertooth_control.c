@@ -67,6 +67,19 @@ int cmd_ping(struct libusb_device_handle* devh)
 	return 0;
 }
 
+int cmd_rx_sniff(struct libusb_device_handle* devh)
+{
+	int r;
+
+	r = libusb_control_transfer(devh, CTRL_OUT, UBERTOOTH_RX_SNIFF, 0, 0,
+			NULL, 0, 1000);
+	if (r < 0) {
+		show_libusb_error(r);
+		return r;
+	}
+	return 0;
+}
+
 int cmd_rx_syms(struct libusb_device_handle* devh)
 {
 	int r;
@@ -80,11 +93,50 @@ int cmd_rx_syms(struct libusb_device_handle* devh)
 	return 0;
 }
 
+int cmd_rx_hop(struct libusb_device_handle* devh, u16 ch)
+{
+	int r;
+	r = libusb_control_transfer(devh, CTRL_OUT, UBERTOOTH_RX_HOP, ch, 0,
+			NULL, 0, 1000);
+	if (r < 0) {
+		show_libusb_error(r);
+		return r;
+	}
+	return 0;
+
+}
+
+int cmd_rx_cfo(struct libusb_device_handle* devh)
+{
+	int r;
+
+	r = libusb_control_transfer(devh, CTRL_OUT, UBERTOOTH_RX_CFO, 0, 0,
+			NULL, 0, 1000);
+	if (r < 0) {
+		show_libusb_error(r);
+		return r;
+	}
+	return 0;
+}
+
 int cmd_rx_freq(struct libusb_device_handle* devh)
 {
 	int r;
 
 	r = libusb_control_transfer(devh, CTRL_OUT, UBERTOOTH_RX_FREQ, 0, 0,
+			NULL, 0, 1000);
+	if (r < 0) {
+		show_libusb_error(r);
+		return r;
+	}
+	return 0;
+}
+
+int cmd_rx_rssi(struct libusb_device_handle* devh)
+{
+	int r;
+
+	r = libusb_control_transfer(devh, CTRL_OUT, UBERTOOTH_RX_RSSI, 0, 0,
 			NULL, 0, 1000);
 	if (r < 0) {
 		show_libusb_error(r);
@@ -865,7 +917,7 @@ int cmd_poll(struct libusb_device_handle* devh, usb_pkt_rx *p)
 	r = libusb_control_transfer(devh, CTRL_IN, UBERTOOTH_POLL, 0, 0,
 			(u8 *)p, sizeof(usb_pkt_rx), 1000);
 	if (r < 0) {
-		show_libusb_error(r);
+	//	show_libusb_error(r);
 		return r;
 	}
 	return r;

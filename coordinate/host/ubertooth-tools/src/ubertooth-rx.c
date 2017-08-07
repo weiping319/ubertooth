@@ -30,10 +30,63 @@
 extern FILE *dumpfile;
 extern FILE *infile;
 extern int max_ac_errors;
+static int hopCh[] = {2402, 2426, 2480};
+static double scanWindow = 1000;
 
+int devNum = 1;
 struct libusb_device_handle *devh = NULL;
 struct libusb_device_handle *devh1 = NULL;
 struct libusb_device_handle *devh2 = NULL;
+
+int convert_to_int (int in)
+{
+	int out;
+	if (in >= 128)
+	{
+		out = (in - 256);
+	}
+	else
+	{
+		out = in;
+	}
+	return out;
+}
+
+static int8_t cc2400_rssi_to_dbm (const int8_t rssi)
+{
+	if (rssi <= -46)
+		return -100;
+	else if (rssi >= 34)
+		return -20;
+	else
+		return rssi - 54;
+}
+
+int cb_legacy(usb_pkt_rx *rx)
+{
+	if (rx->pkt_type == BR_PACKET)
+	{
+		struct timeval tv;
+		double now_ms;
+		gettimeofday(&tv, NULL);
+		now_ms = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
+
+		if (rx->data[38] == 0x00 && rx->data[39] == 0x3d)
+		{
+			int rssi = cc2400_rssi_to_dbm(convert_to_int (rx->rssi_avg));
+			if (rx->data[40] < devNum)
+			{
+				printf ("HOP DEV: %d time: %f RSSI: %d CH: %d\n",
+					rx->data[40],
+					now_ms,
+					rssi,
+					rx->channel
+					);
+			}
+		}
+	}
+}
+
 
 static void usage()
 {
@@ -53,6 +106,12 @@ static void usage()
 	printf("\t-e max_ac_errors (default: %d, range: 0-4)\n", max_ac_errors);
 	printf("\t-s reset channel scanning\n");
 	printf("\t-t <SECONDS> sniff timeout - 0 means no timeout [Default: 0]\n");
+	printf("\t-n number of devices\n");
+	printf("\t-L legacy\n");
+	printf("\t-P proposed\n");
+	printf("\t-F cfo mode\n");
+	printf("\t-R rssi mode\n");
+	printf("\t-S sniff mode \n");
 	printf("\nIf an input file is not specified, an Ubertooth device is used for live capture.\n");
 }
 
@@ -72,8 +131,11 @@ int main(int argc, char *argv[])
 	int proposed = 0;
 	int demo = 0;
 	int cfo_mode = 0;
+	int rssi_mode = 0;
+	int sniff_mode = 0;
+	int E = 0;
 
-	while ((opt=getopt(argc,argv,"FDLPhVi:l:u:U:d:e:r:sq:t:")) != EOF) {
+	while ((opt=getopt(argc,argv,"SFRDELPhVi:l:u:U:d:n:e:r:sq:t:")) != EOF) {
 		switch(opt) {
 		case 'i':
 			infile = fopen(optarg, "r");
@@ -82,6 +144,9 @@ int main(int argc, char *argv[])
 				usage();
 				return 1;
 			}
+			break;
+		case 'E':
+			E = 1;
 			break;
 		case 'l':
 			lap = strtol(optarg, &end, 16);
@@ -96,6 +161,9 @@ int main(int argc, char *argv[])
 				ubertooth_device1 = atoi(optarg);
 			else
 				ubertooth_device2 = atoi(optarg);
+			break;
+		case 'n':
+			devNum = atoi(optarg);
 			break;
 		case 'r':
 			if (!h_pcapng_bredr) {
@@ -148,6 +216,13 @@ int main(int argc, char *argv[])
 		case 'F':
 			cfo_mode = 1;
 			break;
+		case 'R':
+			rssi_mode = 1;
+			break;
+		case 'S':
+			sniff_mode = 1;
+			break;
+
 		case 'V':
 			print_version();
 			return 0;
@@ -176,6 +251,7 @@ int main(int argc, char *argv[])
 
 	if (infile == NULL) 
 	{
+		usb_pkt_rx pkt;
 		devh1 = ubertooth_start(ubertooth_device1);
 		if (devh1 == NULL) 
 		{
@@ -212,16 +288,52 @@ int main(int argc, char *argv[])
 			register_cleanup_handler(devh1);
 		}
 
+		if (E == 1)
+		{
+			struct timeval tv;
+			int hopIndex = 0;
+			double now_ms, last_ms;
+			cmd_rx_hop(devh1, 2402);
+			gettimeofday(&tv, NULL);
+			last_ms = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
+
+			while (1)
+			{
+				gettimeofday(&tv, NULL);
+				now_ms = (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
+				if ((now_ms - last_ms) > scanWindow)
+				{
+					printf("hopping\n");
+					cmd_set_channel (devh1, hopCh[(++hopIndex)%3]);
+					last_ms = now_ms;
+				}
+				int r = cmd_poll (devh1, &pkt);
+				if (r == sizeof(usb_pkt_rx))
+				{
+					cb_legacy(&pkt);
+					usleep(500);
+				}
+			}
+			
+		}
 		if (proposed == 1)
 		{
 			if (ubertooth_device2 != -1)
-				rx_proposed2(devh1, devh2, pn, timeout);
+			{
+				rx_proposed2(devh1, devh2, pn, timeout, devNum);
+		//		rx_proposed2_detection(devh1, devh2, pn, timeout);
+			}
 			else
 				rx_proposed(devh1, pn, timeout);
 		}
+		else if (sniff_mode == 1)
+		{ 
+			rx_sniff(devh1, pn, timeout);
+		}
+
 		else if (legacy == 1)
 		{ 
-			rx_legacy(devh1, pn, timeout);
+			rx_legacy(devh1, pn, timeout, devNum);
 		}
 		else if (demo == 1)
 		{
@@ -233,6 +345,10 @@ int main(int argc, char *argv[])
 		else if (cfo_mode == 1)
 		{
 			rx_cfo(devh1, pn, timeout);
+		}
+		else if (rssi_mode = 1)
+		{
+			rx_rssi(devh1, pn, timeout);
 		}
 		else 
 		{

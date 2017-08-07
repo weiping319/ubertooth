@@ -46,7 +46,7 @@ const char compile_info[] =
  * slot.
  */
 
-int interval = 2;
+int interval = 12;
 int power = 0;
 
 u32 clk = 0x00000000;

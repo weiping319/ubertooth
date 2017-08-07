@@ -99,7 +99,7 @@ u8 *active_rxbuf = &rxbuf1[0];
 u8 *idle_rxbuf = &rxbuf2[0];
 
 le_state_t le = {
-	.access_address = 0x8e89bed6,           // advertising channel access address
+	.access_address = 0x8e89bed6,           // advertising /channel access address
 	.synch = 0x6b7d,                        // bit-reversed adv channel AA
 	.syncl = 0x9171,
 	.crc_init  = 0x555555,                  // advertising channel CRCInit
@@ -160,9 +160,10 @@ volatile u8 requested_mode = MODE_IDLE;
 volatile u8 jam_mode = JAM_NONE;
 volatile u8 ego_mode = 0;
 volatile u8 modulation = MOD_BT_BASIC_RATE;
+//volatile u16 channel = 2455;
 //volatile u16 channel = 2402;
-volatile u16 channel = 2426;
-//volatile u16 channel = 2480;
+//volatile u16 channel = 2426;
+volatile u16 channel = 2480;
 volatile u16 requested_channel = 0;
 volatile u16 saved_request = 0;
 volatile u16 low_freq = 2400;
@@ -219,7 +220,23 @@ static void rssi_add(int8_t v)
 	rssi_count += 1;
 }
 
-/* For sweep mode, update IIR per channel. Otherwise, use single value. */
+static int8_t cc2400_rssi_to_dbm( const int8_t rssi )
+{
+  	if (rssi <= -46)
+  	{
+                return -100;
+    	}
+        else if (rssi >= 34)
+        {
+                return -20;
+        }
+        else
+        {
+                return rssi - 54;
+        }
+
+}
+
 static void rssi_iir_update(void)
 {
 	int i;
@@ -328,7 +345,7 @@ static int enqueue_legacy(u8 type, u8 *buf)
 //	f->clkn_high = idle_buf_clkn_high;
 	f->clk100ns = clkn_legacy;
 	
-	f->channel = idle_buf_channel - 2402;
+	f->channel = channel - 2402;
 //	f->rssi_min = rssi_min;
 //	f->rssi_max = rssi_max;
 //	f->reserved[0] = device_index;
@@ -573,11 +590,34 @@ static int vendor_request_handler(u8 request, u16 *request_params, u8 *data, int
 		*data_len = 0;
 		break;
 	
+	case UBERTOOTH_RX_HOP:
+		requested_mode = MODE_RX_HOP;
+		requested_channel = request_params[0];
+		channel = requested_channel;
+		*data_len = 0;
+		break;
+
 	case UBERTOOTH_RX_FREQ:
 		requested_mode = MODE_RX_FREQ;
 		*data_len = 0;
 		break;
+
+	case UBERTOOTH_RX_CFO:
+		requested_mode = MODE_RX_CFO;
+		*data_len = 0;
+		break;
+
+
+	case UBERTOOTH_RX_RSSI:
+		requested_mode = MODE_RX_RSSI;
+		*data_len = 0;
+		break;
 	
+	case UBERTOOTH_RX_SNIFF:
+		requested_mode = MODE_RX_SNIFF;
+		*data_len = 0;
+		break;
+
 	case UBERTOOTH_RX_PROPOSED:
 		requested_mode = MODE_RX_PROPOSED;
 		*data_len = 0;
@@ -753,11 +793,10 @@ static int vendor_request_handler(u8 request, u16 *request_params, u8 *data, int
 	case UBERTOOTH_SET_CHANNEL:
 		requested_channel = request_params[0];
 		/* bluetooth band sweep mode, start at channel 2402 */
-		if (requested_channel > MAX_FREQ) {
+	/*	if (requested_channel > MAX_FREQ) {
 			hop_mode = HOP_SWEEP;
 			requested_channel = 2402;
 		}
-		/* fixed channel mode, can be outside bluetooth band */
 		else {
 			hop_mode = HOP_NONE;
 			requested_channel = MAX(requested_channel, MIN_FREQ);
@@ -768,10 +807,9 @@ static int vendor_request_handler(u8 request, u16 *request_params, u8 *data, int
 			channel = requested_channel;
 			requested_channel = 0;
 
-			/* CS threshold is mode-dependent. Update it after
-			 * possible mode change. TODO - kludgy. */
 			cs_threshold_calc_and_set();
 		}
+	*/
 		break;
 
 	case UBERTOOTH_SET_ISP:
@@ -1260,8 +1298,9 @@ void DMA_IRQHandler()
 {
 	switch (mode) {
 		case MODE_RX_SYMBOLS:
+		case MODE_RX_SNIFF:
 		case MODE_RX_FREQ:
-		case MODE_RX_PROPOSED:
+		case MODE_RX_HOP:
 		case MODE_SPECAN:
 		case MODE_BT_FOLLOW:
 		case MODE_BT_FOLLOW_LE:
@@ -1666,7 +1705,7 @@ u32 cc2400_spi_rev(u8 len, u32 data)
         CSN_SET;
         return data;
 }
-
+/*
 u8 cc2400_get_rev(u8 reg)
 {
         u32 in;
@@ -1675,6 +1714,42 @@ u8 cc2400_get_rev(u8 reg)
         in = cc2400_spi_rev(16, out);
         return in & 0xFF;
 }
+*/
+u8 cc2400_get_rev(u8 reg)
+{
+//        u32 in;
+
+        u32 out = (reg | 0x80) << 8;
+//        in = cc2400_spi_rev(16, out);
+        u32 msb = 1 << 15;
+	
+	u8 len = 16;
+        /* start transaction by dropping CSN */
+        CSN_CLR;
+//      first_ts = CLK100NS;
+        while (len--) {
+                if (out & msb)
+                        MOSI_SET;
+                else
+                        MOSI_CLR;
+              
+		out <<= 1;
+
+                SCLK_SET;
+                if (MISO)
+                        out |= 1;
+
+                SCLK_CLR;
+        }
+//      second_ts = CLK100NS;
+//      diff_ts = second_ts - first_ts;
+
+        CSN_SET;
+  
+
+        return out & 0xFF;
+}
+
 
 u8 add (u8 x, u8 y)
 {
@@ -1687,6 +1762,159 @@ u8 add (u8 x, u8 y)
   return x;
 }
 
+//wpson hop
+void bt_stream_hop ()
+{
+	RXLED_CLR;
+	int i ;
+
+	ISER0 = ISER0_ISE_USB;
+	
+	queue_init();
+	dio_ssp_init();
+	dma_init_le();
+	dio_ssp_start();
+	
+	cc2400_set(MANAND, 0x7fff);
+	cc2400_set(LMTST,   0x2b22);
+	cc2400_set(MDMTST0, 0x124b); // without PRNG
+	cc2400_set(GRMDM,   0x0561); // un-buffered mode, GFSK
+	cc2400_set(MDMCTRL, 0x0040); // 160 kHz frequency deviation
+
+//	cc2400_set(SYNCH, 0xf9ae);
+//	cc2400_set(SYNCL, 0x1584);
+	
+	cc2400_set(SYNCL,   rbit(0x8e89bed6) & 0xffff);
+	cc2400_set(SYNCH,   (rbit(0x8e89bed6) >> 16) & 0xffff);
+	
+#ifdef UBERTOOTH_ONE
+	PAEN_SET;
+//	HGM_SET;
+#endif
+
+	while (!(cc2400_status() & XOSC16M_STABLE));
+	while ((cc2400_status() & FS_LOCK));
+
+	cc2400_set(FSDIV, channel - 1);
+	cc2400_strobe(SFSON);
+	while (!(cc2400_status() & FS_LOCK));
+	cc2400_strobe(SRX);
+	
+	while (requested_mode == MODE_RX_HOP) {
+
+//		ICER0 = ICER0_ICE_USB;		
+		while ((!(cc2400_status () & SYNC_RECEIVED)) && (requested_channel == channel));
+/*		int out;
+                u8 rssi = cc2400_get(RSSI) >> 8;
+                if (rssi >= 128)
+                        out = rssi - 256;
+                else
+                        out = rssi;
+                if (out < 0)
+		  goto rx_flush;
+*/
+		if (requested_channel != channel)
+			goto rx_flush;
+
+
+		rssi_sum = 0;
+		rssi_count = 2;
+		for (i = 0; i < rssi_count; i++)
+		{
+			rssi_sum += (int8_t)(cc2400_get(RSSI) >> 8);
+		}
+	
+//		ISER0 = ISER0_ISE_USB;
+		clkn_legacy = clkn;
+		while (!rx_tc);
+	
+		if (requested_mode != MODE_RX_HOP)
+			goto cleanup;
+
+		
+		if (rx_err) {
+		status |= DMA_ERROR;
+		}	
+		if (rx_tc > 1)
+			status |= DMA_OVERFLOW;
+
+		uint32_t packet[48/4+1];
+		u8 *p = (u8 *)packet;
+		packet[0] = le.access_address;
+
+                while (DMACC0Config & DMACCxConfig_E && rx_err == 0);
+                
+			
+		DIO_SSP_DMACR &= ~SSPDMACR_RXDMAE;
+	
+		const uint32_t *whit = whitening_word[btle_channel_index(channel-2402)];
+		for (i = 0; i < 44; i += 4) {
+			uint32_t v = rxbuf1[i+0] << 24
+                                          | rxbuf1[i+1] << 16
+                                      | rxbuf1[i+2] << 8
+                                          | rxbuf1[i+3] << 0;
+                        packet[i/4+1] = rbit(v) ^ whit[i/4];
+		}
+
+/*		for (i = 0; i < 36; i += 4) {
+			uint32_t v = eddystone[i+0] << 24
+                                          | eddystone[i+1] << 16
+                                      | eddystone[i+2] << 8
+                                          | eddystone[i+3] << 0;
+                        packet[i/4+1] = rbit(v) ^ whit[i/4];
+		}
+*/
+		unsigned len = (p[5] & 0x3f) + 2;
+		
+		if (len > 39)
+			goto rx_flush;
+
+		u32 calc_crc = btle_crcgen_lut(le.crc_init_reversed, p + 4, len);
+		u32 wire_crc = (p[4+len+2] << 16)
+                                                 | (p[4+len+1] << 8)
+                                                 | (p[4+len+0] << 0);
+                if (calc_crc != wire_crc) // skip packets with a bad CRC
+                        goto rx_flush;
+
+		RXLED_SET;
+
+		enqueue_legacy (BR_PACKET, (uint8_t*)packet);
+	       
+	rx_flush:
+		cc2400_strobe (SRFOFF);
+                while ((cc2400_status () & FS_LOCK));
+
+		if (requested_channel != channel)
+		{
+			channel = requested_channel;
+			cc2400_set (FSDIV, channel - 1);
+		}
+
+                while (!(cc2400_status () & XOSC16M_STABLE));
+
+                cc2400_strobe (SFSON);
+                while (!(cc2400_status () & FS_LOCK));
+
+		DIO_SSP_DMACR &= ~SSPDMACR_RXDMAE;
+		while (SSP1SR & SSPSR_RNE) {
+                        u8 tmp = (u8)DIO_SSP_DR;
+                }
+		dma_init_le();
+		dio_ssp_start();
+		
+//              msleep(500);    
+                cc2400_strobe (SRX);
+		rx_tc = 0;
+		rx_err = 0;
+	 
+	
+	}
+cleanup:
+	cc2400_idle();
+	dio_ssp_stop ();
+	cs_trigger_disable ();
+}
+
 // wpson proposed
 void bt_stream_proposed()
 {
@@ -1694,20 +1922,15 @@ void bt_stream_proposed()
 	u8 epstat;
 //	u16 f;
 //	u8 buf[DMA_SIZE];
-	u8 rssi[50];
+	u8 rssi[50] = {0};
 	int i = 0;
-	for (i = 0; i < 50; i++)
-		rssi[i] = 0;
-//	u8 length = 50;
 	int window = 0;
-//	u8 index = 0;
 	u8 old = 0;
 	u8 now = 0;
 	int8_t diff = 0;
 	u8 k = 0;
 	u8 temp = 0;
 	u8 outage = 0;
-//	TXLED_SET;
 	queue_init();
 
 #ifdef UBERTOOTH_ONE
@@ -1716,7 +1939,7 @@ void bt_stream_proposed()
 #endif
 	cc2400_set(MANAND, 0x7fff);
 	cc2400_set(LMTST,   0x2b22);
-	cc2400_set(MDMTST0, 0x124b); // without PRNG
+	cc2400_set(MDMTST0, 0x134b); // without PRNG
 	cc2400_set(GRMDM,   0x0561); // un-buffered mode, GFSK
 	cc2400_set(MDMCTRL, 0x0040); // 160 kHz frequency deviation
 
@@ -1768,15 +1991,15 @@ void bt_stream_proposed()
 		rssi_avg = (int8_t)cc2400_get_rev(RSSI);
 		freq_avg = now;
 	
-		clkn_proposed = clkn;
+	//	clkn_proposed = clkn;
 //		diff_ts = second_ts - first_ts;
 		enqueue_proposed(FREQ_PACKET, rssi);
 //		enqueue(FREQ_PACKET, rssi);
 		handle_usb(clkn);
 
-		first_ts = CLK100NS;
-		while ((CLK100NS-first_ts)<500)
-		{};
+	//	first_ts = CLK100NS;
+	//	while ((CLK100NS-first_ts)<500)
+	//	{};
 /*		cc2400_strobe (SRFOFF);
 		while ((cc2400_status () & FS_LOCK));
 
@@ -1804,7 +2027,7 @@ void bt_stream_freq()
 	RXLED_CLR;
 	int i;
 	
-	u8 freq_buf[45];
+	u8 freq_buf[50] = {0};
 	queue_init();
 	dio_ssp_init();
 	dma_init_le();
@@ -1812,7 +2035,7 @@ void bt_stream_freq()
 	
 	cc2400_set(MANAND, 0x7fff);
 	cc2400_set(LMTST,   0x2b22);
-	cc2400_set(MDMTST0, 0x124b); // without PRNG
+	cc2400_set(MDMTST0, 0x134b); // without PRNG
 	cc2400_set(GRMDM,   0x0561); // un-buffered mode, GFSK
 	cc2400_set(MDMCTRL, 0x0040); // 160 kHz frequency deviation
 
@@ -1839,8 +2062,6 @@ void bt_stream_freq()
 	while (requested_mode == MODE_RX_FREQ) {
 		
 		while (!(cc2400_status () & SYNC_RECEIVED));
-
-
 /*		int out;
                 u8 rssi = cc2400_get(RSSI) >> 8;
                 if (rssi >= 128)
@@ -1851,12 +2072,154 @@ void bt_stream_freq()
 		  goto rx_flush;
 */
 
-		for (i = 0; i < 45; i++)
+		for (i = 0; i < 40; i++)
 		{
 			freq_buf[i] = cc2400_get_rev(FREQEST);	
 		}
-		clkn_freq = clkn;
+//		clkn_freq = clkn;
 		
+		while (!rx_tc);
+	
+		RXLED_SET;
+		if (rx_err) {
+		status |= DMA_ERROR;
+		}	
+		if (rx_tc > 1)
+			status |= DMA_OVERFLOW;
+		uint32_t packet[48/4+1];
+		u8 *p = (u8 *)packet;
+		packet[0] = le.access_address;
+
+                while (DMACC0Config & DMACCxConfig_E && rx_err == 0);
+                
+			
+		DIO_SSP_DMACR &= ~SSPDMACR_RXDMAE;
+	
+		const uint32_t *whit = whitening_word[btle_channel_index(2402-2402)];
+		for (i = 0; i < 44; i += 4) {
+			uint32_t v = rxbuf1[i+0] << 24
+                                          | rxbuf1[i+1] << 16
+                                      | rxbuf1[i+2] << 8
+                                          | rxbuf1[i+3] << 0;
+                        packet[i/4+1] = rbit(v) ^ whit[i/4];
+		}
+
+/*		for (i = 0; i < 36; i += 4) {
+			uint32_t v = eddystone[i+0] << 24
+                                          | eddystone[i+1] << 16
+                                      | eddystone[i+2] << 8
+                                          | eddystone[i+3] << 0;
+                        packet[i/4+1] = rbit(v) ^ whit[i/4];
+		}
+*/
+		unsigned len = (p[5] & 0x3f) + 2;
+		
+		if (len > 39)
+			goto rx_flush;
+
+		u32 calc_crc = btle_crcgen_lut(le.crc_init_reversed, p + 4, len);
+		u32 wire_crc = (p[4+len+2] << 16)
+                                                 | (p[4+len+1] << 8)
+                                                 | (p[4+len+0] << 0);
+                if (calc_crc != wire_crc) // skip packets with a bad CRC
+                        goto rx_flush;
+
+		
+		if (p[38] == 0x00 && p[39] == 0x3d) // 37
+	//	if (p[38] == 0x44 && p[39] == 0x1d) // 38
+	//	if (p[38] == 0x87 && p[39] == 0x02) // 39
+		{
+			device_index = p[40];
+			enqueue_freq (MESSAGE, freq_buf);
+			handle_usb(clkn);
+		}
+		RXLED_CLR;
+	       
+	rx_flush:
+		cc2400_strobe (SRFOFF);
+                while ((cc2400_status () & FS_LOCK));
+
+                while (!(cc2400_status () & XOSC16M_STABLE));
+
+                cc2400_strobe (SFSON);
+                while (!(cc2400_status () & FS_LOCK));
+
+		DIO_SSP_DMACR &= ~SSPDMACR_RXDMAE;
+		while (SSP1SR & SSPSR_RNE) {
+                        u8 tmp = (u8)DIO_SSP_DR;
+                }
+		dma_init_le();
+		dio_ssp_start();
+		
+                cc2400_strobe (SRX);
+		rx_tc = 0;
+		rx_err = 0;
+	 
+	
+	}
+	cc2400_idle();
+	dio_ssp_stop ();
+	cs_trigger_disable ();
+}
+
+
+// wpson legacy mode
+void bt_stream_legacy()
+{
+//	TXLED_SET;
+	RXLED_CLR;
+	int i;
+	
+	queue_init();
+	dio_ssp_init();
+	dma_init_le();
+	dio_ssp_start();
+	
+	cc2400_set(MANAND, 0x7fff);
+	cc2400_set(LMTST,   0x2b22);
+	cc2400_set(MDMTST0, 0x124b); // without PRNG
+	cc2400_set(GRMDM,   0x6561); // un-buffered mode, GFSK
+	cc2400_set(MDMCTRL, 0x0040); // 160 kHz frequency deviation
+
+//	cc2400_set(SYNCH, 0xf9ae);
+//	cc2400_set(SYNCL, 0x1584);
+	
+	cc2400_set(SYNCL,   rbit(0x8e89bed6) & 0xffff);
+	cc2400_set(SYNCH,   (rbit(0x8e89bed6) >> 16) & 0xffff);
+	
+#ifdef UBERTOOTH_ONE
+	PAEN_SET;
+//	HGM_SET;
+#endif
+
+	while (!(cc2400_status() & XOSC16M_STABLE));
+	while ((cc2400_status() & FS_LOCK));
+
+	cc2400_set(FSDIV, channel - 1);
+	cc2400_strobe(SFSON);
+	while (!(cc2400_status() & FS_LOCK));
+	cc2400_strobe(SRX);
+	
+	while (requested_mode == MODE_RX_SYMBOLS) {
+		
+		while (!(cc2400_status () & SYNC_RECEIVED));
+/*		int out;
+                u8 rssi = cc2400_get(RSSI) >> 8;
+                if (rssi >= 128)
+                        out = rssi - 256;
+                else
+                        out = rssi;
+                if (out < 0)
+		  goto rx_flush;
+*/
+		rssi_sum = 0;
+		rssi_count = 5;
+		for (i = 0; i < rssi_count; i++)
+		{
+			rssi_sum += (int8_t)cc2400_get_rev(RSSI);
+		}
+	
+		clkn_legacy = clkn;
 		while (!rx_tc);
 	
 		RXLED_SET;
@@ -1903,13 +2266,13 @@ void bt_stream_freq()
                 if (calc_crc != wire_crc) // skip packets with a bad CRC
                         goto rx_flush;
 
-		
-		if (p[38] == 0x00 && p[39] == 0x3d)
-		{
-			device_index = p[40];
-			enqueue_freq (MESSAGE, freq_buf);
-			handle_usb(clkn);
-		}
+
+		if (p[38] == 0x00 && p[39] == 0x3d) // 37
+		enqueue_legacy (BR_PACKET, (uint8_t*)packet);
+//		enqueue (BR_PACKET, (uint8_t*)rxbuf1);
+		handle_usb(clkn);
+//		enqueue (MESSAGE, rssi_buf);
+//		handle_usb(clkn);
 		RXLED_CLR;
 	       
 	rx_flush:
@@ -1928,26 +2291,25 @@ void bt_stream_freq()
 		dma_init_le();
 		dio_ssp_start();
 		
+//              msleep(500);    
                 cc2400_strobe (SRX);
 		rx_tc = 0;
-		rx_err = 0;
-	 
-	
+		rx_err = 0;	
 	}
+
 	cc2400_idle();
 	dio_ssp_stop ();
 	cs_trigger_disable ();
 }
 
 
-// wpson
-void bt_stream_legacy()
+// wpson sniff mode
+void bt_stream_sniff()
 {
 //	TXLED_SET;
 	RXLED_CLR;
 	int i;
 	
-	u8 rssi_buf[DMA_SIZE];
 	queue_init();
 	dio_ssp_init();
 	dma_init_le();
@@ -1978,7 +2340,7 @@ void bt_stream_legacy()
 	while (!(cc2400_status() & FS_LOCK));
 	cc2400_strobe(SRX);
 	
-	while (requested_mode == MODE_RX_SYMBOLS) {
+	while (requested_mode == MODE_RX_SNIFF) {
 		
 		while (!(cc2400_status () & SYNC_RECEIVED));
 /*		int out;
@@ -1994,7 +2356,7 @@ void bt_stream_legacy()
 		rssi_count = 5;
 		for (i = 0; i < rssi_count; i++)
 		{
-			rssi_sum += (int8_t)(cc2400_get(RSSI) >> 8);
+			rssi_sum += (int8_t)cc2400_get_rev(RSSI);
 		}
 	
 		clkn_legacy = clkn;
@@ -2071,9 +2433,7 @@ void bt_stream_legacy()
 //              msleep(500);    
                 cc2400_strobe (SRX);
 		rx_tc = 0;
-		rx_err = 0;
-	 
-	
+		rx_err = 0;	
 	}
 
 	cc2400_idle();
@@ -2082,16 +2442,181 @@ void bt_stream_legacy()
 }
 
 
-
-
-// wpson
-void bt_stream_rx()
+// wpson cfo mode -F: raw cfo samples transfer to host
+void bt_stream_cfo()
 {
 //	TXLED_SET;
 	RXLED_CLR;
 	int i;
 	
+	u8 cfo_buf[DMA_SIZE];
+	queue_init();
+	
+	cc2400_set(MANAND, 0x7fff);
+	cc2400_set(LMTST,   0x2b22);
+	cc2400_set(MDMTST0, 0x104b); // without PRNG
+	cc2400_set(GRMDM,   0x0561); // un-buffered mode, GFSK
+	cc2400_set(MDMCTRL, 0x0040); // 160 kHz frequency deviation
+
+//	cc2400_set(SYNCH, 0xf9ae);
+//	cc2400_set(SYNCL, 0x1584);
+	
+	cc2400_set(SYNCL,   rbit(0x8e89bed6) & 0xffff); // BLE sync
+	cc2400_set(SYNCH,   (rbit(0x8e89bed6) >> 16) & 0xffff); // BLE sync
+	
+#ifdef UBERTOOTH_ONE
+	PAEN_SET;
+//	HGM_SET;
+#endif
+
+	while (!(cc2400_status() & XOSC16M_STABLE));
+	while ((cc2400_status() & FS_LOCK));
+
+	cc2400_set(FSDIV, channel - 1);
+	cc2400_strobe(SFSON);
+	while (!(cc2400_status() & FS_LOCK));
+	cc2400_strobe(SRX);
+	
+	int out = -100;
+	u8 rssi;
+
+	while (requested_mode == MODE_RX_CFO) {
+		
+		while (!(cc2400_status () & SYNC_RECEIVED));
+/*
+		out = -100;
+
+		while (out < 0)
+		{
+			rssi = (int8_t)cc2400_get_rev(RSSI);
+			if (rssi >= 128)
+				out = rssi - 256;
+			else
+				out = rssi;
+		}
+*/		
+		for (i = 0; i < DMA_SIZE; i++)
+		{
+			cfo_buf[i] = cc2400_get_rev(FREQEST);
+		}
+	
+/*		rssi = (int8_t)cc2400_get_rev(RSSI);
+			
+		if (rssi >= 128)
+                        out = rssi - 256;
+                else
+                        out = rssi;
+
+		if (out >= 0)
+*/
+		{
+			RXLED_SET;
+
+			
+			enqueue (MESSAGE, cfo_buf);
+			handle_usb(clkn);
+			RXLED_CLR;
+		}
+
+		cc2400_strobe (SRFOFF);
+                while ((cc2400_status () & FS_LOCK));
+
+                while (!(cc2400_status () & XOSC16M_STABLE));
+
+                cc2400_strobe (SFSON);
+                while (!(cc2400_status () & FS_LOCK));
+
+		int k = 1000; while (--k);	
+                cc2400_strobe (SRX);
+
+	}
+	dio_ssp_stop ();
+	cs_trigger_disable ();
+}
+
+
+// wpson -R: rssi mode, transfer rssi samples to host 
+void bt_stream_rssi()
+{
+//	TXLED_SET;
+	RXLED_CLR;
+	int i = 0;
+
 	u8 rssi_buf[DMA_SIZE];
+	queue_init();
+	
+	cc2400_set(MANAND, 0x7fff);
+	cc2400_set(LMTST,   0x2b22);
+	cc2400_set(MDMTST0, 0x124b); // without PRNG
+	cc2400_set(GRMDM,   0x0561); // un-buffered mode, GFSK
+	cc2400_set(MDMCTRL, 0x0040); // 160 kHz frequency deviation
+
+//	cc2400_set(SYNCH, 0xf9ae);
+//	cc2400_set(SYNCL, 0x1584);
+	
+//	cc2400_set(SYNCL,   rbit(0x8e89bed6) & 0xffff); // BLE
+//	cc2400_set(SYNCH,   (rbit(0x8e89bed6) >> 16) & 0xffff); // BLE
+	
+#ifdef UBERTOOTH_ONE
+	PAEN_SET;
+//	HGM_SET;
+#endif
+
+	while (!(cc2400_status() & XOSC16M_STABLE));
+	while ((cc2400_status() & FS_LOCK));
+
+	cc2400_set(FSDIV, channel - 1);
+	cc2400_strobe(SFSON);
+	while (!(cc2400_status() & FS_LOCK));
+	cc2400_strobe(SRX);
+	u8 rssi;
+	int out = -100;
+	while (requested_mode == MODE_RX_RSSI) {
+		
+		out = -100;
+		while (out < 0)
+		{
+			rssi = (int8_t)cc2400_get_rev(RSSI);
+			
+			if (rssi >= 128)
+                        	out = rssi - 256;
+                	else
+                        	out = rssi;
+		}
+	
+		for (i = 0; i < DMA_SIZE; i++)
+		{
+			rssi_buf[i] = cc2400_get_rev(RSSI);
+		}
+
+//		i = 0;
+		rssi = (int8_t)cc2400_get_rev(RSSI);
+			
+		if (rssi >= 128)
+                        out = rssi - 256;
+                else
+                        out = rssi;
+
+		if (out >= 0)
+		{
+			RXLED_SET;
+
+			
+			enqueue (MESSAGE, rssi_buf);
+			handle_usb(clkn);
+			RXLED_CLR;
+		}
+	}
+	dio_ssp_stop ();
+	cs_trigger_disable ();
+
+}
+
+void bt_stream_rx()
+{
+	RXLED_CLR;
+	int i;
+
 	queue_init();
 	dio_ssp_init();
 	dma_init_le();
@@ -2106,8 +2631,8 @@ void bt_stream_rx()
 //	cc2400_set(SYNCH, 0xf9ae);
 //	cc2400_set(SYNCL, 0x1584);
 	
-	cc2400_set(SYNCL,   rbit(0x8e89bed6) & 0xffff);
-	cc2400_set(SYNCH,   (rbit(0x8e89bed6) >> 16) & 0xffff);
+//	cc2400_set(SYNCL,   rbit(0x8e89bed6) & 0xffff);
+//	cc2400_set(SYNCH,   (rbit(0x8e89bed6) >> 16) & 0xffff);
 	
 #ifdef UBERTOOTH_ONE
 	PAEN_SET;
@@ -2184,8 +2709,8 @@ void bt_stream_rx()
 		u32 wire_crc = (p[4+len+2] << 16)
                                                  | (p[4+len+1] << 8)
                                                  | (p[4+len+0] << 0);
-                if (calc_crc != wire_crc) // skip packets with a bad CRC
-                        goto rx_flush;
+//                if (calc_crc != wire_crc) // skip packets with a bad CRC
+//                        goto rx_flush;
 
 
 		enqueue (BR_PACKET, (uint8_t*)packet);
@@ -3203,10 +3728,93 @@ void led_specan()
 	mode = MODE_IDLE;
 }
 
+void cc2400_txtest(volatile u8 *mod_ptr)
+{
+  unsigned i, j;
+  int numPkt = 10;
+  u8 payload[41] = {0xb3, 0x6f, 0x00, 0x4b,
+	 	0x85, 0xe4, 0x10, 0x72,
+		0xee, 0x0c, 0xe8, 0x4a,
+		0x96, 0xdc, 0x1f, 0x87,
+		0xca, 0xaa, 0xaa, 0xaa,
+		0xaa, 0xaa, 0xaa, 0xaa,
+		0xaa, 0xaa, 0xaa, 0xaa,
+		0xaa, 0xaa, 0xaa, 0xaa,
+		0xaa, 0xaa, 0xaa, 0xaa, 
+		0xf3, 0xb6, 0x51, 0x30, 
+		0xe0};
+  u8 txbuf[64];
+  u8 tx_len;
+  u16 gio_save;
+  u8 len = 41;
+  u8 byte;
+
+/*
+  for (i = 0; i < len; ++i)
+  {
+	byte = payload[i];
+	txbuf[i] = 0;
+	for (j = 0; j < 8; ++j)
+	{	
+		txbuf[i] |= (byte & 1) << (7 - j);
+		byte >>= 1; 
+	}
+ 	
+  }
+*/
+  cc2400_set(MANAND, 0x7fff);
+  cc2400_set(LMTST, 0x2b22);  
+  cc2400_set(MDMTST0, 0x124b);  
+  cc2400_set(GRMDM, 0x0d61);  
+  cc2400_set(FSDIV, channel);  
+  cc2400_set(FREND, 8 | 0);  
+  cc2400_set(MDMCTRL, 0x0040);  
+//  cc2400_set(INT, 0x0010); // FIFO_Threshold: 16 bytes
+  cc2400_set(INT, 0x0014); // FIFO_Threshold: 20 bytes
+//  cc2400_set(INT, 0x000c); // FIFO_Threshold: 12 bytes
+  
+  gio_save = cc2400_get(IOCFG);
+  cc2400_set(IOCFG, (GIO_FIFO_FULL << 9) | (gio_save & 0x1ff));  
+
+  while (!(cc2400_status() & XOSC16M_STABLE));
+  cc2400_strobe(SFSON);
+  while (!(cc2400_status() & FS_LOCK));
+  TXLED_SET;
+  PAEN_SET;
+
+  while ((cc2400_get(FSMSTATE) & 0x1f) != STATE_STROBE_FS_ON);
+
+ 
+  for (j = 0; j < numPkt; j++)
+  {
+  	cc2400_strobe(STX);
+  
+ 	for (i = 0; i < len; i += 16)
+  	{
+		while (GIO6);
+		tx_len = len - i;
+    		if (tx_len > 16)
+			tx_len = 16;
+//	cc2400_fifo_write(tx_len, payload + i);
+		cc2400_spi_buf(FIFOREG, 16, payload + i);
+ 	}
+  
+  	while ((cc2400_get(FSMSTATE) & 0x1f) != STATE_STROBE_FS_ON);
+//	int k = 1428571; while (k--);
+	int k = 100000; while (k--);
+  }
+  TXLED_CLR;
+  
+  cc2400_strobe(SRFOFF);
+  while ((cc2400_status() & FS_LOCK));
+  PAEN_CLR;
+  cc2400_set(IOCFG, gio_save);
+}
+
 int main()
 {
 	ubertooth_init();
-	clkn_init();
+//	clkn_init();
 	ubertooth_usb_init(vendor_request_handler);
 
 	while (1) {
@@ -3222,13 +3830,31 @@ int main()
 					mode = MODE_RX_SYMBOLS;
 					bt_stream_legacy();
 					break;
+				case MODE_RX_SNIFF:
+					mode = MODE_RX_SNIFF;
+					bt_stream_sniff();
+					break;
+
+				case MODE_RX_RSSI:
+					mode = MODE_RX_RSSI;
+					bt_stream_rssi();
+					break;
 				case MODE_RX_FREQ:
 					mode = MODE_RX_FREQ;
 					bt_stream_freq();
 					break;
+				case MODE_RX_CFO:
+					mode = MODE_RX_CFO;
+					bt_stream_cfo();
+					break;
+
 				case MODE_RX_PROPOSED:
 					mode = MODE_RX_PROPOSED;
 					bt_stream_proposed();
+					break;
+				case MODE_RX_HOP:
+					mode = MODE_RX_HOP;
+					bt_stream_hop ();
 					break;
 				case MODE_BT_FOLLOW:
 					mode = MODE_BT_FOLLOW;
@@ -3245,7 +3871,8 @@ int main()
 					break;
 				case MODE_TX_TEST:
 					mode = MODE_TX_TEST;
-					cc2400_txtest(&modulation, &channel);
+					cc2400_txtest(&modulation);
+					requested_mode = MODE_IDLE;
 					break;
 				case MODE_RANGE_TEST:
 					mode = MODE_RANGE_TEST;

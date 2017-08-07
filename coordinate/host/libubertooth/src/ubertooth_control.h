@@ -75,6 +75,7 @@
 #define MIN(a,b) ((a)<(b) ? (a) : (b))
 
 void show_libusb_error(int error_code);
+int cmd_rx_sniff(struct libusb_device_handle* devh);
 int cmd_rx_syms(struct libusb_device_handle* devh);
 int cmd_rx_freq(struct libusb_device_handle* devh);
 int cmd_rx_proposed(struct libusb_device_handle* devh);

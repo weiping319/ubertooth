@@ -88,6 +88,10 @@ enum ubertooth_usb_commands {
     UBERTOOTH_EGO             = 60,
     UBERTOOTH_RX_FREQ 	      = 61,
     UBERTOOTH_RX_PROPOSED     = 62,
+    UBERTOOTH_RX_HOP          = 63,
+    UBERTOOTH_RX_RSSI         = 64,
+    UBERTOOTH_RX_CFO          = 65,
+    UBERTOOTH_RX_SNIFF        = 66,
 };
 
 enum jam_modes {

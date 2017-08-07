@@ -233,7 +233,7 @@ void cc2400_repeater(volatile u16 *chan_ptr)
 	}
 #endif
 }
-
+/*
 void cc2400_txtest(volatile u8 *mod_ptr, volatile u16 *chan_ptr)
 {
 #ifdef TX_ENABLE
@@ -243,13 +243,12 @@ void cc2400_txtest(volatile u8 *mod_ptr, volatile u16 *chan_ptr)
 	} else if (*mod_ptr == MOD_BT_LOW_ENERGY) {
 		mdmctrl = 0x0040; // 250 kHz frequency deviation
 	} else {
-		/* oops */
 		return;
 	}
 	cc2400_set(LMTST,   0x2b22);
 	cc2400_set(MDMTST0, 0x334b); // with PRNG
 	cc2400_set(GRMDM,   0x0df1); // default value
-	cc2400_set(FSDIV,   2435);
+	cc2400_set(FSDIV, *chan_ptr - 1);
 	cc2400_set(MDMCTRL, mdmctrl); 
 	
 //	cc2400_set(FREND, 8 | 0);
@@ -264,3 +263,4 @@ void cc2400_txtest(volatile u8 *mod_ptr, volatile u16 *chan_ptr)
 #endif
 #endif
 }
+*/

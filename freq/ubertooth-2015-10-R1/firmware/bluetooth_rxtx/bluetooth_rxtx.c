@@ -1517,18 +1517,20 @@ void bt_stream_rx()
 
 	queue_init();
 	dio_ssp_init();
-	dma_init_le();
+//	dma_init_le();
 	dio_ssp_start();
 
 
 #ifdef UBERTOOTH_ONE
-	PAEN_SET;
-//	HGM_SET;
+ 	PAEN_SET;
+	HGM_SET;
 #endif
 	cc2400_set(MANAND, 0x7fff);
 	cc2400_set(LMTST,   0x2b22);
-	cc2400_set(MDMTST0, 0x124b); // without PRNG
+	cc2400_set(MDMTST0, 0x104b); // without PRNG
+//	cc2400_set(MDMTST0, 0x124b); // without PRNG
 	cc2400_set(GRMDM,   0x0561); // un-buffered mode, GFSK
+//	cc2400_set(GRMDM,   0x0560); // un-buffered mode, GFSK
 	cc2400_set(MDMCTRL, 0x0040); // 160 kHz frequency deviation
 
 //	cc2400_set(SYNCH, 0xf9ae);
@@ -1603,7 +1605,8 @@ void bt_stream_rx()
 */
 //		if (p[39] == 0x3d && p[40] == 0x00)
 		{
-			enqueue(MESSAGE, buf);
+			//enqueue(MESSAGE, buf);
+			enqueue(BR_PACKET, buf);
 			handle_usb(clkn);
 		}
 
@@ -1627,7 +1630,10 @@ void bt_stream_rx()
 		dma_init_le ();
 		dio_ssp_start();
 */
-//		msleep(500);	
+//		msleep(500);	i
+		int k = 5000;
+		while (k > 0)
+			k--;
 		cc2400_strobe (SRX);
 //		rx_tc = 0;
 //		rx_err = 0;
@@ -2619,7 +2625,7 @@ void led_specan()
 int main()
 {
 	ubertooth_init();
-	clkn_init();
+	//clkn_init();
 	ubertooth_usb_init(vendor_request_handler);
 
 	while (1) {

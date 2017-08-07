@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccmfDqfH.s 			page 1
+ARM GAS  /tmp/ccyd6SlN.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccmfDqfH.s 			page 1
   30:../common/serial_fifo.c **** 
   31:../common/serial_fifo.c **** void fifo_init(fifo_t *fifo, U8 *buf)
   32:../common/serial_fifo.c **** {
-ARM GAS  /tmp/ccmfDqfH.s 			page 2
+ARM GAS  /tmp/ccyd6SlN.s 			page 2
 
 
   27              		.loc 1 32 0
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccmfDqfH.s 			page 1
   75              		.cfi_startproc
   76              		@ args = 0, pretend = 0, frame = 16
   77              		@ frame_needed = 1, uses_anonymous_args = 0
-ARM GAS  /tmp/ccmfDqfH.s 			page 3
+ARM GAS  /tmp/ccyd6SlN.s 			page 3
 
 
   78              		@ link register save eliminated.
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccmfDqfH.s 			page 1
  121 0040 7B68     		ldr	r3, [r7, #4]
  122 0042 FA68     		ldr	r2, [r7, #12]
  123 0044 1A60     		str	r2, [r3]
-ARM GAS  /tmp/ccmfDqfH.s 			page 4
+ARM GAS  /tmp/ccyd6SlN.s 			page 4
 
 
   52:../common/serial_fifo.c **** 	
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccmfDqfH.s 			page 1
  169 000c 1A68     		ldr	r2, [r3]
  170 000e 7B68     		ldr	r3, [r7, #4]
  171 0010 5B68     		ldr	r3, [r3, #4]
-ARM GAS  /tmp/ccmfDqfH.s 			page 5
+ARM GAS  /tmp/ccyd6SlN.s 			page 5
 
 
  172 0012 9A42     		cmp	r2, r3
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccmfDqfH.s 			page 1
  216              		.cfi_def_cfa_offset 0
  217 0054 7047     		bx	lr
  218              	.L13:
-ARM GAS  /tmp/ccmfDqfH.s 			page 6
+ARM GAS  /tmp/ccyd6SlN.s 			page 6
 
 
  219 0056 00BF     		.align	2
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccmfDqfH.s 			page 1
  269              		.cfi_restore 7
  270              		.cfi_def_cfa_offset 0
  271 0030 7047     		bx	lr
-ARM GAS  /tmp/ccmfDqfH.s 			page 7
+ARM GAS  /tmp/ccyd6SlN.s 			page 7
 
 
  272              	.L18:
@@ -412,24 +412,24 @@ ARM GAS  /tmp/ccmfDqfH.s 			page 1
  317              	.Letext0:
  318              		.file 2 "../common/serial_fifo.h"
  319              		.file 3 "../common/lpcusb/target/type.h"
-ARM GAS  /tmp/ccmfDqfH.s 			page 8
+ARM GAS  /tmp/ccyd6SlN.s 			page 8
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 serial_fifo.c
-     /tmp/ccmfDqfH.s:19     .text.fifo_init:0000000000000000 $t
-     /tmp/ccmfDqfH.s:24     .text.fifo_init:0000000000000000 fifo_init
-     /tmp/ccmfDqfH.s:67     .text.fifo_put:0000000000000000 $t
-     /tmp/ccmfDqfH.s:72     .text.fifo_put:0000000000000000 fifo_put
-     /tmp/ccmfDqfH.s:141    .text.fifo_put:0000000000000054 $d
-     /tmp/ccmfDqfH.s:146    .text.fifo_get:0000000000000000 $t
-     /tmp/ccmfDqfH.s:151    .text.fifo_get:0000000000000000 fifo_get
-     /tmp/ccmfDqfH.s:221    .text.fifo_get:0000000000000058 $d
-     /tmp/ccmfDqfH.s:226    .text.fifo_avail:0000000000000000 $t
-     /tmp/ccmfDqfH.s:231    .text.fifo_avail:0000000000000000 fifo_avail
-     /tmp/ccmfDqfH.s:275    .text.fifo_avail:0000000000000034 $d
-     /tmp/ccmfDqfH.s:280    .text.fifo_free:0000000000000000 $t
-     /tmp/ccmfDqfH.s:285    .text.fifo_free:0000000000000000 fifo_free
+     /tmp/ccyd6SlN.s:19     .text.fifo_init:0000000000000000 $t
+     /tmp/ccyd6SlN.s:24     .text.fifo_init:0000000000000000 fifo_init
+     /tmp/ccyd6SlN.s:67     .text.fifo_put:0000000000000000 $t
+     /tmp/ccyd6SlN.s:72     .text.fifo_put:0000000000000000 fifo_put
+     /tmp/ccyd6SlN.s:141    .text.fifo_put:0000000000000054 $d
+     /tmp/ccyd6SlN.s:146    .text.fifo_get:0000000000000000 $t
+     /tmp/ccyd6SlN.s:151    .text.fifo_get:0000000000000000 fifo_get
+     /tmp/ccyd6SlN.s:221    .text.fifo_get:0000000000000058 $d
+     /tmp/ccyd6SlN.s:226    .text.fifo_avail:0000000000000000 $t
+     /tmp/ccyd6SlN.s:231    .text.fifo_avail:0000000000000000 fifo_avail
+     /tmp/ccyd6SlN.s:275    .text.fifo_avail:0000000000000034 $d
+     /tmp/ccyd6SlN.s:280    .text.fifo_free:0000000000000000 $t
+     /tmp/ccyd6SlN.s:285    .text.fifo_free:0000000000000000 fifo_free
                      .debug_frame:0000000000000010 $d
 
 NO UNDEFINED SYMBOLS

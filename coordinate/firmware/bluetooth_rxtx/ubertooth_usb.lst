@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccTTvD2t.s 			page 1
+ARM GAS  /tmp/ccbH2XDw.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
   59 001d 00       		.byte	0
   60 001e 00       		.byte	0
   61 001f 02       		.byte	2
-ARM GAS  /tmp/ccTTvD2t.s 			page 2
+ARM GAS  /tmp/ccbH2XDw.s 			page 2
 
 
   62 0020 FF       		.byte	-1
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  116 0056 6F       		.byte	111
  117 0057 00       		.byte	0
  118 0058 6D       		.byte	109
-ARM GAS  /tmp/ccTTvD2t.s 			page 3
+ARM GAS  /tmp/ccbH2XDw.s 			page 3
 
 
  119 0059 00       		.byte	0
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  173 008f 00       		.byte	0
  174 0090 68       		.byte	104
  175 0091 00       		.byte	0
-ARM GAS  /tmp/ccTTvD2t.s 			page 4
+ARM GAS  /tmp/ccbH2XDw.s 			page 4
 
 
  176 0092 1E       		.byte	30
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  230              		.thumb
  231              		.thumb_func
  233              	usb_vendor_request_handler:
-ARM GAS  /tmp/ccTTvD2t.s 			page 5
+ARM GAS  /tmp/ccbH2XDw.s 			page 5
 
 
  234              	.LFB0:
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
   53:ubertooth_usb.c **** 
   54:ubertooth_usb.c **** #ifdef UBERTOOTH_ZERO
   55:ubertooth_usb.c **** #define ID_VENDOR 0x1D50
-ARM GAS  /tmp/ccTTvD2t.s 			page 6
+ARM GAS  /tmp/ccbH2XDw.s 			page 6
 
 
   56:ubertooth_usb.c **** #define ID_PRODUCT 0x6000
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  110:ubertooth_usb.c **** 	DESC_INTERFACE, 
  111:ubertooth_usb.c **** 	0x00,  		 			// bInterfaceNumber
  112:ubertooth_usb.c **** 	0x00,   				// bAlternateSetting
-ARM GAS  /tmp/ccTTvD2t.s 			page 7
+ARM GAS  /tmp/ccbH2XDw.s 			page 7
 
 
  113:ubertooth_usb.c **** 	0x02,   				// bNumEndPoints
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  167:ubertooth_usb.c **** 
  168:ubertooth_usb.c **** /* Unused functions
  169:ubertooth_usb.c **** void usb_bulk_in_handler(u8 bEP, u8 bEPStatus)
-ARM GAS  /tmp/ccTTvD2t.s 			page 8
+ARM GAS  /tmp/ccbH2XDw.s 			page 8
 
 
  170:ubertooth_usb.c **** {
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  187:ubertooth_usb.c **** 	return (BOOL) (rv==1);
  273              		.loc 1 187 0
  274 0034 7B69     		ldr	r3, [r7, #20]
-ARM GAS  /tmp/ccTTvD2t.s 			page 9
+ARM GAS  /tmp/ccbH2XDw.s 			page 9
 
 
  275 0036 012B     		cmp	r3, #1
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  321 0008 FFF7FEFF 		bl	USBInit
  194:ubertooth_usb.c **** 	
  195:ubertooth_usb.c **** 	// register device descriptors
-ARM GAS  /tmp/ccTTvD2t.s 			page 10
+ARM GAS  /tmp/ccbH2XDw.s 			page 10
 
 
  196:ubertooth_usb.c **** 	USBRegisterDescriptors(abDescriptors);
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  353              	.L7:
  354 003c 00000000 		.word	abDescriptors
  355 0040 00000000 		.word	v_req_handler
-ARM GAS  /tmp/ccTTvD2t.s 			page 11
+ARM GAS  /tmp/ccbH2XDw.s 			page 11
 
 
  356 0044 00000000 		.word	usb_vendor_request_handler
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  405              		@ sp needed
  406 0012 5DF8047B 		ldr	r7, [sp], #4
  407              		.cfi_restore 7
-ARM GAS  /tmp/ccTTvD2t.s 			page 12
+ARM GAS  /tmp/ccbH2XDw.s 			page 12
 
 
  408              		.cfi_def_cfa_offset 0
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  238:ubertooth_usb.c **** 	if (h == n) {
  456              		.loc 1 238 0
  457 002a FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
-ARM GAS  /tmp/ccTTvD2t.s 			page 13
+ARM GAS  /tmp/ccbH2XDw.s 			page 13
 
 
  458 002c 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  248:ubertooth_usb.c **** {
  505              		.loc 1 248 0
  506              		.cfi_startproc
-ARM GAS  /tmp/ccTTvD2t.s 			page 14
+ARM GAS  /tmp/ccbH2XDw.s 			page 14
 
 
  507              		@ args = 0, pretend = 0, frame = 8
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  550              		.loc 1 259 0
  551 003c 1846     		mov	r0, r3
  552 003e 0C37     		adds	r7, r7, #12
-ARM GAS  /tmp/ccTTvD2t.s 			page 15
+ARM GAS  /tmp/ccbH2XDw.s 			page 15
 
 
  553              		.cfi_def_cfa_offset 4
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  267:ubertooth_usb.c **** 	if (pkt != NULL) {
  604              		.loc 1 267 0
  605 0016 FB68     		ldr	r3, [r7, #12]
-ARM GAS  /tmp/ccTTvD2t.s 			page 16
+ARM GAS  /tmp/ccbH2XDw.s 			page 16
 
 
  606 0018 002B     		cmp	r3, #0
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  279:ubertooth_usb.c **** }
  649              		.loc 1 279 0 discriminator 1
  650 005a 1846     		mov	r0, r3
-ARM GAS  /tmp/ccTTvD2t.s 			page 17
+ARM GAS  /tmp/ccbH2XDw.s 			page 17
 
 
  651 005c 1037     		adds	r7, r7, #16
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  698 001e FFF7FEFF 		bl	dequeue_send
  699              	.L30:
  289:ubertooth_usb.c **** 	}
-ARM GAS  /tmp/ccTTvD2t.s 			page 18
+ARM GAS  /tmp/ccbH2XDw.s 			page 18
 
 
  290:ubertooth_usb.c **** 	if (!(epstat & EPSTAT_B2FULL)) {
@@ -1056,42 +1056,42 @@ ARM GAS  /tmp/ccTTvD2t.s 			page 1
  726              		.file 5 "../../host/libubertooth/src/ubertooth_interface.h"
  727              		.file 6 "../common/ubertooth.h"
  728              		.file 7 "ubertooth_usb.h"
-ARM GAS  /tmp/ccTTvD2t.s 			page 19
+ARM GAS  /tmp/ccbH2XDw.s 			page 19
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 ubertooth_usb.c
-     /tmp/ccTTvD2t.s:19     .data:0000000000000000 $d
-     /tmp/ccTTvD2t.s:22     .data:0000000000000000 iap_entry
-     /tmp/ccTTvD2t.s:29     .rodata:0000000000000000 abDescriptors
-     /tmp/ccTTvD2t.s:26     .rodata:0000000000000000 $d
+     /tmp/ccbH2XDw.s:19     .data:0000000000000000 $d
+     /tmp/ccbH2XDw.s:22     .data:0000000000000000 iap_entry
+     /tmp/ccbH2XDw.s:29     .rodata:0000000000000000 abDescriptors
+     /tmp/ccbH2XDw.s:26     .rodata:0000000000000000 $d
                             *COM*:0000000000000102 abVendorReqData
                             *COM*:0000000000000004 v_req_handler
-     /tmp/ccTTvD2t.s:228    .text.usb_vendor_request_handler:0000000000000000 $t
-     /tmp/ccTTvD2t.s:233    .text.usb_vendor_request_handler:0000000000000000 usb_vendor_request_handler
-     /tmp/ccTTvD2t.s:291    .text.usb_vendor_request_handler:0000000000000048 $d
-     /tmp/ccTTvD2t.s:300    .text.ubertooth_usb_init:0000000000000000 $t
-     /tmp/ccTTvD2t.s:305    .text.ubertooth_usb_init:0000000000000000 ubertooth_usb_init
-     /tmp/ccTTvD2t.s:354    .text.ubertooth_usb_init:000000000000003c $d
+     /tmp/ccbH2XDw.s:228    .text.usb_vendor_request_handler:0000000000000000 $t
+     /tmp/ccbH2XDw.s:233    .text.usb_vendor_request_handler:0000000000000000 usb_vendor_request_handler
+     /tmp/ccbH2XDw.s:291    .text.usb_vendor_request_handler:0000000000000048 $d
+     /tmp/ccbH2XDw.s:300    .text.ubertooth_usb_init:0000000000000000 $t
+     /tmp/ccbH2XDw.s:305    .text.ubertooth_usb_init:0000000000000000 ubertooth_usb_init
+     /tmp/ccbH2XDw.s:354    .text.ubertooth_usb_init:000000000000003c $d
                             *COM*:0000000000002000 fifo
-     /tmp/ccTTvD2t.s:368    .bss:0000000000000000 head
-     /tmp/ccTTvD2t.s:365    .bss:0000000000000000 $d
-     /tmp/ccTTvD2t.s:374    .bss:0000000000000004 tail
-     /tmp/ccTTvD2t.s:377    .text.queue_init:0000000000000000 $t
-     /tmp/ccTTvD2t.s:382    .text.queue_init:0000000000000000 queue_init
-     /tmp/ccTTvD2t.s:413    .text.queue_init:0000000000000018 $d
-     /tmp/ccTTvD2t.s:419    .text.usb_enqueue:0000000000000000 $t
-     /tmp/ccTTvD2t.s:424    .text.usb_enqueue:0000000000000000 usb_enqueue
-     /tmp/ccTTvD2t.s:491    .text.usb_enqueue:0000000000000054 $d
-     /tmp/ccTTvD2t.s:498    .text.dequeue:0000000000000000 $t
-     /tmp/ccTTvD2t.s:503    .text.dequeue:0000000000000000 dequeue
-     /tmp/ccTTvD2t.s:564    .text.dequeue:0000000000000048 $d
-     /tmp/ccTTvD2t.s:575    .bss:0000000000000008 last_usb_pkt
-     /tmp/ccTTvD2t.s:578    .text.dequeue_send:0000000000000000 $t
-     /tmp/ccTTvD2t.s:583    .text.dequeue_send:0000000000000000 dequeue_send
-     /tmp/ccTTvD2t.s:660    .text.dequeue_send:0000000000000064 $d
-     /tmp/ccTTvD2t.s:666    .text.handle_usb:0000000000000000 $t
-     /tmp/ccTTvD2t.s:671    .text.handle_usb:0000000000000000 handle_usb
+     /tmp/ccbH2XDw.s:368    .bss:0000000000000000 head
+     /tmp/ccbH2XDw.s:365    .bss:0000000000000000 $d
+     /tmp/ccbH2XDw.s:374    .bss:0000000000000004 tail
+     /tmp/ccbH2XDw.s:377    .text.queue_init:0000000000000000 $t
+     /tmp/ccbH2XDw.s:382    .text.queue_init:0000000000000000 queue_init
+     /tmp/ccbH2XDw.s:413    .text.queue_init:0000000000000018 $d
+     /tmp/ccbH2XDw.s:419    .text.usb_enqueue:0000000000000000 $t
+     /tmp/ccbH2XDw.s:424    .text.usb_enqueue:0000000000000000 usb_enqueue
+     /tmp/ccbH2XDw.s:491    .text.usb_enqueue:0000000000000054 $d
+     /tmp/ccbH2XDw.s:498    .text.dequeue:0000000000000000 $t
+     /tmp/ccbH2XDw.s:503    .text.dequeue:0000000000000000 dequeue
+     /tmp/ccbH2XDw.s:564    .text.dequeue:0000000000000048 $d
+     /tmp/ccbH2XDw.s:575    .bss:0000000000000008 last_usb_pkt
+     /tmp/ccbH2XDw.s:578    .text.dequeue_send:0000000000000000 $t
+     /tmp/ccbH2XDw.s:583    .text.dequeue_send:0000000000000000 dequeue_send
+     /tmp/ccbH2XDw.s:660    .text.dequeue_send:0000000000000064 $d
+     /tmp/ccbH2XDw.s:666    .text.handle_usb:0000000000000000 $t
+     /tmp/ccbH2XDw.s:671    .text.handle_usb:0000000000000000 handle_usb
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS

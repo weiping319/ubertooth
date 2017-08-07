@@ -359,13 +359,64 @@ void cc2400_spi_buf(u8 reg, u8 len, u8 *data)
 	}
 
 	// this is necessary to clock in the last byte
-	for (i = 0; i < 8; ++i) {
+/*	for (i = 0; i < 8; ++i) {
 		SCLK_SET;
 		SCLK_CLR;
 	}
-
+*/
 	/* end transaction by raising CSN */
 	CSN_SET;
+}
+
+static volatile u32 delay_counter;
+static void spi_delay()
+{
+  delay_counter = 10;
+  while (--delay_counter);
+}
+
+void cc2400_fifo_write(u8 len, u8 *data)
+{
+  u8 msb = 1 << 7;
+  u8 reg = FIFOREG;
+  u8 i, j, temp;
+
+  CSN_CLR;
+  
+  for (i = 0; i < 8; ++i)
+  {
+	if (reg & msb)
+		MOSI_SET;
+	else
+		MOSI_CLR;
+	reg <<= 1;
+	SCLK_SET;
+	SCLK_CLR;
+  }
+
+  for (i = 0; i < len; ++i)
+  {
+	temp = data[i];
+	for (j = 0; j < 8; ++j)
+	{
+		if (temp & msb)
+			MOSI_SET;
+		else
+			MOSI_CLR;
+		temp <<= 1;
+		SCLK_SET;
+		SCLK_CLR;
+	}
+  }
+
+  for (i = 0; i < 8; ++i)
+  {
+	SCLK_SET;
+	SCLK_CLR;
+  }
+  
+  spi_delay();
+  CSN_SET;
 }
 
 /* get the status */

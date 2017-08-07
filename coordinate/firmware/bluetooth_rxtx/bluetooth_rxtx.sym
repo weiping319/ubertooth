@@ -280,9 +280,9 @@
 10000a48 B status
 10000a49 B rssi_count
 10000a4c B rssi_sum
-10000a50 b restart_jamming.4674
-10000a54 b first_ts.4772
-10000a58 b prev_clk.4778
+10000a50 b restart_jamming.4681
+10000a54 b first_ts.4779
+10000a58 b prev_clk.4785
 10000a5c B head
 10000a60 B tail
 10000a64 B last_usb_pkt

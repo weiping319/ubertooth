@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccvwMAaY.s 			page 1
+ARM GAS  /tmp/ccCjoRiq.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
   25:cc2400_rangetest.c ****  * This range test transmits a Bluetooth-like (but not Bluetooth compatible)
   26:cc2400_rangetest.c ****  * packet to a repeater and then receives the repeated packet.  It is only
   27:cc2400_rangetest.c ****  * useful if another device is running cc2400_repeater() some distance away.
-ARM GAS  /tmp/ccvwMAaY.s 			page 2
+ARM GAS  /tmp/ccCjoRiq.s 			page 2
 
 
   28:cc2400_rangetest.c ****  *
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
   57:cc2400_rangetest.c **** 	u8 pa = 0;
   59              		.loc 1 57 0
   60 0014 0021     		movs	r1, #0
-ARM GAS  /tmp/ccvwMAaY.s 			page 3
+ARM GAS  /tmp/ccCjoRiq.s 			page 3
 
 
   61 0016 87F84710 		strb	r1, [r7, #71]
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  111 0098 DAB2     		uxtb	r2, r3
  112 009a FB6B     		ldr	r3, [r7, #60]
  113 009c 1A70     		strb	r2, [r3]
-ARM GAS  /tmp/ccvwMAaY.s 			page 4
+ARM GAS  /tmp/ccCjoRiq.s 			page 4
 
 
   62:cc2400_rangetest.c **** 	txbuf[1] = 0; // request
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  157 00e4 3B69     		ldr	r3, [r7, #16]
  158 00e6 DAB2     		uxtb	r2, r3
  159 00e8 FB6B     		ldr	r3, [r7, #60]
-ARM GAS  /tmp/ccvwMAaY.s 			page 5
+ARM GAS  /tmp/ccCjoRiq.s 			page 5
 
 
  160 00ea 5A71     		strb	r2, [r3, #5]
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  206 0136 5A73     		strb	r2, [r3, #13]
   81:cc2400_rangetest.c **** 	txbuf[14] = (result[4] >> 24) & 0xFF;
  207              		.loc 1 81 0
-ARM GAS  /tmp/ccvwMAaY.s 			page 6
+ARM GAS  /tmp/ccCjoRiq.s 			page 6
 
 
  208 0138 FB69     		ldr	r3, [r7, #28]
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  250              		.loc 1 93 0
  251 0182 1420     		movs	r0, #20
  252 0184 41F24B31 		movw	r1, #4939
-ARM GAS  /tmp/ccvwMAaY.s 			page 7
+ARM GAS  /tmp/ccCjoRiq.s 			page 7
 
 
  253 0188 FFF7FEFF 		bl	cc2400_set
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  298 01ea 00BF     		nop
  299              	.L5:
  300              		.loc 1 102 0 is_stmt 0 discriminator 1
-ARM GAS  /tmp/ccvwMAaY.s 			page 8
+ARM GAS  /tmp/ccCjoRiq.s 			page 8
 
 
  301 01ec FFF7FEFF 		bl	cc2400_status
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  345 023c 0E20     		movs	r0, #14
  346 023e FFF7FEFF 		bl	cc2400_get
  347 0242 0346     		mov	r3, r0
-ARM GAS  /tmp/ccvwMAaY.s 			page 9
+ARM GAS  /tmp/ccCjoRiq.s 			page 9
 
 
  348 0244 03F01F03 		and	r3, r3, #31
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  392 028e 97F84730 		ldrb	r3, [r7, #71]	@ zero_extendqisi2
  393 0292 072B     		cmp	r3, #7
  394 0294 BCD9     		bls	.L12
-ARM GAS  /tmp/ccvwMAaY.s 			page 10
+ARM GAS  /tmp/ccCjoRiq.s 			page 10
 
 
  117:cc2400_rangetest.c **** 		}
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  439              		.loc 1 126 0 is_stmt 1
  440 02e8 6120     		movs	r0, #97
  441 02ea FFF7FEFF 		bl	cc2400_strobe
-ARM GAS  /tmp/ccvwMAaY.s 			page 11
+ARM GAS  /tmp/ccCjoRiq.s 			page 11
 
 
  127:cc2400_rangetest.c **** 	while (!(cc2400_status() & FS_LOCK));
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  487              		.loc 1 135 0 discriminator 3
  488 0338 7020     		movs	r0, #112
  489 033a FFF7FEFF 		bl	cc2400_get8
-ARM GAS  /tmp/ccvwMAaY.s 			page 12
+ARM GAS  /tmp/ccCjoRiq.s 			page 12
 
 
  490 033e 0346     		mov	r3, r0
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  533 0388 0E20     		movs	r0, #14
  534 038a FFF7FEFF 		bl	cc2400_get
  535 038e 0346     		mov	r3, r0
-ARM GAS  /tmp/ccvwMAaY.s 			page 13
+ARM GAS  /tmp/ccCjoRiq.s 			page 13
 
 
  536 0390 03F01F03 		and	r3, r3, #31
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  155:cc2400_rangetest.c **** 	rr.reply_num   = rxbuf[21];
  578              		.loc 1 155 0
  579 03d8 7B6B     		ldr	r3, [r7, #52]
-ARM GAS  /tmp/ccvwMAaY.s 			page 14
+ARM GAS  /tmp/ccCjoRiq.s 			page 14
 
 
  580 03da 5A7D     		ldrb	r2, [r3, #21]	@ zero_extendqisi2
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  624 041e 0123     		movs	r3, #1
  625              	.L3:
  626 0420 D7F800D0 		ldr	sp, [r7]
-ARM GAS  /tmp/ccvwMAaY.s 			page 15
+ARM GAS  /tmp/ccCjoRiq.s 			page 15
 
 
  627 0424 012B     		cmp	r3, #1
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  672 000c 0021     		movs	r1, #0
  673 000e F975     		strb	r1, [r7, #23]
  175:cc2400_rangetest.c **** 	u8 buf[len];
-ARM GAS  /tmp/ccvwMAaY.s 			page 16
+ARM GAS  /tmp/ccCjoRiq.s 			page 16
 
 
  674              		.loc 1 175 0
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  720 0076 2C20     		movs	r0, #44
  721 0078 41F28451 		movw	r1, #5508
  722 007c FFF7FEFF 		bl	cc2400_set
-ARM GAS  /tmp/ccvwMAaY.s 			page 17
+ARM GAS  /tmp/ccCjoRiq.s 			page 17
 
 
  184:cc2400_rangetest.c **** 		cc2400_set(FREND,   0x0008); // minimum tx power
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  767 00ce 1A60     		str	r2, [r3]
  768              	.L44:
  194:cc2400_rangetest.c **** #endif
-ARM GAS  /tmp/ccvwMAaY.s 			page 18
+ARM GAS  /tmp/ccCjoRiq.s 			page 18
 
 
  195:cc2400_rangetest.c **** 		while (1) {
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  814 011e FB69     		ldr	r3, [r7, #28]
  815 0120 0133     		adds	r3, r3, #1
  816 0122 FB61     		str	r3, [r7, #28]
-ARM GAS  /tmp/ccvwMAaY.s 			page 19
+ARM GAS  /tmp/ccCjoRiq.s 			page 19
 
 
  817              	.L40:
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  860              		.loc 1 211 0 is_stmt 0 discriminator 1
  861 0164 FFF7FEFF 		bl	cc2400_status
  862 0168 0346     		mov	r3, r0
-ARM GAS  /tmp/ccvwMAaY.s 			page 20
+ARM GAS  /tmp/ccCjoRiq.s 			page 20
 
 
  863 016a 03F00403 		and	r3, r3, #4
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  909 01be 0023     		movs	r3, #0
  910 01c0 FB75     		strb	r3, [r7, #23]
  911 01c2 39E0     		b	.L49
-ARM GAS  /tmp/ccvwMAaY.s 			page 21
+ARM GAS  /tmp/ccCjoRiq.s 			page 21
 
 
  912              	.L55:
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  958              		.loc 1 225 0 discriminator 3
  959 0212 BB69     		ldr	r3, [r7, #24]
  960 0214 0133     		adds	r3, r3, #1
-ARM GAS  /tmp/ccvwMAaY.s 			page 22
+ARM GAS  /tmp/ccCjoRiq.s 			page 22
 
 
  961 0216 BB61     		str	r3, [r7, #24]
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  1004 025a F8D1     		bne	.L56
  233:cc2400_rangetest.c **** 	}
  1005              		.loc 1 233 0 is_stmt 1
-ARM GAS  /tmp/ccvwMAaY.s 			page 23
+ARM GAS  /tmp/ccCjoRiq.s 			page 23
 
 
  1006 025c F3E6     		b	.L57
@@ -1331,184 +1331,28 @@ ARM GAS  /tmp/ccvwMAaY.s 			page 1
  1013 026c 80841E00 		.word	2000000
  1014              		.cfi_endproc
  1015              	.LFE1:
- 1017              		.section	.text.cc2400_txtest,"ax",%progbits
- 1018              		.align	2
- 1019              		.global	cc2400_txtest
- 1020              		.thumb
- 1021              		.thumb_func
- 1023              	cc2400_txtest:
- 1024              	.LFB2:
- 234:cc2400_rangetest.c **** #endif
- 235:cc2400_rangetest.c **** }
- 236:cc2400_rangetest.c **** 
- 237:cc2400_rangetest.c **** void cc2400_txtest(volatile u8 *mod_ptr, volatile u16 *chan_ptr)
- 238:cc2400_rangetest.c **** {
- 1025              		.loc 1 238 0
- 1026              		.cfi_startproc
- 1027              		@ args = 0, pretend = 0, frame = 16
- 1028              		@ frame_needed = 1, uses_anonymous_args = 0
- 1029 0000 80B5     		push	{r7, lr}
- 1030              		.cfi_def_cfa_offset 8
- 1031              		.cfi_offset 7, -8
- 1032              		.cfi_offset 14, -4
- 1033 0002 84B0     		sub	sp, sp, #16
- 1034              		.cfi_def_cfa_offset 24
- 1035 0004 00AF     		add	r7, sp, #0
- 1036              		.cfi_def_cfa_register 7
- 1037 0006 7860     		str	r0, [r7, #4]
- 1038 0008 3960     		str	r1, [r7]
- 239:cc2400_rangetest.c **** #ifdef TX_ENABLE
- 240:cc2400_rangetest.c **** 	u16 mdmctrl;
- 241:cc2400_rangetest.c **** 	if (*mod_ptr == MOD_BT_BASIC_RATE) {
- 1039              		.loc 1 241 0
- 1040 000a 7B68     		ldr	r3, [r7, #4]
- 1041 000c 1B78     		ldrb	r3, [r3]
- 1042 000e DBB2     		uxtb	r3, r3
- 1043 0010 002B     		cmp	r3, #0
- 1044 0012 02D1     		bne	.L61
- 242:cc2400_rangetest.c **** 		mdmctrl = 0x0040; // 160 kHz frequency deviation
- 1045              		.loc 1 242 0
- 1046 0014 4023     		movs	r3, #64
- 1047 0016 FB81     		strh	r3, [r7, #14]	@ movhi
- 1048 0018 08E0     		b	.L62
- 1049              	.L61:
- 243:cc2400_rangetest.c **** 	} else if (*mod_ptr == MOD_BT_LOW_ENERGY) {
- 1050              		.loc 1 243 0
- 1051 001a 7B68     		ldr	r3, [r7, #4]
- 1052 001c 1B78     		ldrb	r3, [r3]
- 1053 001e DBB2     		uxtb	r3, r3
- 1054 0020 012B     		cmp	r3, #1
-ARM GAS  /tmp/ccvwMAaY.s 			page 24
-
-
- 1055 0022 02D1     		bne	.L63
- 244:cc2400_rangetest.c **** 		mdmctrl = 0x0040; // 250 kHz frequency deviation
- 1056              		.loc 1 244 0
- 1057 0024 4023     		movs	r3, #64
- 1058 0026 FB81     		strh	r3, [r7, #14]	@ movhi
- 1059 0028 00E0     		b	.L62
- 1060              	.L63:
- 245:cc2400_rangetest.c **** 	} else {
- 246:cc2400_rangetest.c **** 		/* oops */
- 247:cc2400_rangetest.c **** 		return;
- 1061              		.loc 1 247 0
- 1062 002a 35E0     		b	.L60
- 1063              	.L62:
- 248:cc2400_rangetest.c **** 	}
- 249:cc2400_rangetest.c **** 	cc2400_set(LMTST,   0x2b22);
- 1064              		.loc 1 249 0
- 1065 002c 1220     		movs	r0, #18
- 1066 002e 42F62231 		movw	r1, #11042
- 1067 0032 FFF7FEFF 		bl	cc2400_set
- 250:cc2400_rangetest.c **** 	cc2400_set(MDMTST0, 0x334b); // with PRNG
- 1068              		.loc 1 250 0
- 1069 0036 1420     		movs	r0, #20
- 1070 0038 43F24B31 		movw	r1, #13131
- 1071 003c FFF7FEFF 		bl	cc2400_set
- 251:cc2400_rangetest.c **** 	cc2400_set(GRMDM,   0x0df1); // default value
- 1072              		.loc 1 251 0
- 1073 0040 2020     		movs	r0, #32
- 1074 0042 40F6F151 		movw	r1, #3569
- 1075 0046 FFF7FEFF 		bl	cc2400_set
- 252:cc2400_rangetest.c **** 	cc2400_set(FSDIV,   2435);
- 1076              		.loc 1 252 0
- 1077 004a 0220     		movs	r0, #2
- 1078 004c 40F68311 		movw	r1, #2435
- 1079 0050 FFF7FEFF 		bl	cc2400_set
- 253:cc2400_rangetest.c **** 	cc2400_set(MDMCTRL, mdmctrl); 
- 1080              		.loc 1 253 0
- 1081 0054 FB89     		ldrh	r3, [r7, #14]
- 1082 0056 0320     		movs	r0, #3
- 1083 0058 1946     		mov	r1, r3
- 1084 005a FFF7FEFF 		bl	cc2400_set
- 254:cc2400_rangetest.c **** 	
- 255:cc2400_rangetest.c **** //	cc2400_set(FREND, 8 | 0);
- 256:cc2400_rangetest.c **** 	
- 257:cc2400_rangetest.c **** 	while (!(cc2400_status() & XOSC16M_STABLE));
- 1085              		.loc 1 257 0
- 1086 005e 00BF     		nop
- 1087              	.L65:
- 1088              		.loc 1 257 0 is_stmt 0 discriminator 1
- 1089 0060 FFF7FEFF 		bl	cc2400_status
- 1090 0064 0346     		mov	r3, r0
- 1091 0066 03F04003 		and	r3, r3, #64
- 1092 006a 002B     		cmp	r3, #0
- 1093 006c F8D0     		beq	.L65
- 258:cc2400_rangetest.c **** 	cc2400_strobe(SFSON);
- 1094              		.loc 1 258 0 is_stmt 1
- 1095 006e 6120     		movs	r0, #97
- 1096 0070 FFF7FEFF 		bl	cc2400_strobe
-ARM GAS  /tmp/ccvwMAaY.s 			page 25
-
-
- 259:cc2400_rangetest.c **** 	while (!(cc2400_status() & FS_LOCK));
- 1097              		.loc 1 259 0
- 1098 0074 00BF     		nop
- 1099              	.L66:
- 1100              		.loc 1 259 0 is_stmt 0 discriminator 1
- 1101 0076 FFF7FEFF 		bl	cc2400_status
- 1102 007a 0346     		mov	r3, r0
- 1103 007c 03F00403 		and	r3, r3, #4
- 1104 0080 002B     		cmp	r3, #0
- 1105 0082 F8D0     		beq	.L66
- 260:cc2400_rangetest.c **** 	TXLED_SET;
- 1106              		.loc 1 260 0 is_stmt 1
- 1107 0084 064B     		ldr	r3, .L67
- 1108 0086 4FF48072 		mov	r2, #256
- 1109 008a 1A60     		str	r2, [r3]
- 261:cc2400_rangetest.c **** 	cc2400_strobe(STX);
- 1110              		.loc 1 261 0
- 1111 008c 6320     		movs	r0, #99
- 1112 008e FFF7FEFF 		bl	cc2400_strobe
- 262:cc2400_rangetest.c **** #ifdef UBERTOOTH_ONE
- 263:cc2400_rangetest.c **** 	PAEN_SET;
- 1113              		.loc 1 263 0
- 1114 0092 044B     		ldr	r3, .L67+4
- 1115 0094 8022     		movs	r2, #128
- 1116 0096 1A60     		str	r2, [r3]
- 1117              	.L60:
- 264:cc2400_rangetest.c **** #endif
- 265:cc2400_rangetest.c **** #endif
- 266:cc2400_rangetest.c **** }
- 1118              		.loc 1 266 0
- 1119 0098 1037     		adds	r7, r7, #16
- 1120              		.cfi_def_cfa_offset 8
- 1121 009a BD46     		mov	sp, r7
- 1122              		.cfi_def_cfa_register 13
- 1123              		@ sp needed
- 1124 009c 80BD     		pop	{r7, pc}
- 1125              	.L68:
- 1126 009e 00BF     		.align	2
- 1127              	.L67:
- 1128 00a0 38C00920 		.word	537509944
- 1129 00a4 58C00920 		.word	537509976
- 1130              		.cfi_endproc
- 1131              	.LFE2:
- 1133              		.text
- 1134              	.Letext0:
- 1135              		.file 2 "/usr/lib/gcc/arm-none-eabi/4.9.3/include/stdint-gcc.h"
- 1136              		.file 3 "../../host/libubertooth/src/ubertooth_interface.h"
- 1137              		.file 4 "../common/ubertooth.h"
- 1138              		.file 5 "cc2400_rangetest.h"
-ARM GAS  /tmp/ccvwMAaY.s 			page 26
+ 1017              		.text
+ 1018              	.Letext0:
+ 1019              		.file 2 "/usr/lib/gcc/arm-none-eabi/4.9.3/include/stdint-gcc.h"
+ 1020              		.file 3 "../../host/libubertooth/src/ubertooth_interface.h"
+ 1021              		.file 4 "../common/ubertooth.h"
+ 1022              		.file 5 "cc2400_rangetest.h"
+ARM GAS  /tmp/ccCjoRiq.s 			page 24
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 cc2400_rangetest.c
-     /tmp/ccvwMAaY.s:19     .data:0000000000000000 $d
-     /tmp/ccvwMAaY.s:22     .data:0000000000000000 iap_entry
+     /tmp/ccCjoRiq.s:19     .data:0000000000000000 $d
+     /tmp/ccCjoRiq.s:22     .data:0000000000000000 iap_entry
                             *COM*:0000000000000005 rr
-     /tmp/ccvwMAaY.s:26     .text.cc2400_rangetest:0000000000000000 $t
-     /tmp/ccvwMAaY.s:31     .text.cc2400_rangetest:0000000000000000 cc2400_rangetest
-     /tmp/ccvwMAaY.s:527    .text.cc2400_rangetest:0000000000000378 $d
-     /tmp/ccvwMAaY.s:533    .text.cc2400_rangetest:0000000000000388 $t
-     /tmp/ccvwMAaY.s:638    .text.cc2400_rangetest:0000000000000430 $d
-     /tmp/ccvwMAaY.s:645    .text.cc2400_repeater:0000000000000000 $t
-     /tmp/ccvwMAaY.s:650    .text.cc2400_repeater:0000000000000000 cc2400_repeater
-     /tmp/ccvwMAaY.s:1010   .text.cc2400_repeater:0000000000000260 $d
-     /tmp/ccvwMAaY.s:1018   .text.cc2400_txtest:0000000000000000 $t
-     /tmp/ccvwMAaY.s:1023   .text.cc2400_txtest:0000000000000000 cc2400_txtest
-     /tmp/ccvwMAaY.s:1128   .text.cc2400_txtest:00000000000000a0 $d
+     /tmp/ccCjoRiq.s:26     .text.cc2400_rangetest:0000000000000000 $t
+     /tmp/ccCjoRiq.s:31     .text.cc2400_rangetest:0000000000000000 cc2400_rangetest
+     /tmp/ccCjoRiq.s:527    .text.cc2400_rangetest:0000000000000378 $d
+     /tmp/ccCjoRiq.s:533    .text.cc2400_rangetest:0000000000000388 $t
+     /tmp/ccCjoRiq.s:638    .text.cc2400_rangetest:0000000000000430 $d
+     /tmp/ccCjoRiq.s:645    .text.cc2400_repeater:0000000000000000 $t
+     /tmp/ccCjoRiq.s:650    .text.cc2400_repeater:0000000000000000 cc2400_repeater
+     /tmp/ccCjoRiq.s:1010   .text.cc2400_repeater:0000000000000260 $d
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS

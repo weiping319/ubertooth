@@ -1050,21 +1050,21 @@ OUTPUT(bluetooth_rxtx.elf elf32-littlearm)
  .debug_frame   0x0000000000001bf8       0x38 /usr/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/libc.a(lib_a-memcmp.o)
  .debug_frame   0x0000000000001c30       0x20 /usr/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m/libc.a(lib_a-strlen.o)
 
-.debug_info     0x0000000000000000     0x4ee2
- .debug_info    0x0000000000000000     0x1a1d bluetooth_rxtx.o
- .debug_info    0x0000000000001a1d      0x449 bluetooth.o
- .debug_info    0x0000000000001e66      0x5c3 bluetooth_le.o
- .debug_info    0x0000000000002429      0x4d7 ubertooth_usb.o
- .debug_info    0x0000000000002900      0x300 cc2400_rangetest.o
- .debug_info    0x0000000000002c00      0x673 ego.o
- .debug_info    0x0000000000003273      0x497 ../common/usb_serial.o
- .debug_info    0x000000000000370a       0xf1 ../common/LPC17xx_Startup.o
- .debug_info    0x00000000000037fb       0x7d ../common/LPC17xx_Interrupts.o
- .debug_info    0x0000000000003878      0x4dd ../common/ubertooth.o
- .debug_info    0x0000000000003d55      0x2e8 ../common/lpcusb/target/usbcontrol.o
- .debug_info    0x000000000000403d       0xb8 ../common/lpcusb/target/usbinit.o
- .debug_info    0x00000000000040f5      0x840 ../common/lpcusb/target/usbhw_lpc.o
- .debug_info    0x0000000000004935      0x5ad ../common/lpcusb/target/usbstdreq.o
+.debug_info     0x0000000000000000     0x4f26
+ .debug_info    0x0000000000000000     0x1a49 bluetooth_rxtx.o
+ .debug_info    0x0000000000001a49      0x449 bluetooth.o
+ .debug_info    0x0000000000001e92      0x5c3 bluetooth_le.o
+ .debug_info    0x0000000000002455      0x4e3 ubertooth_usb.o
+ .debug_info    0x0000000000002938      0x300 cc2400_rangetest.o
+ .debug_info    0x0000000000002c38      0x67f ego.o
+ .debug_info    0x00000000000032b7      0x497 ../common/usb_serial.o
+ .debug_info    0x000000000000374e       0xf1 ../common/LPC17xx_Startup.o
+ .debug_info    0x000000000000383f       0x7d ../common/LPC17xx_Interrupts.o
+ .debug_info    0x00000000000038bc      0x4dd ../common/ubertooth.o
+ .debug_info    0x0000000000003d99      0x2e8 ../common/lpcusb/target/usbcontrol.o
+ .debug_info    0x0000000000004081       0xb8 ../common/lpcusb/target/usbinit.o
+ .debug_info    0x0000000000004139      0x840 ../common/lpcusb/target/usbhw_lpc.o
+ .debug_info    0x0000000000004979      0x5ad ../common/lpcusb/target/usbstdreq.o
 
 .debug_abbrev   0x0000000000000000     0x1590
  .debug_abbrev  0x0000000000000000      0x428 bluetooth_rxtx.o
@@ -1144,32 +1144,32 @@ OUTPUT(bluetooth_rxtx.elf elf32-littlearm)
  .debug_line    0x0000000000002104      0x3c1 ../common/lpcusb/target/usbhw_lpc.o
  .debug_line    0x00000000000024c5      0x1f1 ../common/lpcusb/target/usbstdreq.o
 
-.debug_str      0x0000000000000000     0x21ce
- .debug_str     0x0000000000000000     0x11cc bluetooth_rxtx.o
-                                       0x1334 (size before relaxing)
- .debug_str     0x00000000000011cc       0xae bluetooth.o
+.debug_str      0x0000000000000000     0x2242
+ .debug_str     0x0000000000000000     0x1240 bluetooth_rxtx.o
+                                       0x13a8 (size before relaxing)
+ .debug_str     0x0000000000001240       0xae bluetooth.o
                                         0x330 (size before relaxing)
- .debug_str     0x000000000000127a       0xb0 bluetooth_le.o
+ .debug_str     0x00000000000012ee       0xb0 bluetooth_le.o
                                         0x4bb (size before relaxing)
- .debug_str     0x000000000000132a      0x126 ubertooth_usb.o
-                                        0x41d (size before relaxing)
- .debug_str     0x0000000000001450       0x5b cc2400_rangetest.o
+ .debug_str     0x000000000000139e      0x126 ubertooth_usb.o
+                                        0x435 (size before relaxing)
+ .debug_str     0x00000000000014c4       0x5b cc2400_rangetest.o
                                         0x31c (size before relaxing)
- .debug_str     0x00000000000014ab      0x20e ego.o
-                                        0x628 (size before relaxing)
- .debug_str     0x00000000000016b9      0x159 ../common/usb_serial.o
+ .debug_str     0x000000000000151f      0x20e ego.o
+                                        0x640 (size before relaxing)
+ .debug_str     0x000000000000172d      0x159 ../common/usb_serial.o
                                         0x3e0 (size before relaxing)
- .debug_str     0x0000000000001812       0x5b ../common/LPC17xx_Startup.o
+ .debug_str     0x0000000000001886       0x5b ../common/LPC17xx_Startup.o
                                         0x248 (size before relaxing)
- .debug_str     0x000000000000186d       0x51 ../common/LPC17xx_Interrupts.o
+ .debug_str     0x00000000000018e1       0x51 ../common/LPC17xx_Interrupts.o
                                         0x1c1 (size before relaxing)
- .debug_str     0x00000000000018be      0x14f ../common/ubertooth.o
+ .debug_str     0x0000000000001932      0x14f ../common/ubertooth.o
                                         0x383 (size before relaxing)
- .debug_str     0x0000000000001a0d       0xe4 ../common/lpcusb/target/usbcontrol.o
+ .debug_str     0x0000000000001a81       0xe4 ../common/lpcusb/target/usbcontrol.o
                                         0x2e2 (size before relaxing)
- .debug_str     0x0000000000001af1       0x46 ../common/lpcusb/target/usbinit.o
+ .debug_str     0x0000000000001b65       0x46 ../common/lpcusb/target/usbinit.o
                                         0x1e2 (size before relaxing)
- .debug_str     0x0000000000001b37      0x3ea ../common/lpcusb/target/usbhw_lpc.o
+ .debug_str     0x0000000000001bab      0x3ea ../common/lpcusb/target/usbhw_lpc.o
                                         0x5ff (size before relaxing)
- .debug_str     0x0000000000001f21      0x2ad ../common/lpcusb/target/usbstdreq.o
+ .debug_str     0x0000000000001f95      0x2ad ../common/lpcusb/target/usbstdreq.o
                                         0x4b5 (size before relaxing)

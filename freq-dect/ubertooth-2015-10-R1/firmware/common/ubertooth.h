@@ -49,6 +49,10 @@ enum operating_modes {
 	MODE_EGO           = 13,
 	MODE_RX_FREQ       = 14,
         MODE_RX_PROPOSED   = 15,
+	MODE_RX_HOP        = 16,
+	MODE_RX_RSSI       = 17,
+	MODE_RX_CFO	   = 18,
+	MODE_RX_SNIFF	   = 19,
 };
 
 /* hardware identification number */
@@ -295,14 +299,17 @@ enum operating_modes {
 #define CCLKSEL 15
 #else
 #define MSEL0 24
+//#define MSEL0 35
 #define NSEL0 1
 #define CCLKSEL 3
+//#define CCLKSEL 1
 #endif
 #define MSEL1 34
 #define PSEL1 0
 
 /* flash accelerator configuration */
 #define FLASHTIM 0x4 /* up to 100 MHz CPU clock */
+//#define FLASHTIM 0x0 /* up to 100 MHz CPU clock */
 
 /*
  * bootloader_ctrl is a fixed memory location used for passing

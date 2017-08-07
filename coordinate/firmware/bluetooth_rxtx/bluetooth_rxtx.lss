@@ -17,17 +17,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   6 .debug_frame  00001c50  00000000  00000000  000109f8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   00004ee2  00000000  00000000  00012648  2**0
+  7 .debug_info   00004f26  00000000  00000000  00012648  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 00001590  00000000  00000000  0001752a  2**0
+  8 .debug_abbrev 00001590  00000000  00000000  0001756e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_aranges 000006b8  00000000  00000000  00018aba  2**0
+  9 .debug_aranges 000006b8  00000000  00000000  00018afe  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 000005d8  00000000  00000000  00019172  2**0
+ 10 .debug_ranges 000005d8  00000000  00000000  000191b6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_line   000026b6  00000000  00000000  0001974a  2**0
+ 11 .debug_line   000026b6  00000000  00000000  0001978e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_str    000021ce  00000000  00000000  0001be00  2**0
+ 12 .debug_str    00002242  00000000  00000000  0001be44  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -18287,8 +18287,8 @@ BOOL USBHandleStandardRequest(TSetupPacket	*pSetup, int *piLen, U8 **ppbData)
 0000ba18 <compile_info>:
     ba18:	72656275 746f6f74 30322068 312d3531     ubertooth 2015-1
     ba28:	31522d30 6f722820 7740746f 69706965     0-R1 (root@weipi
-    ba38:	2029676e 20657554 20706553 31203032     ng) Tue Sep 20 1
-    ba48:	35343a36 2035313a 2054534b 36313032     6:45:15 KST 2016
+    ba38:	2029676e 20657554 206e754a 32203331     ng) Tue Jun 13 2
+    ba48:	30303a31 2039313a 2054534b 37313032     1:00:19 KST 2017
     ba58:	00000000 35313032 2d30312d 00003152     ....2015-10-R1..
     ba68:	00000001 00000001 00000001 00000001     ................
     ba78:	ffff0900 ffffffff ff050102 0000ffff     ................

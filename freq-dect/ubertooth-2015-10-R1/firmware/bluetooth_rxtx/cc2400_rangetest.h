@@ -30,6 +30,6 @@ void cc2400_rangetest(volatile u16 *chan_ptr);
 
 void cc2400_repeater(volatile u16 *chan_ptr);
 
-void cc2400_txtest(volatile u8 *mod_ptr, volatile u16 *chan_ptr);
+void cc2400_txtest(volatile u8 *mod_ptr);
 
 #endif /* __CC2400_RANGETEST_H */
