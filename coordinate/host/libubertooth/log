@@ -1,0 +1,98 @@
+Scanning dependencies of target ubertooth
+[  6%] Building C object libubertooth/src/CMakeFiles/ubertooth.dir/ubertooth.c.o
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c: In function ‘stream_rx_freq_demo’:
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:1322:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c: In function ‘stream_rx_rssi’:
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:1432:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c: In function ‘stream_rx_cfo’:
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:1511:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c: In function ‘stream_rx_freq_detection’:
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:1606:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c: In function ‘stream_rx_freq’:
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:1734:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c: In function ‘stream_rx_proposed2_detection’:
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:1877:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer1 submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:1885:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer2 submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:1956:9: warning: format ‘%f’ expects a matching ‘double’ argument [-Wformat=]
+         cc2400_rssi_to_dbm(convert_to_int(rx->rssi_avg)));
+         ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c: In function ‘stream_rx_proposed2’:
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:2026:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer1 submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:2034:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer2 submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c: In function ‘stream_rx_proposed_demo2’:
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:2216:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer1 submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:2224:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer2 submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:2316:9: warning: format ‘%f’ expects argument of type ‘double’, but argument 4 has type ‘int’ [-Wformat=]
+         (time_in_mill - arrTime[0])/1000);
+         ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:2316:9: warning: too many arguments for format [-Wformat-extra-args]
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c: In function ‘stream_rx_proposed_demo’:
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:2373:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c: In function ‘stream_rx_proposed’:
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:2468:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c: In function ‘stream_rx_legacy’:
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:2561:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 3 has type ‘int’ [-Wformat=]
+   fprintf(stderr, "rx_xfer submission: %f\n", r);
+   ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c: In function ‘stream_rx_fp’:
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:2792:6: warning: format ‘%u’ expects argument of type ‘unsigned int’, but argument 2 has type ‘time_t’ [-Wformat=]
+      printf("systime=%u\n", time(NULL));
+      ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:2813:6: warning: format ‘%u’ expects argument of type ‘unsigned int’, but argument 2 has type ‘time_t’ [-Wformat=]
+      printf("systime=%u\n", time(NULL));
+      ^
+/home/weiping/wpson-ubertooth/coordinate/host/libubertooth/src/ubertooth.c:2836:6: warning: format ‘%u’ expects argument of type ‘unsigned int’, but argument 2 has type ‘time_t’ [-Wformat=]
+      printf("systime=%u\n", time(NULL));
+      ^
+Linking C shared library libubertooth.so
+[ 13%] Built target ubertooth
+Linking C executable ubertooth-btle
+[ 20%] Built target ubertooth-btle
+Linking C executable ubertooth-debug
+[ 40%] Built target ubertooth-debug
+Linking C executable ubertooth-dfu
+[ 46%] Built target ubertooth-dfu
+Linking C executable ubertooth-dump
+[ 53%] Built target ubertooth-dump
+Linking C executable ubertooth-ego
+[ 60%] Built target ubertooth-ego
+Linking C executable ubertooth-follow
+[ 66%] Built target ubertooth-follow
+Scanning dependencies of target ubertooth-rx
+[ 73%] Building C object ubertooth-tools/src/CMakeFiles/ubertooth-rx.dir/ubertooth-rx.c.o
+Linking C executable ubertooth-rx
+[ 73%] Built target ubertooth-rx
+Linking C executable ubertooth-scan
+[ 80%] Built target ubertooth-scan
+Linking C executable ubertooth-specan
+[ 86%] Built target ubertooth-specan
+Linking C executable ubertooth-util
+[ 93%] Built target ubertooth-util
+[100%] Built target specan
+[100%] Built target ubertooth-specan-ui
